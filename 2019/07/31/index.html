@@ -396,30 +396,30 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <h1 id="文件上传漏洞练习"><a href="#文件上传漏洞练习" class="headerlink" title="文件上传漏洞练习"></a>文件上传漏洞练习</h1><p>Upload-labs是一个帮你总结各种类型的上传漏洞的靶场，包括常见的文件上传漏洞<br>项目地址：<a href="https://github.com/c0ny1/upload-labs" target="_blank" rel="noopener">https://github.com/c0ny1/upload-labs</a></p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><img src="/2019/07/31/Upload-labs/mind-map.png" title="mind-map">
-<img src="/2019/07/31/Upload-labs/sum-up.png" title="mind-map">
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><img src="/2019/07/31/mind-map.png" title="mind-map">
+<img src="/2019/07/31/sum-up.png" title="mind-map">
 
 <h1 id="0x01-js检查"><a href="#0x01-js检查" class="headerlink" title="0x01 js检查"></a>0x01 js检查</h1><p>直接上传php木马，发现前端报错：</p>
-<img src="/2019/07/31/Upload-labs/0x01-1.jpg" title="0x01-1">
+<img src="/2019/07/31/0x01-1.jpg" title="0x01-1">
 
 <p>在这使用传统的抓包，修改后缀名。是可以上传成功的，但是不是这一关的目的，我们看看源代码分析一波</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> file = document.getElementsByName(<span class="string">'upload_file'</span>)[<span class="number">0</span>].value;</span><br><span class="line">    <span class="keyword">if</span> (file == <span class="keyword">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">        alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">    <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">    <span class="comment">//提取上传文件的类型</span></span><br><span class="line">    <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">    <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">    <span class="keyword">if</span> (allow_ext.indexOf(ext_name + <span class="string">"|"</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> errMsg = <span class="string">"该文件不允许上传，请上传"</span> + allow_ext + <span class="string">"类型的文件,当前文件类型为："</span> + ext_name;</span><br><span class="line">        alert(errMsg);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以看到，只是在客户端使用js对不合法图片进行检查，我们可以尝试绕过</p>
 <p>如果是前端验证我们可以选择火狐浏览器中的NoScript插件禁用js,这样我们就可以安全的上传</p>
-<img src="/2019/07/31/Upload-labs/0x01-2.jpg" title="0x01-2">
+<img src="/2019/07/31/0x01-2.jpg" title="0x01-2">
 
 <p>但对于前端的过滤没有必要这么复杂，其实，还可以这样，直接把过滤的函数<strong>cheakfile()</strong>在上传前删掉，也可以上传成功</p>
-<img src="/2019/07/31/Upload-labs/0x01-3.jpg" title="0x01-3">
+<img src="/2019/07/31/0x01-3.jpg" title="0x01-3">
 
 <p>或者修改参数</p>
-<img src="/2019/07/31/Upload-labs/0x01-4.jpg" title="0x01-4">
+<img src="/2019/07/31/0x01-4.jpg" title="0x01-4">
 
 <p>在白名单中加上.php</p>
-<img src="/2019/07/31/Upload-labs/0x01-5.png" title="0x01-5">
+<img src="/2019/07/31/0x01-5.png" title="0x01-5">
 
 <p>复制该函数于控制台并回车</p>
-<img src="/2019/07/31/Upload-labs/0x01-6.png" title="0x01-6">
+<img src="/2019/07/31/0x01-6.png" title="0x01-6">
 
 <p>随后即可成功上传</p>
 <h1 id="0x02-验证Content-type"><a href="#0x02-验证Content-type" class="headerlink" title="0x02 验证Content-type"></a>0x02 验证Content-type</h1><p>本题中使用传统的抓包，单纯修改后缀名是不行的<br>查看源码观察一下：</p>
@@ -430,24 +430,24 @@ height:50vh;
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file(file,newloc) 函数将上传的文件移动到新位置。</span><br><span class="line">参数  描述</span><br><span class="line">file    必需。规定要移动的文件。</span><br><span class="line">newloc  必需。规定文件的新位置。</span><br><span class="line">如果 file 不是合法的上传文件，不会出现任何操作，move_uploaded_file() 将返回 <span class="literal">false</span>。</span><br><span class="line">如果 file 是合法的上传文件，但出于某些原因无法移动，不会出现任何操作，move_uploaded_file() 将返回 <span class="literal">false</span>，此外还会发出一条警告。</span><br></pre></td></tr></table></figure>
 
 <p>发现只是对<strong>文件类型Content-type</strong>进行过虑<br>于是上传xxx.php文件抓包修改content-type为image/jpeg或其他绕过</p>
-<img src="/2019/07/31/Upload-labs/0x02-1.png" title="0x02-1">
+<img src="/2019/07/31/0x02-1.png" title="0x02-1">
 
 <p>修改为：</p>
-<img src="/2019/07/31/Upload-labs/0x02-2.png" title="0x02-2">
+<img src="/2019/07/31/0x02-2.png" title="0x02-2">
 
 <p>点击Forward发送</p>
 <h1 id="0x03-黑名单绕过"><a href="#0x03-黑名单绕过" class="headerlink" title="0x03 黑名单绕过"></a>0x03 黑名单绕过</h1><p>不能上传，但能上传 php.jpg，php.asd 说明是黑名单限制</p>
-<img src="/2019/07/31/Upload-labs/0x03-1.jpg" title="0x03-1">
+<img src="/2019/07/31/0x03-1.jpg" title="0x03-1">
 
 <p>发现是黑名单判断，服务器端禁止上传’.asp’,’.aspx’,’.php’,’.jsp’后缀的脚本文件<br>其采用的黑名单，php的话有时候php3、php4、php5、phtml、pht这些后缀也是可以被解析的（配置的原因），其他语言也有类似的情况，需要尝试：</p>
-<img src="/2019/07/31/Upload-labs/0x03-2.png" title="0x03-2">
+<img src="/2019/07/31/0x03-2.png" title="0x03-2">
 
 <p>上传木马抓包</p>
-<img src="/2019/07/31/Upload-labs/0x03-3.png" title="0x03-3">
+<img src="/2019/07/31/0x03-3.png" title="0x03-3">
 
 
 <p>修改文件名后缀（配置不同，可解析的后缀也不同）：</p>
-<img src="/2019/07/31/Upload-labs/0x03-4.png" title="0x03-4">
+<img src="/2019/07/31/0x03-4.png" title="0x03-4">
 
 <h1 id="0x04-htaccess绕过"><a href="#0x04-htaccess绕过" class="headerlink" title="0x04 .htaccess绕过"></a>0x04 .htaccess绕过</h1><p>上传.htaccess文件<br><strong>需要：|1.mod_rewrite模块开启|2.AllowOverride All|</strong></p>
 <p>该题的源码为：</p>
@@ -456,22 +456,22 @@ height:50vh;
 <p>发现同样有黑名单过滤，但是发下有一个文件是没有过滤，也是我们上传过程中经常用到的<strong>.htaccess</strong></p>
 <h2 id="htaccess重点姿势"><a href="#htaccess重点姿势" class="headerlink" title=".htaccess重点姿势"></a>.htaccess重点姿势</h2><p>.htaccess文件(或者”分布式配置文件”）,全称是Hypertext Access(超文本入口)。提供了针对目录改变配置的方法，即，在一个特定的文档目录中放置一个包含一个或多个指令的文件，以作用于此目录及其所有子目录。作为用户，所能使用的命令受到限制。管理员可以通过Apache的AllowOverride指令来设置。</p>
 <p><strong>启用.htaccess</strong>，需要修改httpd.conf，启用AllowOverride，并可以用AllowOverride限制特定命令的使用。它里面有这样一段代码：AllowOverride None，如果我们把None改成All</p>
-<img src="/2019/07/31/Upload-labs/0x04-1.jpg" title="0x04-1">
+<img src="/2019/07/31/0x04-1.jpg" title="0x04-1">
 <p>笼统地说，.htaccess可以帮我们实现包括：文件夹密码保护、用户自动重定向、自定义错误页面、改变你的文件扩展名、封禁特定IP地址的用户、只允许特定IP地址的用户、禁止目录列表，以及使用其他文件作为index文件等一些功能。</p>
 <p>可以通过上传.htaccess文件然后将该文件夹下的所有例如.jpg的文件都按照脚本语言解析，上传如下内容的<strong>.htaccess</strong>文件：</p>
-<img src="/2019/07/31/Upload-labs/0x04-2.png" title="0x04-2">
+<img src="/2019/07/31/0x04-2.png" title="0x04-2">
 <p>意思是将文件夹下的one.jpg文件按照php格式去解析，然后再上传一个文件名为one.jpg内容为木马的文件，然后访问，可以执行代码（其中.jpg也可换成test等其他，但其他也需改变）</p>
 <p>或</p>
-<img src="/2019/07/31/Upload-labs/0x04-3.png" title="0x04-3">
+<img src="/2019/07/31/0x04-3.png" title="0x04-3">
 
 <p>或</p>
-<img src="/2019/07/31/Upload-labs/0x04-4.png" title="0x04-4">
+<img src="/2019/07/31/0x04-4.png" title="0x04-4">
 <p>这样所有文件都会解析为php</p>
 <p>上传成功后，在上传个图片马：</p>
-<img src="/2019/07/31/Upload-labs/0x04-5.jpg" title="0x04-5">
+<img src="/2019/07/31/0x04-5.jpg" title="0x04-5">
 
 <p>发现成功上传，可以访问一下，发现成功执行：</p>
-<img src="/2019/07/31/Upload-labs/0x04-6.jpg" title="0x04-6">
+<img src="/2019/07/31/0x04-6.jpg" title="0x04-6">
 
 <h1 id="0x05-大小写绕过——Windows"><a href="#0x05-大小写绕过——Windows" class="headerlink" title="0x05 大小写绕过——Windows"></a>0x05 大小写绕过——Windows</h1><p>拿源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists(UPLOAD_PATH)) &#123;</span><br><span class="line">        $deny_ext = <span class="keyword">array</span>(<span class="string">".php"</span>,<span class="string">".php5"</span>,<span class="string">".php4"</span>,<span class="string">".php3"</span>,<span class="string">".php2"</span>,<span class="string">".html"</span>,<span class="string">".htm"</span>,<span class="string">".phtml"</span>,<span class="string">".pht"</span>,<span class="string">".pHp"</span>,<span class="string">".pHp5"</span>,<span class="string">".pHp4"</span>,<span class="string">".pHp3"</span>,<span class="string">".pHp2"</span>,<span class="string">".Html"</span>,<span class="string">".Htm"</span>,<span class="string">".pHtml"</span>,<span class="string">".jsp"</span>,<span class="string">".jspa"</span>,<span class="string">".jspx"</span>,<span class="string">".jsw"</span>,<span class="string">".jsv"</span>,<span class="string">".jspf"</span>,<span class="string">".jtml"</span>,<span class="string">".jSp"</span>,<span class="string">".jSpx"</span>,<span class="string">".jSpa"</span>,<span class="string">".jSw"</span>,<span class="string">".jSv"</span>,<span class="string">".jSpf"</span>,<span class="string">".jHtml"</span>,<span class="string">".asp"</span>,<span class="string">".aspx"</span>,<span class="string">".asa"</span>,<span class="string">".asax"</span>,<span class="string">".ascx"</span>,<span class="string">".ashx"</span>,<span class="string">".asmx"</span>,<span class="string">".cer"</span>,<span class="string">".aSp"</span>,<span class="string">".aSpx"</span>,<span class="string">".aSa"</span>,<span class="string">".aSax"</span>,<span class="string">".aScx"</span>,<span class="string">".aShx"</span>,<span class="string">".aSmx"</span>,<span class="string">".cEr"</span>,<span class="string">".sWf"</span>,<span class="string">".swf"</span>,<span class="string">".htaccess"</span>);</span><br><span class="line">        $file_name = trim($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]);</span><br><span class="line">        $file_name = deldot($file_name);<span class="comment">//删除文件名末尾的点</span></span><br><span class="line">        $file_ext = strrchr($file_name, <span class="string">'.'</span>);</span><br><span class="line">        $file_ext = str_ireplace(<span class="string">'::$DATA'</span>, <span class="string">''</span>, $file_ext);<span class="comment">//去除字符串::$DATA</span></span><br><span class="line">        $file_ext = trim($file_ext); <span class="comment">//首尾去空</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!in_array($file_ext, $deny_ext)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = UPLOAD_PATH.<span class="string">'/'</span>.date(<span class="string">"YmdHis"</span>).rand(<span class="number">1000</span>,<span class="number">9999</span>).$file_ext;</span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'此文件类型不允许上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = UPLOAD_PATH . <span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -480,21 +480,21 @@ height:50vh;
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$file_ext = strtolower($file_ext); <span class="comment">//转换为小写</span></span><br></pre></td></tr></table></figure>
 
 <p>所以我们可以通过大小写进行绕过了： </p>
-<img src="/2019/07/31/Upload-labs/0x05-1.png" title="0x05-1">
+<img src="/2019/07/31/0x05-1.png" title="0x05-1">
 <p>抓包：</p>
-<img src="/2019/07/31/Upload-labs/0x05-2.jpg" title="0x05-2">
+<img src="/2019/07/31/0x05-2.jpg" title="0x05-2">
 <p>回显：</p>
-<img src="/2019/07/31/Upload-labs/0x05-3.jpg" title="0x05-3">
+<img src="/2019/07/31/0x05-3.jpg" title="0x05-3">
 
 <h1 id="0x06-空格绕过——Windows"><a href="#0x06-空格绕过——Windows" class="headerlink" title="0x06 空格绕过——Windows"></a>0x06 空格绕过——Windows</h1>
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>原文作者：<a href="http://yoursite.com">DD</a>
-            <p>原文链接：<a href="http://yoursite.com/2019/07/31/Upload-labs/">http://yoursite.com/2019/07/31/Upload-labs/</a>
-            <p>发表日期：<a href="http://yoursite.com/2019/07/31/Upload-labs/">July 31st 2019, 8:19:52 am</a>
-            <p>更新日期：<a href="http://yoursite.com/2019/07/31/Upload-labs/">July 31st 2019, 11:35:19 pm</a>
+            <p>原文作者：<a href="https://ddstick.github.io">DD</a>
+            <p>原文链接：<a href="https://ddstick.github.io/2019/07/31/">https://ddstick.github.io/2019/07/31/</a>
+            <p>发表日期：<a href="https://ddstick.github.io/2019/07/31/">July 31st 2019, 8:19:52 am</a>
+            <p>更新日期：<a href="https://ddstick.github.io/2019/07/31/">July 31st 2019, 11:35:19 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -506,7 +506,7 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/07/30/hello-world/" title= "Hello World">
+                <a href= "/2019/07/30/" title= "Hello World">
                     <div class="prevTitle">Hello World</div>
                 </a>
             
@@ -675,12 +675,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/31</span><a class="archive-post-title" href= "/2019/07/31/Upload-labs/" >Upload-labs</a>
+            <span class="archive-post-date">07/31</span><a class="archive-post-title" href= "/2019/07/31/" >Upload-labs</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/2019/07/30/hello-world/" >Hello World</a>
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/2019/07/30/" >Hello World</a>
         </li>
     
     </div>
