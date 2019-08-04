@@ -266,7 +266,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.6k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.7k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -409,6 +409,8 @@ height:50vh;
 <img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/0.2.jpg" title="0.2">
 <p>点击第一个：Setup/reset Database for labs   出现下面页面为正确</p>
 <img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/0.3.jpg" title="0.3">
+<p>返回</p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/0.4.jpg" title="0.4">
 <p>完成</p>
 <h1 id="Less-1：基于错误的-get-单引号-字符型注入"><a href="#Less-1：基于错误的-get-单引号-字符型注入" class="headerlink" title="Less-1：基于错误的_get_单引号_字符型注入"></a>Less-1：基于错误的_get_单引号_字符型注入</h1><img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/1.1.png" title="1.1">
 <p>Please input the ID as parameter with numeric value //“请输入ID为数值的参数”</p>
@@ -454,7 +456,12 @@ height:50vh;
 <p>最后的payload可以合并不同的列，上下对应输出<br><strong>-1’ union select 1,group_concat(char(32),username,char(32)),group_concat(char(32),password,char(32)) from users--+</strong></p>
 <img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/1.18.jpg" title="1.18">
 
-
+<h1 id="Less-2：基于错误的-get-整型注入"><a href="#Less-2：基于错误的-get-整型注入" class="headerlink" title="Less-2：基于错误的_get_整型注入"></a>Less-2：基于错误的_get_整型注入</h1><p>开头跟les1一样<br>尝试单引号：<strong>?id=’</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/2.1.jpg" title="2.1">
+<p>这里的报错与less-1不同了，从报错可以看出，此处的id是当做数值来处理的，因为sql语句对于数字型的数据可以不加单引号，而less-1是作为字符串来处理的，猜想后台sql语句应该是select * from table_name where id = $_get[‘id’] limit 0,1于是构造-1 or 1=1<br><strong>?id=-1 or 1=1%23</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/2.2.jpg" title="2.2">
+<p>可以注入，接着用和之前相同的方法先报数据库名，然后是表名，接着是字段，最后的payload如下<br><strong>?id=-1 union select 1,group_concat(char(32),username,char(32)),group_concat(char(32),password,char(32)) from users--+</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/2.3.jpg" title="2.3">
     </article>
     <!-- license  -->
     
@@ -462,7 +469,7 @@ height:50vh;
             <p>原文作者：<a href="https://ddstick.github.io">DD</a>
             <p>原文链接：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/</a>
             <p>发表日期：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">August 2nd 2019, 5:53:52 pm</a>
-            <p>更新日期：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">August 3rd 2019, 2:45:47 pm</a>
+            <p>更新日期：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">August 4th 2019, 6:01:34 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -594,7 +601,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sqli-labs注入练习"><span class="toc-number">1.</span> <span class="toc-text">Sqli-labs注入练习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-1：基于错误的-get-单引号-字符型注入"><span class="toc-number">2.</span> <span class="toc-text">Less-1：基于错误的_get_单引号_字符型注入</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sqli-labs注入练习"><span class="toc-number">1.</span> <span class="toc-text">Sqli-labs注入练习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-1：基于错误的-get-单引号-字符型注入"><span class="toc-number">2.</span> <span class="toc-text">Less-1：基于错误的_get_单引号_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-2：基于错误的-get-整型注入"><span class="toc-number">3.</span> <span class="toc-text">Less-2：基于错误的_get_整型注入</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -625,16 +632,9 @@ top:50vh;
     
     
     
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 3
+        Total : 2
         </div>
         <!-- search  -->
         
@@ -656,11 +656,6 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">07/31</span><a class="archive-post-title" href= "/2019/07/31/Upload-labs/" >Upload-labs</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/2019/07/30/hello-world/" >Hello World</a>
         </li>
     
     </div>
