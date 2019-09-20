@@ -346,6 +346,40 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/18/攻防世界-web-cat/" >
+            
+                <span>攻防世界-web-cat</span>
+        </a>
+        <div class="abstract-content">
+            进入页面看到有个输入框，见提示输入域名baidu.com测试
+
+发现无任何回显，输入127.0.0.1或localhost测试
+
+发现执行成功，执行的是一个ping命令于是就想着可能是命令拼接执行，但是输入任何有关的字符串就会提示invalid url
+
+所以可以想到系统对这些字符串进行了过滤，此外可以看到该题是通过get来传参的于是在?url=这里，我们传递个%79后发现，%79被编码为y
+
+
+
+
+看来是可以传递url编码，系统会接受并进行解析，于是我们传递%80会出现报错，url编码使用的是16进制，80也就是128，ASCII码是从0-127，所以这个时候会报错。url编码表可以参...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/18</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/09/04/DVMA-File-Upload/" >
             
                 <span>DVMA-File-Upload</span>
@@ -549,9 +583,16 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
     
     
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 3
+        Total : 4
         </div>
         <!-- search  -->
         
@@ -564,6 +605,11 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href= "/2019/09/18/攻防世界-web-cat/" >攻防世界-web-cat</a>
+        </li>
     
     
         <li class="archive-post-item">

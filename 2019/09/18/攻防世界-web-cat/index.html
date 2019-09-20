@@ -22,7 +22,7 @@
     <meta name="description" content>
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>DD&#39;s Blog</title>
+    <title>攻防世界-web-cat · DD&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >DD&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">攻防世界-web-cat</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>DD's Blog</a>
 </header>
@@ -220,24 +231,68 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            攻防世界-web-cat
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">555</span>阅读时长: <span class="post-count reading-time">2 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/09/18</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,68 +393,75 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/18/攻防世界-web-cat/" >
-            
-                <span>攻防世界-web-cat</span>
-        </a>
-        <div class="abstract-content">
-            进入页面看到有个输入框，见提示输入域名baidu.com测试
-
-发现无任何回显，输入127.0.0.1或localhost测试
-
-发现执行成功，执行的是一个ping命令于是就想着可能是命令拼接执行，但是输入任何有关的字符串就会提示invalid url
-
-所以可以想到系统对这些字符串进行了过滤，此外可以看到该题是通过get来传参的于是在?url=这里，我们传递个%79后发现，%79被编码为y
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>进入页面看到有个输入框，见提示输入域名baidu.com测试</p>
+<img src="/2019/09/18/攻防世界-web-cat/1.jpg">
+<p>发现无任何回显，输入127.0.0.1或localhost测试</p>
+<img src="/2019/09/18/攻防世界-web-cat/2.jpg">
+<p>发现执行成功，执行的是一个ping命令<br>于是就想着可能是命令拼接执行，但是输入任何有关的字符串就会提示invalid url</p>
+<img src="/2019/09/18/攻防世界-web-cat/3.jpg">
+<p>所以可以想到系统对这些字符串进行了过滤，此外可以看到该题是通过get来传参的<br>于是在<strong>?url=</strong>这里，我们传递个%79后发现，%79被编码为y</p>
+<img src="/2019/09/18/攻防世界-web-cat/4.jpg">
 
 
+<img src="/2019/09/18/攻防世界-web-cat/5.jpg">
+<p>看来是可以传递url编码，系统会接受并进行解析，于是我们传递%80会出现报错，url编码使用的是16进制，80也就是128，ASCII码是从0-127，所以这个时候会报错。<br>url编码表可以参考<a href="http://www.w3school.com.cn/tags/html_ref_urlencode.html" target="_blank" rel="noopener">http://www.w3school.com.cn/tags/html_ref_urlencode.html</a><br>出现报错信息，是一段html代码，将这些代码复制到记事本后改为html文件打开</p>
+<img src="/2019/09/18/攻防世界-web-cat/6.jpg">
+<p>这是django报错的页面，所以是将输入的参数传到了后端的django服务中进行解析，但django设置了编码为gbk导致错误编码了宽字符（超过了ascii码的范围）<br>而此时想到前面的@字符没有被过滤<br>在比赛原题是有个提示的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RTFM of PHP CURL===&gt;&gt;<span class="built_in">read</span> the fuck manul of PHP CURL???</span><br></pre></td></tr></table></figure>
 
+<p>这是关于php curl的，于是可以找到php curl中关于@的相关知识点</p>
 
-看来是可以传递url编码，系统会接受并进行解析，于是我们传递%80会出现报错，url编码使用的是16进制，80也就是128，ASCII码是从0-127，所以这个时候会报错。url编码表可以参...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/18</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
+<p>所以我们能够使用@读取文件内容<br>再结合django的报错得知了项目的绝对路径为<strong>/opt/api</strong></p>
+<img src="/2019/09/18/攻防世界-web-cat/8.jpg">
+<p>这里还需要懂得一些django开发的基本知识，django项目下一般有个settings.py文件是设置网站数据库路径（django默认使用的是sqlites数据库），如果使用的是其它数据库的话settings.py则设置用户和密码。除此之外，settings.py还会对项目整体的设置进行定义。</p>
+<p>读取settings.py文件，这里需要注意django项目生成时settings.py会存放在项目目录下再以项目名称命名的文件夹下面。</p>
+<img src="/2019/09/18/攻防世界-web-cat/9.jpg">
+<img src="/2019/09/18/攻防世界-web-cat/10.jpg">
+<p>同样在使用@读取数据库信息</p>
+<img src="/2019/09/18/攻防世界-web-cat/11.jpg">
+<p>在报错信息中搜索CTF得到flag。</p>
+<img src="/2019/09/18/攻防世界-web-cat/12.jpg">
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/04/DVMA-File-Upload/" >
-            
-                <span>DVMA-File-Upload</span>
-        </a>
-        <div class="abstract-content">
-            Low:源代码：
-12345678910111213141516&lt;?phpif( isset( $_POST[ 'Upload' ] ) ) &#123;    // Where are we going to be writing to?    $target_path  = DVWA_WEB_PAGE_TO_ROOT . "hackable/uploads/";   //上传文件的路径    $target_path .= basename( $_FILES[ 'uploaded' ][ 'name' ] );   //文件路径=上文文件的路径+文件名    // Can we...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://ddstick.github.io">DD</a>
+            <p>原文链接：<a href="https://ddstick.github.io/2019/09/18/攻防世界-web-cat/">https://ddstick.github.io/2019/09/18/攻防世界-web-cat/</a>
+            <p>发表日期：<a href="https://ddstick.github.io/2019/09/18/攻防世界-web-cat/">September 18th 2019, 3:55:19 pm</a>
+            <p>更新日期：<a href="https://ddstick.github.io/2019/09/18/攻防世界-web-cat/">September 20th 2019, 9:19:55 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/04</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/09/04/DVMA-File-Upload/" title= "DVMA-File-Upload">
+                    <div class="prevTitle">DVMA-File-Upload</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -484,6 +546,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -637,6 +717,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
