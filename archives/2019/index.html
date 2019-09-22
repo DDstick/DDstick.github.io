@@ -346,6 +346,38 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/22/CRYPTO-base64-异或/" >
+            
+                <span>CRYPTO-base64-异或</span>
+        </a>
+        <div class="abstract-content">
+            题目给出的解压包里的文本：
+
+第一眼看到就感觉想base64解码后为
+1igq4;441R;1ikR51ibOO0
+
+看到这种格式只想到igq4可能与flag有某种关系但还是毫无思路…于是去找大佬看看这种格式是什么加密，结果查到的是异或运算，但出题人把前面的flag对应的密文给去掉了完整的密文应该为
+1EOBD.7igq4;741R;1ikR51ibOO0
+
+最后利用脚本进行解密….
+12345678910111213141516import base64#miwen=base64.b64decode("RU9CRC43aWdxNDsxaWtiNTFpYk9PMDs6NDFS")miwe...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/22</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/09/18/攻防世界-web-cat/" >
             
                 <span>攻防世界-web-cat</span>
@@ -590,9 +622,16 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
     
     
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 4
+        Total : 5
         </div>
         <!-- search  -->
         
@@ -605,6 +644,11 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href= "/2019/09/22/CRYPTO-base64-异或/" >CRYPTO-base64-异或</a>
+        </li>
     
     
         <li class="archive-post-item">
