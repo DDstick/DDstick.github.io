@@ -346,6 +346,40 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/20/BUUCTF-web-Checkln/" >
+            
+                <span>BUUCTF-web-Checkln</span>
+        </a>
+        <div class="abstract-content">
+            
+打开题目是一个上传页面随便上传一个php文件，发现报错
+
+于是随意改变文件后缀，仍然报错
+
+发现报错信息里提到的是文件内容的&lt;?进行了过滤，但也说明了他是用黑名单过滤文件后缀的因为对&lt;?进行了过滤，所以要绕过可以将php标记格式改为脚本标记格式：
+1&lt;script language=php&gt; phpinfo(); &lt;/script&gt;
+
+但是上传后发现又报错
+
+不过其中的信息有些敏感exif_imagetype，判断可能是用了exif_imagetype()函数对文件格式进行了检查
+1exif_imagetype() 读取一个图像的第一个字节并检查其签...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/20</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/09/22/CRYPTO-base64-异或/" >
             
                 <span>CRYPTO-base64-异或</span>
@@ -353,14 +387,14 @@
         <div class="abstract-content">
             题目给出的解压包里的文本：
 
-第一眼看到就感觉想base64解码后为
+第一眼看到就感觉像base64，解码后为
 1igq4;441R;1ikR51ibOO0
 
 看到这种格式只想到igq4可能与flag有某种关系但还是毫无思路…于是去找大佬看看这种格式是什么加密，结果查到的是异或运算，但出题人把前面的flag对应的密文给去掉了完整的密文应该为
 1EOBD.7igq4;741R;1ikR51ibOO0
 
 最后利用脚本进行解密….
-12345678910111213141516import base64#miwen=base64.b64decode("RU9CRC43aWdxNDsxaWtiNTFpYk9PMDs6NDFS")miwe...
+12345678910111213141516import base64#miwen=base64.b64decode("RU9CRC43aWdxNDsxaWtiNTFpYk9PMDs6NDFS")miw...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -424,33 +458,6 @@
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/04</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/08/02/Sqli-labs-GET Part 1-10/" >
-            
-                <span>Sqli-labs-GET Part 1-10</span>
-        </a>
-        <div class="abstract-content">
-            Sqli-labs注入练习SQL Injection：是Web程序代码中对于用户提交的参数未做过滤就直接放到SQL语句中执行，导致参数中的特殊字符打破了SQL语句原有逻辑，可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。
-sqli-labs是一个非常好的学习sql注入的一个游戏教程，对于了解sqlmap的原理很有帮助。
-项目地址：https://github.com/Audi-1/sqli-labs
-安装首先安装phpstudy或者xampp 
-将下载的文件解压发在：phpstudy的WWW文件夹里 或者 xampp里面的ht...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/02</span>
             </div>
             <!-- tags  -->
             
@@ -629,10 +636,6 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
     
     
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 5
@@ -651,6 +654,11 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/BUUCTF-web-Checkln/" >BUUCTF-web-Checkln</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">09/22</span><a class="archive-post-title" href= "/2019/09/22/CRYPTO-base64-异或/" >CRYPTO-base64-异或</a>
         </li>
     
@@ -662,11 +670,6 @@ Pass-01 js检查直接上传php木马，发现前端报错：
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/04</span><a class="archive-post-title" href= "/2019/09/04/DVMA-File-Upload/" >DVMA-File-Upload</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/02</span><a class="archive-post-title" href= "/2019/08/02/Sqli-labs-GET Part 1-10/" >Sqli-labs-GET Part 1-10</a>
         </li>
     
     
