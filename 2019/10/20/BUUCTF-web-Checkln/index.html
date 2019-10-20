@@ -412,7 +412,7 @@ height:50vh;
 <img src="/2019/10/20/BUUCTF-web-Checkln/5.jpg">
 <p>成功上传，不过没有办法直接利用<br>于是就想到了.htaccess但是这个方法局限性太大，反正是不成功….（查了之后才知道这是nginx不是apache，难怪…)</p>
 <p>后来看大佬的writeup学习了…</p>
-<p>##.user.ini<br>这得从php.ini说起了。php.ini是php默认的配置文件，其中包括了很多php的配置，这些配置中，又分为几种：PHP_INI_SYSTEM、PHP_INI_PERDIR、PHP_INI_ALL、PHP_INI_USER。</p>
+<h2 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h2><p>这得从php.ini说起了。php.ini是php默认的配置文件，其中包括了很多php的配置，这些配置中，又分为几种：PHP_INI_SYSTEM、PHP_INI_PERDIR、PHP_INI_ALL、PHP_INI_USER。</p>
 <img src="/2019/10/20/BUUCTF-web-Checkln/6.jpg">
 
 <p>其中就提到了，模式为PHP_INI_USER的配置项，可以在ini_set()函数中设置、注册表中设置，再就是.user.ini中设置。 这里就提到了.user.ini，那么这是个什么配置文件？那么官方文档在这里又解释了：</p>
@@ -444,7 +444,7 @@ height:50vh;
             <p>原文作者：<a href="https://ddstick.github.io">DD</a>
             <p>原文链接：<a href="https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/">https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/</a>
             <p>发表日期：<a href="https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/">October 20th 2019, 8:30:14 am</a>
-            <p>更新日期：<a href="https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/">October 20th 2019, 3:25:06 pm</a>
+            <p>更新日期：<a href="https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/">October 20th 2019, 3:28:56 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -576,7 +576,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#user-ini"><span class="toc-number">1.</span> <span class="toc-text">.user.ini</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
