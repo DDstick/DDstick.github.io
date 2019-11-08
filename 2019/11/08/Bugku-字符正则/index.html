@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <title>BUUCTF-web-Checkln | DD&#39;s Blog</title>
+    <title>Bugku-字符正则 | DD&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content>
@@ -146,7 +146,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>BUUCTF-web-Checkln</span>
+            <span>Bugku-字符正则</span>
             
         </div>
         
@@ -159,11 +159,11 @@
 <header class="content-header post-header">
     <img src="/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">BUUCTF-web-Checkln</h1>
+        <h1 class="title">Bugku-字符正则</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-10-20T00:30:14.000Z" itemprop="datePublished" class="page-time">
-  2019-10-20
+                <time datetime="2019-11-08T04:50:22.000Z" itemprop="datePublished" class="page-time">
+  2019-11-08
 </time>
 
 
@@ -190,12 +190,12 @@
 
 
 <div class="container body-wrap">
-    <article id="post-BUUCTF-web-Checkln"
+    <article id="post-Bugku-字符正则"
   class="post-article article-type-post" itemprop="blogPost">
     <div class="post-card">
-        <h1 class="post-card-title">BUUCTF-web-Checkln</h1>
+        <h1 class="post-card-title">Bugku-字符正则</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-10-20 08:30:14" datetime="2019-10-20T00:30:14.000Z"  itemprop="datePublished">2019-10-20</time>
+            <time class="post-time" title="2019-11-08 12:50:22" datetime="2019-11-08T04:50:22.000Z"  itemprop="datePublished">2019-11-08</time>
 
             
 
@@ -209,62 +209,66 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             
-            <a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/1.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/1.jpg"></a>
-<p>打开题目是一个上传页面<br>随便上传一个php文件，发现报错</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/2.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/2.jpg"></a>
-<p>于是随意改变文件后缀，仍然报错，但报错内容不一样了，判断这是黑名单过滤后缀</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/3.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/3.jpg"></a>
-<p>html字符转义：</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/12.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/12.jpg"></a>
-<p>发现报错信息里提到的是文件内容的<strong>&lt;?</strong>进行了过滤，但也说明了他是用黑名单过滤文件后缀的<br>因为对<strong>&lt;?</strong>进行了过滤，所以要绕过可以将php标记格式改为脚本标记格式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script language=php&gt; phpinfo(); &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">highlight_file(<span class="string">'2.php'</span>);</span><br><span class="line">$key=<span class="string">'KEY&#123;********************************&#125;'</span>;</span><br><span class="line">$IM= preg_match(<span class="string">"/key.*key.&#123;4,7&#125;key:\/.\/(.*key)[a-z][[:punct:]]/i"</span>, trim($_GET[<span class="string">"id"</span>]), $match);</span><br><span class="line"><span class="keyword">if</span>( $IM )&#123; </span><br><span class="line">  <span class="keyword">die</span>(<span class="string">'key is: '</span>.$key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>但是上传后发现又报错</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/4.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/4.jpg"></a>
-<p>不过其中的信息有些敏感<strong>exif_imagetype</strong>，判断可能是用了exif_imagetype()函数对文件格式进行了检查</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exif_imagetype() 读取一个图像的第一个字节并检查其签名</span><br></pre></td></tr></table></figure>
+<p>审计代码后知道只要我们构造出符合正则表达式的字符串通过GET传参传过去就可以看到 key 即 flag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">分析题目：</span><br><span class="line">定界符：/和/（一般来说是这两个，其实除了\和字母数字其它的只要是成对出现都可以看做定界符，比如<span class="comment">##、！！之类的）；</span></span><br><span class="line"></span><br><span class="line">. （一个点）：表示匹配除 <span class="string">"\n"</span> 之外的任何单个字符；</span><br><span class="line"></span><br><span class="line">*   ：匹配它前面的表达式0次或多次，等价于&#123;0,&#125;；</span><br><span class="line"></span><br><span class="line">&#123;n,m\&#125; ：最少匹配 4 次且最多匹配 7 次，结合前面的 . 也就是匹配 4 到 7 个任意字符</span><br><span class="line"></span><br><span class="line">\\ （反斜线）：后面的字符被转义；</span><br><span class="line"></span><br><span class="line">[a-z] ：在a到z中匹配 ；</span><br><span class="line"></span><br><span class="line">[[:punct:]] ：匹配任何标点符号；</span><br><span class="line"></span><br><span class="line">/i  ：表示这个正则表达式对大小写不敏感；</span><br><span class="line"></span><br><span class="line">==========================================</span><br><span class="line"></span><br><span class="line">key 	.	*	key		.	&#123;4,7&#125;	key:\/		\/		(	.	*	key		)	[a-z]	[[:punct:]]</span><br><span class="line">‘key’+任意单个字符+前面的字符重复零个或多个+‘key’+任意单个字符+长度4-7+‘key:/’+任意单个字符+ / +（任意单个字符+零个或多个+‘key’)+英文小写字母一个+匹配‘!<span class="string">"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`&#123;|&#125;~.’中一个字符</span></span><br></pre></td></tr></table></figure>
 
-<p>可以在内容的开头直接加上图片的标识头：GIF…</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/5.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/5.jpg"></a>
-<p>成功上传，不过没有办法直接利用<br>于是就想到了.htaccess但是这个方法局限性太大，反正是不成功….（查了之后才知道这是nginx不是apache，难怪…)</p>
-<p>后来看大佬的writeup学习了…</p>
-<h2 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h2><p>这得从php.ini说起了。php.ini是php默认的配置文件，其中包括了很多php的配置，这些配置中，又分为几种：PHP_INI_SYSTEM、PHP_INI_PERDIR、PHP_INI_ALL、PHP_INI_USER。</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/6.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/6.jpg"></a>
+<p>分析完后便可以开始构造payload<br>keyaaaakeya1234key:/a/aaaakeya!</p>
+<h2 id="正则表达式语法补充"><a href="#正则表达式语法补充" class="headerlink" title="正则表达式语法补充"></a>正则表达式语法补充</h2><h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><p> “\b” :不会消耗任何字符只匹配一个位置，常用于匹配单词边界 如 我想从字符串中”This is Regex”匹配单独的单词 “is” 正则就要写成 “\bis\b”  </p>
+<p>　　  \b 不会匹配is 两边的字符，但它会识别is 两边是否为单词的边界 </p>
+<p> “\d”: 匹配数字</p>
+<p> “\w”：匹配字母，数字，下划线.</p>
+<p> “\s”：匹配空格 </p>
+<p>  “.”：匹配除了换行符以外的任何字符</p>
+<p>  “[abc]”: 字符组  匹配包含括号内元素的字符 </p>
+<p>另：</p>
+<p>   “\W”   匹配任意不是字母，数字，下划线 的字符</p>
+<p>   “\S”   匹配任意不是空白符的字符</p>
+<p>　“\D”  匹配任意非数字的字符</p>
+<p>   “\B”  匹配不是单词开头或结束的位置</p>
+<p>   “[^abc]”  匹配除了abc以外的任意字符</p>
+<h3 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h3><table>
+<thead>
+<tr>
+<th align="center">*</th>
+<th align="center">匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">+</td>
+<td align="center">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td align="center">?</td>
+<td align="center">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 中的”do” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td align="center">{n}</td>
+<td align="center">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td align="center">{n,}</td>
+<td align="center">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td align="center">{n,m}</td>
+<td align="center">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+</tbody></table>
 
-<p>其中就提到了，模式为PHP_INI_USER的配置项，可以在ini_set()函数中设置、注册表中设置，再就是.user.ini中设置。 这里就提到了.user.ini，那么这是个什么配置文件？那么官方文档在这里又解释了：</p>
-<p>除了主 php.ini 之外，PHP 还会在每个目录下扫描 INI 文件，从被执行的 PHP 文件所在目录开始一直上升到 web 根目录 ($_SERVER[‘DOCUMENT_ROOT’]所指定的)。如果被执行的 PHP 文件再 web 根目录之外，则之扫描该目录。</p>
-<p>在 .user.ini 风格的 INI 文件中只有具有 PHP_INI_PERDIR 和 PHP_INI_USER 模式的 INI 设置可被识别。</p>
-<p>这里就很清楚了，.user.ini实际上就是一个可以由用户“自定义”的php.ini，我们能够自定义的设置是模式为“PHP_INI_PERDIR 、 PHP_INI_USER”的设置。（上面表格中没有提到的PHP_INI_PERDIR也可以在.user.ini中设置）</p>
-<p>实际上，除了PHP_INI_SYSTEM以外的模式（包括PHP_INI_ALL）都是可以通过.user.ini来设置的。</p>
-<p>而且，和php.ini不同的是，.user.ini是一个能被动态加载的ini文件。也就是说我修改了.user.ini后，不需要重启服务器中间件，只需要等待user_ini.cache_ttl所设置的时间（默认为300秒），即可被重新加载。</p>
-<p>然后我们看到php.ini中的配置项，可惜我沮丧地发现，只要稍微敏感的配置项，都是PHP_INI_SYSTEM模式的（甚至是php.ini only的），包括disable_functions、extension_dir、enable_dl等。 不过，我们可以很容易地借助.user.ini文件来构造一个“后门”。</p>
-<p>PHP配置项中有两个比较有意思的项（下图第一、四个）：</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/7.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/7.jpg"></a>
-
-<p>auto_prepend_file 表示在php程序加载第一个php代码前加载的php文件<br>auto_append_file 是在php代码执行完毕后加载的文件</p>
-<p>指定一个文件，自动包含在要执行的文件前，类似于在文件前调用了require()函数。而auto_append_file类似，只是在文件后面包含。<br>使用方法很简单，直接写在.user.ini中：</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/8.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/8.jpg"></a>
-
-<p>再上传一个1.jpg文件</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/9.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/9.jpg"></a>
-
-<p>由于同一目录下还有index.php文件，所以我们可以访问他来执行1.jpg的内容</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/10.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/10.jpg"></a>
-<p>成功</p>
-<p>所以再上传文件’cat /flag’即可</p>
-<a rel=BUUCTF-web-Checkln href="/2019/10/20/BUUCTF-web-Checkln/11.jpg" title="" data-fancybox="images"><img src="/2019/10/20/BUUCTF-web-Checkln/11.jpg"></a>
         </div>
         
 <blockquote class="post-copyright">
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-11-05T08:53:11.279Z" itemprop="dateUpdated">2019-11-05 16:53:11</time>
+    Last updated: <time datetime="2019-11-08T13:19:26.898Z" itemprop="dateUpdated">2019-11-08 21:19:26</time>
 </span><br>
 
 
         
-        转载注明出处，原文地址：<a href="/2019/10/20/BUUCTF-web-Checkln/" target="_blank" rel="external">https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/</a>
+        转载注明出处，原文地址：<a href="/2019/11/08/Bugku-字符正则/" target="_blank" rel="external">https://ddstick.github.io/2019/11/08/Bugku-字符正则/</a>
         
     </div>
     <footer>
@@ -291,7 +295,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/&title=《BUUCTF-web-Checkln》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -303,7 +307,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/&title=《BUUCTF-web-Checkln》 — DD's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -326,21 +330,14 @@
         
     </div>
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/2019/10/23/BUUCTF-web-EasyCalc/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">BUUCTF-web-EasyCalc</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="next">
-      <a href="/2019/09/22/CRYPTO-base64-异或/" id="post-next" class="post-nav-link">
+      <a href="/2019/10/23/BUUCTF-web-EasyCalc/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">CRYPTO-base64-异或</h4>
+        <h4 class="title">BUUCTF-web-EasyCalc</h4>
       </a>
     </div>
   
@@ -352,7 +349,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#user-ini"><span class="post-toc-number">1.</span> <span class="post-toc-text">.user.ini</span></a></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#正则表达式语法补充"><span class="post-toc-number">1.</span> <span class="post-toc-text">正则表达式语法补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">一、</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">二、</span></a></li></ol></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </aside>
@@ -449,7 +446,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/&title=《BUUCTF-web-Checkln》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -461,7 +458,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/10/20/BUUCTF-web-Checkln/&title=《BUUCTF-web-Checkln》 — DD's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -473,7 +470,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACHUlEQVR42u3aQY7DIBAEwPz/094HRCHdEK9kKE6RFtsUh1mYmdcrHtfbeP/rp/nJm9unJgcGBsZjGddwjOd8YuSLHm9TsjYMDIxzGPkn5wLoOJiOeeP5GBgYGDljPCch5aEcAwMDIw+C4w8nl9L8bRgYGBj5NfWORf/rXRwDA+OBjPU02X2/b6lvYGBgPIpxlSMpWyaFzPHMelUYGBhbM9pUWl50bAN3nrb7uEEYGBibMpIE/fqldK7kWQR3DAyMYxhtGisvQK4cNKPUHgYGxvGM8eJWYHMzMTAwMNYPcOstGsklGQMD4xzG3HX0B00PZUgtCpwYGBiHMfIPJwe7X23Hl3ViYGBsx2gTZG2TRNvylW/flxImBgbG1oy83aE98LVtXkXQx8DAOICRJ/fzT97dbBFVUzEwMLZgtAsdB8G8GLCyNdF/DwwMjAMY+cO/XVwbZDEwME5j5L/zBou581sbuDEwME5grDQ6zAXTNljXLRcYGBjbMVYaHZLAlzy10sCBgYFxDmMlQs+l2Nr2jsmsIQYGxkaMlfastnjQtotFxVEMDIxNGesXyDlS20D2hYqBgbE1Ix95qM2D9dxBs30bBgbGHoyVIJuD2/Rcvd8YGBgHMFYCX7uUttgZzcTAwMAoU3Irh86oYImBgYFRBtbkkpkva67xAgMD4wRG3hJxHyAvDGBgYJzGaK+O+aU0L0+2CcHJoiYGBsbzGH/PIJNhOPgE1QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQXLDIBAEQP//087VOUiZAZwqQXNKlSxEc9jA7r5e8Xh/jKunV7+/f+vz6f3vFwwMDIzHMt634/6TV4wZ0tV3/5gHAwPjAMZ9GL0Kqflb+UYkG4SBgYExtqB8nnyDMDAwMOYZySLaSykGBgbGzCV2Jrk2lm77yl0cAwPjgYyZIPjtv79S38DAwHgU412OpGyZFD6TkF2sCgMDY2tGHuDG0vrzgbto/sDAwNiU0bZttWm4fEFjAfqV1yUwMDAezhhbRHIQTNJn7WyXARcDA+NgxljobEsIbQPHr/kxMDAOYyQLasNoG0zzdzEwME5gJIfC/OnYZbUNu5ffwsDA2Joxn9wf+3y9xGSdGBgY2zHy41cCS1JpbREiCsQYGBjHMNrAV3RzlGG6BmNgYBzAaFP5q9L6M80WCyoSGBgYD2GMLXQsib/q0lv898DAwNiCMX9ca6/Bqw6gRc8IBgbGFoyx9oj8YNfy7rfvsmcEAwNjU0ab4p9JsUWtXUOJOQwMjBMYY+n4sYRaPlt7rcXAwDiNkS83ufTmM7RNGxgYGKcx8rRaMXUJnmnmwMDA2JXxLkfSKjGWemu3rI7ZGBgYj2W0xcJVR8C2UWxsmzAwMHZiLLhAxqm0vHhZ7zcGBsYBjDzwjTWEzRdKo3MuBgYGRnmAm8kC1kVTDAwMjKHL58zhsiZhYGAcwEgusf/TQPb1dBsGBsYDGe3VMZlubSptWVETAwPjeYwfCVpqmHkj5KkAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
