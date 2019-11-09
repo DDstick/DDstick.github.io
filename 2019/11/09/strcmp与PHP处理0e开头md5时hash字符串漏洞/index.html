@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <title>Bugku-字符正则 | DD&#39;s Blog</title>
+    <title>strcmp与PHP处理0e开头md5时hash字符串漏洞 | DD&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content>
@@ -146,7 +146,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>Bugku-字符正则</span>
+            <span>strcmp与PHP处理0e开头md5时hash字符串漏洞</span>
             
         </div>
         
@@ -159,11 +159,11 @@
 <header class="content-header post-header">
     <img src="/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">Bugku-字符正则</h1>
+        <h1 class="title">strcmp与PHP处理0e开头md5时hash字符串漏洞</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-11-08T04:50:22.000Z" itemprop="datePublished" class="page-time">
-  2019-11-08
+                <time datetime="2019-11-09T00:29:28.000Z" itemprop="datePublished" class="page-time">
+  2019-11-09
 </time>
 
 
@@ -190,12 +190,12 @@
 
 
 <div class="container body-wrap">
-    <article id="post-Bugku-字符正则"
+    <article id="post-strcmp与PHP处理0e开头md5时hash字符串漏洞"
   class="post-article article-type-post" itemprop="blogPost">
     <div class="post-card">
-        <h1 class="post-card-title">Bugku-字符正则</h1>
+        <h1 class="post-card-title">strcmp与PHP处理0e开头md5时hash字符串漏洞</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-11-08 12:50:22" datetime="2019-11-08T04:50:22.000Z"  itemprop="datePublished">2019-11-08</time>
+            <time class="post-time" title="2019-11-09 08:29:28" datetime="2019-11-09T00:29:28.000Z"  itemprop="datePublished">2019-11-09</time>
 
             
 
@@ -209,53 +209,18 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             
-            <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">highlight_file(<span class="string">'2.php'</span>);</span><br><span class="line">$key=<span class="string">'KEY&#123;********************************&#125;'</span>;</span><br><span class="line">$IM= preg_match(<span class="string">"/key.*key.&#123;4,7&#125;key:\/.\/(.*key)[a-z][[:punct:]]/i"</span>, trim($_GET[<span class="string">"id"</span>]), $match);</span><br><span class="line"><span class="keyword">if</span>( $IM )&#123; </span><br><span class="line">  <span class="keyword">die</span>(<span class="string">'key is: '</span>.$key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'v1'</span>]) &amp;&amp; <span class="keyword">isset</span>($_GET[<span class="string">'v2'</span>]) &amp;&amp; <span class="keyword">isset</span>($_GET[<span class="string">'v3'</span>]))&#123;</span><br><span class="line">    $v1 = $_GET[<span class="string">'v1'</span>];</span><br><span class="line">    $v2 = $_GET[<span class="string">'v2'</span>];</span><br><span class="line">    $v3 = $_GET[<span class="string">'v3'</span>];</span><br><span class="line">    <span class="keyword">if</span>($v1 != $v2 &amp;&amp; md5($v1) == md5($v2))&#123;</span><br><span class="line">        <span class="keyword">if</span>(!strcmp($v3, $flag))&#123;</span><br><span class="line">            <span class="keyword">echo</span> $flag;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>审计代码后知道只要我们构造出符合正则表达式的字符串通过GET传参传过去就可以看到 key 即 flag</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">分析题目：</span><br><span class="line">定界符：/和/（一般来说是这两个，其实除了\和字母数字其它的只要是成对出现都可以看做定界符，比如<span class="comment">##、！！之类的）；</span></span><br><span class="line"></span><br><span class="line">. （一个点）：表示匹配除 <span class="string">"\n"</span> 之外的任何单个字符；</span><br><span class="line"></span><br><span class="line">*   ：匹配它前面的表达式0次或多次，等价于&#123;0,&#125;；</span><br><span class="line"></span><br><span class="line">&#123;n,m\&#125; ：最少匹配 4 次且最多匹配 7 次，结合前面的 . 也就是匹配 4 到 7 个任意字符</span><br><span class="line"></span><br><span class="line">\\ （反斜线）：后面的字符被转义；</span><br><span class="line"></span><br><span class="line">[a-z] ：在a到z中匹配 ；</span><br><span class="line"></span><br><span class="line">[[:punct:]] ：匹配任何标点符号；</span><br><span class="line"></span><br><span class="line">/i  ：表示这个正则表达式对大小写不敏感；</span><br><span class="line"></span><br><span class="line">==========================================</span><br><span class="line"></span><br><span class="line">key 	.	*	key		.	&#123;4,7&#125;	key:\/		\/		(	.	*	key		)	[a-z]	[[:punct:]]</span><br><span class="line">‘key’+任意单个字符+前面的字符重复零个或多个+‘key’+任意单个字符+长度4-7+‘key:/’+任意单个字符+ / +（任意单个字符+零个或多个+‘key’)+英文小写字母一个+匹配‘!<span class="string">"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`&#123;|&#125;~.’中一个字符</span></span><br></pre></td></tr></table></figure>
+<p>审计代码可知：<br>我们需要以GET形式传递3个值，其中 v1 != v2 ，if中的第二个判断条件用的是 ==，我们可以利用 “0x” == “0a” 的判断结果为1，所以只找出经过加密后的两个md5值以0开头，接下去以都相同的值，直到遇到的字母的两个字符串相等 v3 == flag</p>
+<h2 id="一、PHP处理0e开头md5时hash字符串漏洞"><a href="#一、PHP处理0e开头md5时hash字符串漏洞" class="headerlink" title="一、PHP处理0e开头md5时hash字符串漏洞"></a>一、PHP处理0e开头md5时hash字符串漏洞</h2><p>PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。      例如：<strong>v1=s878926199a&amp;&amp;v2=s155964671a</strong></p>
+<h2 id="二、md5函数特性"><a href="#二、md5函数特性" class="headerlink" title="二、md5函数特性"></a>二、md5函数特性</h2><p>根据md5函数特性，用两个值不同但不可进行md5的数据类型，如果使用一个不可md5的数据类型传入的话那么md5函数将返回false，这个也是返回值<br>例如： <strong>v1[]=1&amp;&amp;v2[]=2</strong></p>
+<h2 id="三、strcmp"><a href="#三、strcmp" class="headerlink" title="三、strcmp()"></a>三、strcmp()</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int strcmp ( string <span class="variable">$str1</span> , string <span class="variable">$str2</span> )</span><br><span class="line">参数 str1第一个字符串。str2第二个字符串。</span><br><span class="line">如果 str1 小于 str2 返回 &lt; 0；</span><br><span class="line">如果 str1 大于 str2 返回 &gt; 0；</span><br><span class="line">如果两者相等，返回 0。</span><br></pre></td></tr></table></figure>
 
-<p>分析完后便可以开始构造payload<br>keyaaaakeya1234key:/a/aaaakeya!</p>
-<h2 id="正则表达式语法补充"><a href="#正则表达式语法补充" class="headerlink" title="正则表达式语法补充"></a>正则表达式语法补充</h2><h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><p> “\b” :不会消耗任何字符只匹配一个位置，常用于匹配单词边界 如 我想从字符串中”This is Regex”匹配单独的单词 “is” 正则就要写成 “\bis\b”  </p>
-<p>　　  \b 不会匹配is 两边的字符，但它会识别is 两边是否为单词的边界 </p>
-<p> “\d”: 匹配数字</p>
-<p> “\w”：匹配字母，数字，下划线.</p>
-<p> “\s”：匹配空格 </p>
-<p>  “.”：匹配除了换行符以外的任何字符</p>
-<p>  “[abc]”: 字符组  匹配包含括号内元素的字符 </p>
-<p>另：</p>
-<p>“\W”   匹配任意不是字母，数字，下划线 的字符</p>
-<p>“\S”   匹配任意不是空白符的字符</p>
-<p>“\D”  匹配任意非数字的字符</p>
-<p>“\B”  匹配不是单词开头或结束的位置</p>
-<p>“[^abc]”  匹配除了abc以外的任意字符</p>
-<h3 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h3><table>
-<thead>
-<tr>
-<th align="center">*</th>
-<th align="center">匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">+</td>
-<td align="center">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
-</tr>
-<tr>
-<td align="center">?</td>
-<td align="center">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 中的”do” 。? 等价于 {0,1}。</td>
-</tr>
-<tr>
-<td align="center">{n}</td>
-<td align="center">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
-</tr>
-<tr>
-<td align="center">{n,}</td>
-<td align="center">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
-</tr>
-<tr>
-<td align="center">{n,m}</td>
-<td align="center">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
-</tr>
-</tbody></table>
+<p>传入的期望类型是字符串类型的数据，但是如果我们传入非字符串类型的数据的时候，这个函数将会有怎么样的行为呢？实际上，当这个函数接受到了不符合的类型，这个函数将发生错误，但是在5.3之前的php中，显示了报错的警告信息后，将return 0 !!!! 也就是虽然报了错，但却判定其相等了。这对于使用这个函数来做选择语句中的判断的代码来说简直是一个致命的漏洞，当然，php官方在后面的版本中修复了这个漏洞，使得报错的时候函数不返回任何值。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    $password=<span class="string">"***************"</span></span><br><span class="line">     <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'password'</span>]))&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (strcmp($_POST[<span class="string">'password'</span>], $password) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"Right!!!login success"</span>;n</span><br><span class="line">            <span class="keyword">exit</span>();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"Wrong password.."</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>只要我们$_POST[‘password’]是一个数组或者一个object即可，但是上一个问题的时候说到过，只能上传字符串类型，那我们又该如何做呢<br>我们只需将payload构造成 <strong>password[]=admin</strong> 即可</p>
+<p>所以该题的绕过方式为：<br>    <strong>?v1[]=1&amp;&amp;v2[]=2&amp;&amp;v3[]=3</strong><br>    <strong>?v1=s878926199a&amp;&amp;v2=s155964671a&amp;&amp;v3[]=1</strong>  都可</p>
 
         </div>
         
@@ -263,12 +228,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-11-08T13:36:42.684Z" itemprop="dateUpdated">2019-11-08 21:36:42</time>
+    Last updated: <time datetime="2019-11-09T01:19:46.408Z" itemprop="dateUpdated">2019-11-09 09:19:46</time>
 </span><br>
 
 
         
-        转载注明出处，原文地址：<a href="/2019/11/08/Bugku-字符正则/" target="_blank" rel="external">https://ddstick.github.io/2019/11/08/Bugku-字符正则/</a>
+        转载注明出处，原文地址：<a href="/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/" target="_blank" rel="external">https://ddstick.github.io/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/</a>
         
     </div>
     <footer>
@@ -295,7 +260,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/&title=《strcmp与PHP处理0e开头md5时hash字符串漏洞》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -307,7 +272,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/&title=《strcmp与PHP处理0e开头md5时hash字符串漏洞》 — DD's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -330,21 +295,14 @@
         
     </div>
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">strcmp与PHP处理0e开头md5时hash字符串漏洞</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="next">
-      <a href="/2019/10/23/BUUCTF-web-EasyCalc/" id="post-next" class="post-nav-link">
+      <a href="/2019/11/08/Bugku-字符正则/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">BUUCTF-web-EasyCalc</h4>
+        <h4 class="title">Bugku-字符正则</h4>
       </a>
     </div>
   
@@ -356,7 +314,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#正则表达式语法补充"><span class="post-toc-number">1.</span> <span class="post-toc-text">正则表达式语法补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">一、</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">二、</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、PHP处理0e开头md5时hash字符串漏洞"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、PHP处理0e开头md5时hash字符串漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、md5函数特性"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、md5函数特性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三、strcmp"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、strcmp()</span></a></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </aside>
@@ -453,7 +411,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/&title=《strcmp与PHP处理0e开头md5时hash字符串漏洞》 — DD's Blog&pic=https://ddstick.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -465,7 +423,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/11/08/Bugku-字符正则/&title=《Bugku-字符正则》 — DD's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/11/09/strcmp与PHP处理0e开头md5时hash字符串漏洞/&title=《strcmp与PHP处理0e开头md5时hash字符串漏洞》 — DD's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -477,7 +435,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQXLDIBAEQP//087VOUiZAZwqQXNKlSxEc9jA7r5e8Xh/jKunV7+/f+vz6f3vFwwMDIzHMt634/6TV4wZ0tV3/5gHAwPjAMZ9GL0Kqflb+UYkG4SBgYExtqB8nnyDMDAwMOYZySLaSykGBgbGzCV2Jrk2lm77yl0cAwPjgYyZIPjtv79S38DAwHgU412OpGyZFD6TkF2sCgMDY2tGHuDG0vrzgbto/sDAwNiU0bZttWm4fEFjAfqV1yUwMDAezhhbRHIQTNJn7WyXARcDA+NgxljobEsIbQPHr/kxMDAOYyQLasNoG0zzdzEwME5gJIfC/OnYZbUNu5ffwsDA2Joxn9wf+3y9xGSdGBgY2zHy41cCS1JpbREiCsQYGBjHMNrAV3RzlGG6BmNgYBzAaFP5q9L6M80WCyoSGBgYD2GMLXQsib/q0lv898DAwNiCMX9ca6/Bqw6gRc8IBgbGFoyx9oj8YNfy7rfvsmcEAwNjU0ab4p9JsUWtXUOJOQwMjBMYY+n4sYRaPlt7rcXAwDiNkS83ufTmM7RNGxgYGKcx8rRaMXUJnmnmwMDA2JXxLkfSKjGWemu3rI7ZGBgYj2W0xcJVR8C2UWxsmzAwMHZiLLhAxqm0vHhZ7zcGBsYBjDzwjTWEzRdKo3MuBgYGRnmAm8kC1kVTDAwMjKHL58zhsiZhYGAcwEgusf/TQPb1dBsGBsYDGe3VMZlubSptWVETAwPjeYwfCVpqmHkj5KkAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLElEQVR42u3aS27jQAwFQN//0h5gVgMk0TyS7cCiS6vAllpd7QXDz+MRX8+/V/55ss7zn+vrJ1+v66cer7iwsbGxb8Kuvqz6bfKWZP2EnayGjY2NvZXdCzY/rXD97PVxXH9+/fZCoMXGxsb+SPapp5IjSDIIbGxsbOxTgElgywtDybPY2NjYn8yulnWuF+0lGHmRqHo/NjY29m52r0H7nn+/sL+NjY2N/Zbsedv1uhiUl6LycZzn+MLGxsbexM7LQ71g1isbVQ89X7PQYcbGxsa+Cbs3EDMfr5knFcmIZ9QYwMbGxr45uxzrgsDWSySqYTJvCRSOABsbG/uG7F5wSpbutVp7TdnyL4yNjY29iD3/Fz8/uOrITtJI6B0ENjY29lZ2s10apAqnikST8Z1CbwQbGxv7hux5kX0+slMtY81bEdjY2Nhb2b1QNCnf91q8eZD7TxKCjY2NvY49L+KUB2UGpavJQWNjY2PvYOfN2knpJ08PqslP86fCxsbGXsROtp5vt5ps5IdYbTkU7sfGxsZexK4CqsM686J/70Cj/WBjY2PfnP3qlCNp304at3lChY2Njb2bXV2oB5inKL3Rn2/ux8bGxl7Hzov4OSPfxCSN6e0fGxsbewe7FxKqRZ9q4b4XuhIFNjY29lZ2tbhfTTbyTus8OEXpEzY2NvYidt7ozYNQsq1qOamXOB0Y2cHGxsa+IftUetA7sjydSAJYtVCFjY2NfUf2qcGaKrV3iNXQG/VDsLGxsW/Ozl+TbzQq0MeB5+zA5Y+9EWxsbOwV7FOMU43hwhhl71tsbGzsFew8CUnCTC+1OPXr5cOg2NjY2LvZpwZxklJUnkhMkqVv1sHGxsZexM43OirfBAGm2oTIjz7qkGBjY2Pflv0sXvMwkwewfNCnHGKxsbGxF7HzqxfeeiGnes/1e0cHgY2NjX0TdjVo5SskASY5rDwQFopi2NjY2OvYSdCaBJU8gfmloIiNjY39kexTacC8eDQpTmFjY2NjV8dlqmM68/pPubONjY2NvYI9XzQvDyXfTgZ3on4INjY29iJ2rzQzGfQ5GyzzIFo+CGxsbOx3Z/8BLLorJqhWCOIAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
