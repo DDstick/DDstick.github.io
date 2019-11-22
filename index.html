@@ -189,6 +189,127 @@
         <ul class="post-list">
         
             <li class="post-list-item fade">
+                <article id="post-文件包含漏洞"
+  class="article-card article-type-post" itemprop="blogPost">
+  
+        
+<div class="item-thumb">
+    <a class="thumb-link" href="/2019/11/22/文件包含漏洞/"></a>
+    <div class="thumb-hover">
+        <span class="icon icon-eye"></span>
+    </div>
+    <img src="/img/thumb/10.jpg" alt="图片路径不正确">
+    
+
+
+  
+    <h3 class="post-title ab-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/22/文件包含漏洞/">文件包含漏洞</a>
+    </h3>
+  
+
+
+
+</div>
+
+        
+    
+    
+    
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-22 10:15:51" datetime="2019-11-22T02:15:51.000Z"  itemprop="datePublished">2019-11-22</time>
+
+        
+
+
+        
+
+        
+
+
+        
+        
+    </div>
+    
+    <div class="post-content" id="post-content" itemprop="postContent">
+    
+    
+        
+    
+    <a href="/2019/11/22/文件包含漏洞/" class="post-more waves-effect waves-button">
+        more
+    </a>
+    </div>
+</article>
+
+
+            </li>
+        
+            <li class="post-list-item fade">
+                <article id="post-Bugku-never-give-up"
+  class="article-card article-type-post" itemprop="blogPost">
+  
+        
+<div class="item-thumb">
+    <a class="thumb-link" href="/2019/11/09/Bugku-never-give-up/"></a>
+    <div class="thumb-hover">
+        <span class="icon icon-eye"></span>
+    </div>
+    <img src="/img/thumb/9.jpg" alt="图片路径不正确">
+    
+
+
+  
+    <h3 class="post-title ab-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/09/Bugku-never-give-up/">Bugku-never-give-up</a>
+    </h3>
+  
+
+
+
+</div>
+
+        
+    
+    
+    
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-09 15:54:45" datetime="2019-11-09T07:54:45.000Z"  itemprop="datePublished">2019-11-09</time>
+
+        
+
+
+        
+
+        
+
+
+        
+        
+    </div>
+    
+    <div class="post-content" id="post-content" itemprop="postContent">
+    
+    
+        
+无任何提示，于是查看源码
+
+发现了个1p.html，打开后直接跳转到bugku主页想到可能是重定向跳转过去的于是利用 view-source:http://123.206.87.240:8006/test/1p.html 查看源码
+
+
+由 var Words 中的值可知这为url编码解码后得
+12&lt;script&gt;window.location.href='http://www....
+    
+    <a href="/2019/11/09/Bugku-never-give-up/" class="post-more waves-effect waves-button">
+        more
+    </a>
+    </div>
+</article>
+
+
+            </li>
+        
+            <li class="post-list-item fade">
                 <article id="post-strcmp与PHP处理0e开头md5时hash字符串漏洞"
   class="article-card article-type-post" itemprop="blogPost">
   
@@ -619,12 +740,12 @@ html字符转义：
             </li>
         
             <li class="post-list-item fade">
-                <article id="post-Upload-labs"
+                <article id="post-Sqli-labs-GET Part 1-10"
   class="article-card article-type-post" itemprop="blogPost">
   
         
 <div class="item-thumb">
-    <a class="thumb-link" href="/2019/07/31/Upload-labs/"></a>
+    <a class="thumb-link" href="/2019/08/10/Sqli-labs-GET Part 1-10/"></a>
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
@@ -634,7 +755,7 @@ html字符转义：
 
   
     <h3 class="post-title ab-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/31/Upload-labs/">Upload-labs</a>
+      <a class="post-title-link" href="/2019/08/10/Sqli-labs-GET Part 1-10/">Sqli-labs-GET Part 1-10</a>
     </h3>
   
 
@@ -647,7 +768,7 @@ html字符转义：
     
     
     <div class="post-meta">
-        <time class="post-time" title="2019-07-31 08:19:52" datetime="2019-07-31T00:19:52.000Z"  itemprop="datePublished">2019-07-31</time>
+        <time class="post-time" title="2019-08-10 08:30:14" datetime="2019-08-10T00:30:14.000Z"  itemprop="datePublished">2019-08-10</time>
 
         
 
@@ -664,17 +785,12 @@ html字符转义：
     <div class="post-content" id="post-content" itemprop="postContent">
     
     
-        文件上传漏洞练习Upload-labs是一个帮你总结各种类型的上传漏洞的靶场，包括常见的文件上传漏洞项目地址：https://github.com/c0ny1/upload-labs
-Summary
-
-
-构造优质上传漏洞Fuzz字典http://www.hacksec.cn/Tools/866.html
-Pass-01 js检查直接上传php木马，发现前端报错：
-
-
-在这使用传统的抓包，修改...
+        Sqli-labs注入练习
+SQL Injection：是Web程序代码中对于用户提交的参数未做过滤就直接放到SQL语句中执行，导致参数中的特殊字符打破了SQL语句原有逻辑，可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。
+sqli-labs是一个非常好的学习sql注入的一个游戏教程，对于了解sqlmap的原理很有帮助。
+项目地址...
     
-    <a href="/2019/07/31/Upload-labs/" class="post-more waves-effect waves-button">
+    <a href="/2019/08/10/Sqli-labs-GET Part 1-10/" class="post-more waves-effect waves-button">
         more
     </a>
     </div>
@@ -685,6 +801,12 @@ Pass-01 js检查直接上传php木马，发现前端报错：
         
         </ul>
         
+<nav id="page-nav">
+    <div class="inner">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    </div>
+</nav>
+
     </div>
 
     </main>

