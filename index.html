@@ -204,7 +204,7 @@
 
   
     <h3 class="post-title ab-title" itemprop="name">
-      <a class="post-title-link" href="/2019/11/22/文件包含漏洞/">文件包含漏洞</a>
+      <a class="post-title-link" href="/2019/11/22/文件包含漏洞/">PHP文件包含漏洞</a>
     </h3>
   
 
@@ -234,7 +234,11 @@
     <div class="post-content" id="post-content" itemprop="postContent">
     
     
-        
+        相关函数php中引发文件包含漏洞的通常是以下四个函数：
+12341.include()2.include_once()3.require()4.require_once()
+
+以上4个函数的区别include() 如果出错的话，只会提出警告，会继续执行后续语句。reuqire() 如果在包含的过程中有错，比如文件不存在等，则会直接退出，不执行后续语句。
+include_once()、requ...
     
     <a href="/2019/11/22/文件包含漏洞/" class="post-more waves-effect waves-button">
         more

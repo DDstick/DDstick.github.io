@@ -3,9 +3,65 @@
   
     
     <entry>
-      <title><![CDATA[文件包含漏洞]]></title>
+      <title><![CDATA[PHP文件包含漏洞]]></title>
       <url>/2019/11/22/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>php中引发文件包含漏洞的通常是以下四个函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.include()</span><br><span class="line">2.include_once()</span><br><span class="line">3.require()</span><br><span class="line">4.require_once()</span><br></pre></td></tr></table></figure>
+
+<h3 id="以上4个函数的区别"><a href="#以上4个函数的区别" class="headerlink" title="以上4个函数的区别"></a>以上4个函数的区别</h3><p>include() 如果出错的话，只会提出警告，会继续执行后续语句。<br>reuqire() 如果在包含的过程中有错，比如文件不存在等，则会直接退出，不执行后续语句。</p>
+<p>include_once()、require_once()功能与上述两者几乎相同。不同的是如果一个文件已经被包含了，则不会被再次包含，以此避免函数重定义或者变量重新赋值等问题。</p>
+<p>利用这四个函数所包含的文件都会被直接作为php文件进行解析。</p>
+<h4 id="test1"><a href="#test1" class="headerlink" title="test1"></a>test1</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> $file;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>若在同一目录下有文件info.txt，内容为 <strong><?php phpinfo(); ?></strong> 那么访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxxx?file=info.txt</span><br></pre></td></tr></table></figure>
+
+<p>即可成功解析phpinfo</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><h3 id="LFI-Local-File-Inclusion"><a href="#LFI-Local-File-Inclusion" class="headerlink" title="LFI(Local File Inclusion)"></a>LFI(Local File Inclusion)</h3><p>本地文件包含漏洞，即是指能打开并包含本地文件的漏洞。<br>test1即为本地文件包含漏洞</p>
+<h3 id="RFI-Remote-File-Inclusion"><a href="#RFI-Remote-File-Inclusion" class="headerlink" title="RFI(Remote File Inclusion)"></a>RFI(Remote File Inclusion)</h3><p>远程文件包含漏洞，即是指能够包含远程服务器上的文件并执行。由于远程服务器的文件是我们可控的，因此漏洞一旦存在危害性会很大。<br>但 <strong>RFI(Remote File Inclusion)</strong> 的利用需要条件，在php.ini中进行配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.allow_url_fopen = On</span><br><span class="line">2.allow_url_include = On</span><br></pre></td></tr></table></figure>
+
+<p>当两个配置均开启时，才能够远程包含文件成功</p>
+<p>phpini中， <strong>allow_url_fopen = On</strong> 默认时一直为On，但 <strong>allow_url_include</strong> 从php5.2之后就默认为off</p>
+<h2 id="包含技巧"><a href="#包含技巧" class="headerlink" title="包含技巧"></a>包含技巧</h2><p>下面例子中测试代码均为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>.php：</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> $file;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">info.txt：</span><br><span class="line"><span class="meta">&lt;?</span> phpinfo() <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>allow_url_fopen 默认为 On<br>allow_url_include 默认为 Off</strong></p>
+<p>若有特殊要求，会在利用条件里指出</p>
+<h3 id="php伪协议"><a href="#php伪协议" class="headerlink" title="php伪协议"></a>php伪协议</h3><h4 id="php-input"><a href="#php-input" class="headerlink" title="php://input"></a>php://input</h4><p>利用条件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.allow_url_include = On</span><br><span class="line">2.对allow_url_fopen不做要求</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xxx/include.php?file=php://input</span><br><span class="line"></span><br><span class="line">POST:</span><br><span class="line">&lt;?php phpinfo(); ?&gt;</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/11/22/文件包含漏洞/1.jpg" width="1">
+
+<h4 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a>php://filter</h4><p>这个是一个过滤器，里面的过滤方法很多，我们如果不想执行被包含的代码，我们就可以使用base64 编码输出，通常用来读取源码</p>
+<p>php://filter 目标使用以下的参数作为它路径的一部分。 复合过滤链能够在一个路径上指定</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resource=&lt;要过滤的数据流&gt;     这个参数是必须的，且必须位于 php://filter 的末尾，并且指向需要过滤筛选的数据流。</span><br><span class="line"><span class="built_in">read</span>=&lt;读链的筛选列表&gt;     该参数可选。可以设定一个或多个过滤器名称，以管道符（|）分隔。</span><br><span class="line">write=&lt;写链的筛选列表&gt;     该参数可选。可以设定一个或多个过滤器名称，以管道符（|）分隔。</span><br><span class="line">&lt;；两个链的筛选列表&gt;     任何没有以 <span class="built_in">read</span>= 或 write= 作前缀 的筛选器列表会视情况应用于读或写链。</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/11/22/文件包含漏洞/2.jpg">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">注意点：</span><br><span class="line">**(1)记住一旦使用了 <span class="built_in">read</span> 选项，我们就值关心数据流的来源，这里的数据流的来源就是 resource 传入的，至于经过过滤器以后这个数据流要去哪里，这不是我们这个处理能决定的，还要依赖外部的函数**</span><br><span class="line">**(2)一旦使用了 write 选项，我们就只关系数据的输出，数据的输出就是我们指定的 resource 的文件，而数据的输入要靠外部的函数帮我们实现**</span><br><span class="line">**(3)我们的过滤是按照过滤器从左到右的顺序进行的，不要错误地认为是从右到左**</span><br></pre></td></tr></table></figure>
+
+<h5 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h5><p><strong>(1)字符串过滤器</strong></p>
+<p>|:————:|:————-:|<br>|string.rot13|进行rot13转换|<br>|string.toupper|将字符全部大写|<br>|string.tolower|将字符全部小写|<br>|string.strip_tags|去除空字符、HTML 和 PHP 标记后的结果|</p>
+<p><strong>(2)转换过滤器</strong></p>
+<p>|:————:|:————-:|<br>|convert.base64-encode|base64 编码|<br>|convert.base64-decode|base64 解码|<br>|convert.quoted-printable-encode|quoted-printable 编码（也是另一种将二进制进行编码的方案）|<br>|convert.quoted-printable-decode|quoted-printable 解码|<br>|convert.iconv|实现任意两种编码之间的转换|</p>
+<p><strong>(3)压缩过滤器</strong></p>
+<p>|:————:|:————-:|<br>|zlib.deflate|压缩过滤器|<br>|zlib.inflate|解压过滤器|<br>|bzip2.compress|压缩过滤器|<br>|bzip2.decompress|解压过滤器|</p>
+<p><strong>(4)加密过滤器</strong></p>
+<p>|:————:|:————-:|<br>|mcrypt.<em>|加密过滤器|<br>|mdecrypt.</em>|解密过滤器|</p>
+<p><strong>实例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">readfile(“php://filter/resource=http://www.example.com<span class="string">");</span></span><br><span class="line"><span class="string">readfile(“php://filter/read=string.toupper/resource=http://www.example.com"</span>);</span><br><span class="line">readfile(“php://filter/<span class="built_in">read</span>=string.toupper|string.rot13/resource=http://www.example.com<span class="string">");</span></span><br><span class="line"><span class="string">file_put_contents(“php://filter/write=string.rot13/resource=example.txt”,”Hello World”);</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特别提一下这个过滤器convert.iconv</strong></p>
+<p>这个过滤器能实现几乎任意的两种编码之间的转化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php://filter/<span class="built_in">read</span>=convert.iconv.UTF-8%2FASCII%2F%2FTRANSLIT/resource=...</span><br><span class="line">convert.iconv.ISO-8859-1/UTF-8</span><br><span class="line">php://filter/convert.iconv.UTF-8%2fUTF-7/resource=</span><br></pre></td></tr></table></figure>
+
+<p><strong>./</strong>当前目录,<strong>../</strong>上一级目录,这样的遍历目录来读取文件</p>
+<h3 id="本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？"><a href="#本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？" class="headerlink" title="本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？"></a>本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？</h3><p>常见几个路径：<br>/var/log/apache/access_log<br>/var/www/logs/access_log<br>/var/log/access_log<br>更多见上面的路径收集</p>
+<h3 id="利用-proc-self-environ进行包含"><a href="#利用-proc-self-environ进行包含" class="headerlink" title="利用/proc/self/environ进行包含"></a>利用/proc/self/environ进行包含</h3><h3 id="包含session文件"><a href="#包含session文件" class="headerlink" title="包含session文件"></a>包含session文件</h3><p>session文件一般在/tmp目录下，格式为sess_[phpsessid]</p>
+<h3 id="包含其他由php创建的tmp文件"><a href="#包含其他由php创建的tmp文件" class="headerlink" title="包含其他由php创建的tmp文件"></a>包含其他由php创建的tmp文件</h3><p>上传一个文件的过程,可以在tmp那里包含<br>jpg<br>向服务器上任意php文件以form-data方式提交请求上传数据时，会生成临时文件,通过phpinfo来获取临时文件的路径以及名称,然后临时文件在极短时间被删除的时候,需要竞争时间包含临时文件拿到webshell。</p>
+<h3 id="jsp文件包含漏洞"><a href="#jsp文件包含漏洞" class="headerlink" title="jsp文件包含漏洞"></a>jsp文件包含漏洞</h3><h3 id="asp文件包含漏洞"><a href="#asp文件包含漏洞" class="headerlink" title="asp文件包含漏洞"></a>asp文件包含漏洞</h3><h3 id="aspx文件包含漏洞"><a href="#aspx文件包含漏洞" class="headerlink" title="aspx文件包含漏洞"></a>aspx文件包含漏洞</h3>]]></content>
       
         
     </entry>
@@ -125,7 +181,7 @@
 
 <p>由这个waf我们得知payload中不能含有”‘ ‘, ‘\t’, ‘\r’, ‘\n’,’&#39;‘, ‘“‘, ‘`‘, ‘[‘, ‘]‘,’$‘,’\‘,’^‘“字符，除此之外，经过测试，这还过滤了字母，若num中含有字母则会返回403，所以除了上面这个waf、还有一个black_list</p>
 <p>那么第一步要做的就是绕过他们<br>其中一个最简单的办法就是直接在查询参数前面加个空格，即将<strong>?num=</strong>改为<strong>? num=</strong>即可绕过（在num前加个空格）</p>
-<h2 id="利用PHP的字符串解析特性Bypass"><a href="#利用PHP的字符串解析特性Bypass" class="headerlink" title="利用PHP的字符串解析特性Bypass"></a>利用PHP的字符串解析特性Bypass</h2><p>转至：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
+<h2 id="利用PHP的字符串解析特性绕过modsecurity"><a href="#利用PHP的字符串解析特性绕过modsecurity" class="headerlink" title="利用PHP的字符串解析特性绕过modsecurity"></a>利用PHP的字符串解析特性绕过modsecurity</h2><p>转至：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
 <p>PHP将查询字符串（在URL或正文中）转换为内部$_GET或的关联数组$_POST。例如：/?foo=bar变成Array([foo] =&gt; “bar”)。值得注意的是，查询字符串在解析的过程中会将某些字符删除或用下划线代替。例如，/?%20news[id%00=42会转换为Array([news_id] =&gt; 42)。如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/news.php?%20news[id%00=42<span class="string">"+AND+1=0--</span></span><br></pre></td></tr></table></figure>
 
@@ -187,7 +243,7 @@
 
 <h4 id="方法二：利用base-convert"><a href="#方法二：利用base-convert" class="headerlink" title="方法二：利用base_convert"></a>方法二：利用base_convert</h4><p> base_convert函数可以在任意进制之间转换数字，可以返回任意字母，需要注意它无法返回_ *等特殊字符</p>
 <img src="/2019/10/23/BUUCTF-web-EasyCalc/10.png">
-<p>又发现dechex函数可以把10进制转换为16进制，我们可以再异或出hex2bin，来获取任意ASCII字符</p>
+<p>又发现dechex函数可以把10进制转换为16进制，我们可以再异或出hex2bin——（将十六进制数转换为二进制数），来获取任意ASCII字符</p>
 <img src="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg">
 <p>可以构造var_dump(base_convert(61693386291,10,36)(hex2bin(dechex(46)).hex2bin(dechex(47))))相当于car_dump(scandir(./))<br>找到f1agg后<br>可以构造出readfile(/f1agg)来读取文件<br>构造为：base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))就可以得到flag文件。</p>
 <h2 id="协议层的攻击——HTTP请求走私"><a href="#协议层的攻击——HTTP请求走私" class="headerlink" title="协议层的攻击——HTTP请求走私"></a>协议层的攻击——HTTP请求走私</h2><p>除此之外，还有另一种方法可以绕过：<br>利用HTTP请求走私来绕过，该漏洞可以参考“协议层的攻击——HTTP请求走私”：<a href="https://paper.seebug.org/1048/#31-cl0get" target="_blank" rel="noopener">https://paper.seebug.org/1048/#31-cl0get</a></p>
@@ -220,7 +276,7 @@
 <p>不过其中的信息有些敏感<strong>exif_imagetype</strong>，判断可能是用了exif_imagetype()函数对文件格式进行了检查</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exif_imagetype() 读取一个图像的第一个字节并检查其签名</span><br></pre></td></tr></table></figure>
 
-<p>可以在内容的开头直接加上图片的标识头：GIF…</p>
+<p>可以在内容的开头直接加上图片的标识头：GIF、JFIF..</p>
 <img src="/2019/10/20/BUUCTF-web-Checkln/5.jpg">
 <p>成功上传，不过没有办法直接利用<br>于是就想到了.htaccess但是这个方法局限性太大，反正是不成功….（查了之后才知道这是nginx不是apache，难怪…)</p>
 <p>后来看大佬的writeup学习了…</p>

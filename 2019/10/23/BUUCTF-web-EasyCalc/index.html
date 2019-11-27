@@ -223,7 +223,7 @@
 
 <p>由这个waf我们得知payload中不能含有”‘ ‘, ‘\t’, ‘\r’, ‘\n’,’&#39;‘, ‘“‘, ‘`‘, ‘[‘, ‘]‘,’$‘,’\‘,’^‘“字符，除此之外，经过测试，这还过滤了字母，若num中含有字母则会返回403，所以除了上面这个waf、还有一个black_list</p>
 <p>那么第一步要做的就是绕过他们<br>其中一个最简单的办法就是直接在查询参数前面加个空格，即将<strong>?num=</strong>改为<strong>? num=</strong>即可绕过（在num前加个空格）</p>
-<h2 id="利用PHP的字符串解析特性Bypass"><a href="#利用PHP的字符串解析特性Bypass" class="headerlink" title="利用PHP的字符串解析特性Bypass"></a>利用PHP的字符串解析特性Bypass</h2><p>转至：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
+<h2 id="利用PHP的字符串解析特性绕过modsecurity"><a href="#利用PHP的字符串解析特性绕过modsecurity" class="headerlink" title="利用PHP的字符串解析特性绕过modsecurity"></a>利用PHP的字符串解析特性绕过modsecurity</h2><p>转至：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
 <p>PHP将查询字符串（在URL或正文中）转换为内部$_GET或的关联数组$_POST。例如：/?foo=bar变成Array([foo] =&gt; “bar”)。值得注意的是，查询字符串在解析的过程中会将某些字符删除或用下划线代替。例如，/?%20news[id%00=42会转换为Array([news_id] =&gt; 42)。如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/news.php?%20news[id%00=42<span class="string">"+AND+1=0--</span></span><br></pre></td></tr></table></figure>
 
@@ -285,7 +285,7 @@
 
 <h4 id="方法二：利用base-convert"><a href="#方法二：利用base-convert" class="headerlink" title="方法二：利用base_convert"></a>方法二：利用base_convert</h4><p> base_convert函数可以在任意进制之间转换数字，可以返回任意字母，需要注意它无法返回_ *等特殊字符</p>
 <a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/10.png" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/10.png"></a>
-<p>又发现dechex函数可以把10进制转换为16进制，我们可以再异或出hex2bin，来获取任意ASCII字符</p>
+<p>又发现dechex函数可以把10进制转换为16进制，我们可以再异或出hex2bin——（将十六进制数转换为二进制数），来获取任意ASCII字符</p>
 <a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg"></a>
 <p>可以构造var_dump(base_convert(61693386291,10,36)(hex2bin(dechex(46)).hex2bin(dechex(47))))相当于car_dump(scandir(./))<br>找到f1agg后<br>可以构造出readfile(/f1agg)来读取文件<br>构造为：base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))就可以得到flag文件。</p>
 <h2 id="协议层的攻击——HTTP请求走私"><a href="#协议层的攻击——HTTP请求走私" class="headerlink" title="协议层的攻击——HTTP请求走私"></a>协议层的攻击——HTTP请求走私</h2><p>除此之外，还有另一种方法可以绕过：<br>利用HTTP请求走私来绕过，该漏洞可以参考“协议层的攻击——HTTP请求走私”：<a href="https://paper.seebug.org/1048/#31-cl0get" target="_blank" rel="noopener">https://paper.seebug.org/1048/#31-cl0get</a></p>
@@ -302,7 +302,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-11-06T09:27:11.670Z" itemprop="dateUpdated">2019-11-06 17:27:11</time>
+    Last updated: <time datetime="2019-11-27T07:34:06.594Z" itemprop="dateUpdated">2019-11-27 15:34:06</time>
 </span><br>
 
 
@@ -395,7 +395,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#利用PHP的字符串解析特性Bypass"><span class="post-toc-number">1.</span> <span class="post-toc-text">利用PHP的字符串解析特性Bypass</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#payload："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">payload：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法一："><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">方法一：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法二：利用base-convert"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">方法二：利用base_convert</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#协议层的攻击——HTTP请求走私"><span class="post-toc-number">2.</span> <span class="post-toc-text">协议层的攻击——HTTP请求走私</span></a></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#利用PHP的字符串解析特性绕过modsecurity"><span class="post-toc-number">1.</span> <span class="post-toc-text">利用PHP的字符串解析特性绕过modsecurity</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#payload："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">payload：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法一："><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">方法一：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法二：利用base-convert"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">方法二：利用base_convert</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#协议层的攻击——HTTP请求走私"><span class="post-toc-number">2.</span> <span class="post-toc-text">协议层的攻击——HTTP请求走私</span></a></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </aside>
