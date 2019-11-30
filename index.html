@@ -189,6 +189,63 @@
         <ul class="post-list">
         
             <li class="post-list-item fade">
+                <article id="post-利用phar拓展php反序列化漏洞攻击面"
+  class="article-card article-type-post" itemprop="blogPost">
+  
+        
+<div class="item-thumb">
+    <a class="thumb-link" href="/2019/11/29/利用phar拓展php反序列化漏洞攻击面/"></a>
+    <div class="thumb-hover">
+        <span class="icon icon-eye"></span>
+    </div>
+    <img src="/img/thumb/10.jpg" alt="图片路径不正确">
+    
+
+
+  
+    <h3 class="post-title ab-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/29/利用phar拓展php反序列化漏洞攻击面/">利用phar拓展php反序列化漏洞攻击面</a>
+    </h3>
+  
+
+
+
+</div>
+
+        
+    
+    
+    
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-29 15:03:37" datetime="2019-11-29T07:03:37.000Z"  itemprop="datePublished">2019-11-29</time>
+
+        
+
+
+        
+
+        
+
+
+        
+        
+    </div>
+    
+    <div class="post-content" id="post-content" itemprop="postContent">
+    
+    
+        
+    
+    <a href="/2019/11/29/利用phar拓展php反序列化漏洞攻击面/" class="post-more waves-effect waves-button">
+        more
+    </a>
+    </div>
+</article>
+
+
+            </li>
+        
+            <li class="post-list-item fade">
                 <article id="post-文件包含漏洞"
   class="article-card article-type-post" itemprop="blogPost">
   
@@ -198,7 +255,7 @@
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/10.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/9.jpg" alt="图片路径不正确">
     
 
 
@@ -235,10 +292,9 @@
     
     
         相关函数php中引发文件包含漏洞的通常是以下四个函数：
-12341.include()2.include_once()3.require()4.require_once()
+1234561.include()2.include_once()3.require()4.require_once()5.file_get_contents()6.readfile()
 
-以上4个函数的区别include() 如果出错的话，只会提出警告，会继续执行后续语句。reuqire() 如果在包含的过程中有错，比如文件不存在等，则会直接退出，不执行后续语句。
-include_once()、requ...
+以上前4个函数的区别include() 如果出错的话，只会提出警告，会继续执行后续语句。reuqire() 如果在包含的过程中有错，比如文件不存在等...
     
     <a href="/2019/11/22/文件包含漏洞/" class="post-more waves-effect waves-button">
         more
@@ -259,7 +315,7 @@ include_once()、requ...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/9.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/8.jpg" alt="图片路径不正确">
     
 
 
@@ -323,7 +379,7 @@ include_once()、requ...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/8.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/7.jpg" alt="图片路径不正确">
     
 
 
@@ -380,7 +436,7 @@ include_once()、requ...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/7.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/6.jpg" alt="图片路径不正确">
     
 
 
@@ -437,7 +493,7 @@ include_once()、requ...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/6.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/5.jpg" alt="图片路径不正确">
     
 
 
@@ -501,7 +557,7 @@ include_once()、requ...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/5.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/4.jpg" alt="图片路径不正确">
     
 
 
@@ -566,7 +622,7 @@ html字符转义：
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/4.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/3.jpg" alt="图片路径不正确">
     
 
 
@@ -632,7 +688,7 @@ html字符转义：
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/3.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/2.jpg" alt="图片路径不正确">
     
 
 
@@ -695,7 +751,7 @@ html字符转义：
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/2.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/1.jpg" alt="图片路径不正确">
     
 
 
@@ -735,66 +791,6 @@ html字符转义：
 12345678910111213141516&lt;?phpif( isset( $_POST[ 'Upload' ] ) ) &#123;    // Where are we going to be writing to?    $target_path  = DVWA_WEB_PAGE_TO_ROOT . "hackable/uploads/";   //上传文件的...
     
     <a href="/2019/09/04/DVMA-File-Upload/" class="post-more waves-effect waves-button">
-        more
-    </a>
-    </div>
-</article>
-
-
-            </li>
-        
-            <li class="post-list-item fade">
-                <article id="post-Sqli-labs-GET Part 1-10"
-  class="article-card article-type-post" itemprop="blogPost">
-  
-        
-<div class="item-thumb">
-    <a class="thumb-link" href="/2019/08/10/Sqli-labs-GET Part 1-10/"></a>
-    <div class="thumb-hover">
-        <span class="icon icon-eye"></span>
-    </div>
-    <img src="/img/thumb/1.jpg" alt="图片路径不正确">
-    
-
-
-  
-    <h3 class="post-title ab-title" itemprop="name">
-      <a class="post-title-link" href="/2019/08/10/Sqli-labs-GET Part 1-10/">Sqli-labs-GET Part 1-10</a>
-    </h3>
-  
-
-
-
-</div>
-
-        
-    
-    
-    
-    <div class="post-meta">
-        <time class="post-time" title="2019-08-10 08:30:14" datetime="2019-08-10T00:30:14.000Z"  itemprop="datePublished">2019-08-10</time>
-
-        
-
-
-        
-
-        
-
-
-        
-        
-    </div>
-    
-    <div class="post-content" id="post-content" itemprop="postContent">
-    
-    
-        Sqli-labs注入练习
-SQL Injection：是Web程序代码中对于用户提交的参数未做过滤就直接放到SQL语句中执行，导致参数中的特殊字符打破了SQL语句原有逻辑，可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。
-sqli-labs是一个非常好的学习sql注入的一个游戏教程，对于了解sqlmap的原理很有帮助。
-项目地址...
-    
-    <a href="/2019/08/10/Sqli-labs-GET Part 1-10/" class="post-more waves-effect waves-button">
         more
     </a>
     </div>
