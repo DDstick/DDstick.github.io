@@ -287,7 +287,7 @@
 <a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/10.png" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/10.png"></a>
 <p>又发现dechex函数可以把10进制转换为16进制，我们可以再异或出hex2bin——（将十六进制数转换为二进制数），来获取任意ASCII字符</p>
 <a rel=BUUCTF-web-EasyCalc href="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg" title="" data-fancybox="images"><img src="/2019/10/23/BUUCTF-web-EasyCalc/11.jpg"></a>
-<p>可以构造var_dump(base_convert(61693386291,10,36)(hex2bin(dechex(46)).hex2bin(dechex(47))))相当于car_dump(scandir(./))<br>找到f1agg后<br>可以构造出readfile(/f1agg)来读取文件<br>构造为：base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))就可以得到flag文件。</p>
+<p>可以构造var_dump(base_convert(61693386291,10,36)(hex2bin(dechex(46)).hex2bin(dechex(47))))相当于var_dump(scandir(./))<br>找到f1agg后<br>可以构造出readfile(/f1agg)来读取文件<br>构造为：base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))就可以得到flag文件。</p>
 <h2 id="协议层的攻击——HTTP请求走私"><a href="#协议层的攻击——HTTP请求走私" class="headerlink" title="协议层的攻击——HTTP请求走私"></a>协议层的攻击——HTTP请求走私</h2><p>除此之外，还有另一种方法可以绕过：<br>利用HTTP请求走私来绕过，该漏洞可以参考“协议层的攻击——HTTP请求走私”：<a href="https://paper.seebug.org/1048/#31-cl0get" target="_blank" rel="noopener">https://paper.seebug.org/1048/#31-cl0get</a></p>
 <p>当我们向代理服务器发送一个比较模糊的HTTP请求时，由于两者服务器的实现方式不同，可能代理服务器认为这是一个HTTP请求，然后将其转发给了后端的源站服务器，但源站服务器经过解析处理后，只认为其中的一部分为正常请求，剩下的那一部分，就算是走私的请求，当该部分对正常用户的请求造成了影响之后，就实现了HTTP走私攻击。</p>
 <p>理解为php中$_request 相同字段名优先接收post参数，就是这个同时向服务器传递get和post请求，而waf那里只处理了post请求的值，从而使get请求的值绕过了waf的拦截</p>
@@ -302,7 +302,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-11-27T07:34:06.594Z" itemprop="dateUpdated">2019-11-27 15:34:06</time>
+    Last updated: <time datetime="2019-12-14T11:45:49.859Z" itemprop="dateUpdated">2019-12-14 19:45:49</time>
 </span><br>
 
 
@@ -452,7 +452,7 @@
     <div class="bottom">
         <p>
             <span>
-                DD &copy; 2017 - 2019
+                DD &copy; 2017 - 2020
             </span>
         		
            	
