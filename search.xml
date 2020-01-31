@@ -52,9 +52,13 @@
 <p>再看到备注的 <strong>ini_set(‘session.serialize_handler’,’php’)</strong> 又从phpinfo中可看到</p>
 <img src="/2020/01/29/php反序列化漏洞——Session/10.png">
 
-<p>在php.ini中默认的session.serialize_handler为php_serialize，而index.php中将其设置为了php，这就导致了session的反序列化问题</p>
+<p>在php.ini中默认的session.serialize_handler为php_serialize，而index.php中将其设置为了php，这就导致了session的反序列化问题    (PHP 获取到 session 字符串后，就开始查找第一个 |（竖线），用竖线将字符串分割成“键名”和“键值”， 并对“键值”进行反序列化。但如果这次反序列化失败，就放弃这次解析，再去找下一个竖线，执行同样的操作，直到成功。)</p>
 <p>这个漏洞如果要触发，则需要在服务器中写入一个使用php_serialize序列话的值，然后访问时就会被php的引擎反序列化</p>
-<p>学习大佬的笔记，利用了 <strong>上传进度支持（Upload progress in sessions）</strong> 的知识点来向服务器设置session。具体为，在上传文件时，如果POST一个名为PHP_SESSION_UPLOAD_PROGRESS的变量，就可以将filename的值赋值到session中，上传的页面的写法如下：</p>
+<p>学习大佬的笔记，利用了 <strong>上传进度支持（Upload progress in sessions）</strong> 的知识点来向服务器设置session。具体为，在上传文件时，如果POST一个名为PHP_SESSION_UPLOAD_PROGRESS的变量，就可以将filename的值赋值到session中</p>
+<p>查看该题的phpinfo，session.upload_progress.enabled 打开，session.upload_progress.cleanup 关闭</p>
+<img src="/2020/01/29/php反序列化漏洞——Session/10.png">
+
+<p>上传页面的写法如下：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://web.jarvisoj.com:32784/index.php"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"PHP_SESSION_UPLOAD_PROGRESS"</span> <span class="attr">value</span>=<span class="string">"123"</span> /&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span> /&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <img src="/2020/01/29/php反序列化漏洞——Session/12.png">
@@ -82,8 +86,7 @@
 当一个上传在处理中，同时 post 一个与 ini 设置的 session.uploadprogress.name 同名变量时，php 检测到这种 post 请求时就会在 $SESSION 中添加一组数据，所以可通过 session.upload_progress 来设置 session。 -->
 
 
-<p>查看该题的phpinfo，session.upload_progress.enabled 打开，session.upload_progress.cleanup 关闭</p>
-<img src="/2020/01/29/php反序列化漏洞——Session/10.png">]]></content>
+]]></content>
       
         
     </entry>
